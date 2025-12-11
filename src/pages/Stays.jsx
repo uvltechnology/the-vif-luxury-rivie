@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import Section from '@/components/shared/Section'
 import PropertyCard from '@/components/stays/PropertyCard'
 import { properties } from '@/data/properties'
@@ -28,14 +29,24 @@ export default function Stays() {
     <div className="pt-20">
       <div className="bg-card border-b border-border">
         <Section>
-          <div className="text-center mb-8">
+          <motion.div
+            className="text-center mb-8"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+          >
             <h1 className="text-5xl md:text-6xl font-heading font-semibold mb-4">Our Collection</h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Choose your perfect French Riviera home. Each property offers a unique perspective on Mediterranean living.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="flex flex-wrap justify-center gap-3">
+          <motion.div
+            className="flex flex-wrap justify-center gap-3"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+          >
             {filters.map((f) => (
               <Button
                 key={f.id}
@@ -46,14 +57,25 @@ export default function Stays() {
                 {f.label}
               </Button>
             ))}
-          </div>
+          </motion.div>
         </Section>
       </div>
 
       <Section>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProperties.map((property) => (
-            <PropertyCard key={property.id} property={property} />
+          {filteredProperties.map((property, index) => (
+            <motion.div
+              key={property.id}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.5,
+                delay: index * 0.1,
+                ease: [0.25, 0.1, 0.25, 1]
+              }}
+            >
+              <PropertyCard property={property} />
+            </motion.div>
           ))}
         </div>
 
