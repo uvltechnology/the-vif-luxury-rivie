@@ -47,15 +47,35 @@ export default function Stays() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
           >
-            {filters.map((f) => (
-              <Button
+            {filters.map((f, index) => (
+              <motion.div
                 key={f.id}
-                variant={filter === f.id ? 'default' : 'outline'}
-                onClick={() => setFilter(f.id)}
-                size="sm"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{
+                  duration: 0.3,
+                  delay: 0.3 + index * 0.05,
+                  ease: [0.25, 0.1, 0.25, 1]
+                }}
+                whileHover={{
+                  scale: 1.05,
+                  y: -2,
+                  transition: { duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }
+                }}
+                whileTap={{
+                  scale: 0.98,
+                  transition: { duration: 0.1 }
+                }}
               >
-                {f.label}
-              </Button>
+                <Button
+                  variant={filter === f.id ? 'default' : 'outline'}
+                  onClick={() => setFilter(f.id)}
+                  size="sm"
+                  className="relative overflow-hidden"
+                >
+                  {f.label}
+                </Button>
+              </motion.div>
             ))}
           </motion.div>
         </Section>
