@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useKV } from '@github/spark/hooks'
 import Section from '@/components/shared/Section'
+import AnimatedSection from '@/components/shared/AnimatedSection'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
@@ -60,164 +61,168 @@ export default function Contact() {
 
       <Section>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <div>
-            <h2 className="text-2xl font-heading font-semibold mb-6">Send Us a Message</h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <Label htmlFor="name">Name *</Label>
-                <Input
-                  id="name"
-                  value={formData.name}
-                  onChange={(e) => handleChange('name', e.target.value)}
-                  required
-                  placeholder="Your full name"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="email">Email *</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => handleChange('email', e.target.value)}
-                  required
-                  placeholder="your.email@example.com"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="phone">Phone (optional)</Label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  value={formData.phone}
-                  onChange={(e) => handleChange('phone', e.target.value)}
-                  placeholder="+33 X XX XX XX XX"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="property">Interested Property</Label>
-                <Select value={formData.property} onValueChange={(value) => handleChange('property', value)}>
-                  <SelectTrigger id="property">
-                    <SelectValue placeholder="Select a property" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="villa-lumiere">Villa Lumière</SelectItem>
-                    <SelectItem value="villa-azure">Villa Azure</SelectItem>
-                    <SelectItem value="athena-apartment">Athena Apartment</SelectItem>
-                    <SelectItem value="not-sure">Not sure yet</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
+          <AnimatedSection direction="left">
+            <div>
+              <h2 className="text-2xl font-heading font-semibold mb-6">Send Us a Message</h2>
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <Label htmlFor="check-in">Check-in Date</Label>
+                  <Label htmlFor="name">Name *</Label>
                   <Input
-                    id="check-in"
-                    type="date"
-                    value={formData.checkIn}
-                    onChange={(e) => handleChange('checkIn', e.target.value)}
+                    id="name"
+                    value={formData.name}
+                    onChange={(e) => handleChange('name', e.target.value)}
+                    required
+                    placeholder="Your full name"
                   />
                 </div>
+
                 <div>
-                  <Label htmlFor="check-out">Check-out Date</Label>
+                  <Label htmlFor="email">Email *</Label>
                   <Input
-                    id="check-out"
-                    type="date"
-                    value={formData.checkOut}
-                    onChange={(e) => handleChange('checkOut', e.target.value)}
+                    id="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => handleChange('email', e.target.value)}
+                    required
+                    placeholder="your.email@example.com"
                   />
                 </div>
-              </div>
 
-              <div>
-                <Label htmlFor="guests">Number of Guests</Label>
-                <Input
-                  id="guests"
-                  type="number"
-                  min="1"
-                  max="12"
-                  value={formData.guests}
-                  onChange={(e) => handleChange('guests', e.target.value)}
-                  placeholder="2"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="message">Message *</Label>
-                <Textarea
-                  id="message"
-                  value={formData.message}
-                  onChange={(e) => handleChange('message', e.target.value)}
-                  required
-                  placeholder="Tell us about your travel plans, any special requests, or questions you have..."
-                  rows={5}
-                />
-              </div>
-
-              <Button type="submit" size="lg" className="w-full">
-                Send Message
-              </Button>
-            </form>
-          </div>
-
-          <div>
-            <h2 className="text-2xl font-heading font-semibold mb-6">Contact Details</h2>
-            <div className="space-y-6 mb-8">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <EnvelopeSimple size={24} className="text-primary" />
-                </div>
                 <div>
-                  <h3 className="font-semibold mb-1">Email</h3>
-                  <a href="mailto:hello@thevif.com" className="text-muted-foreground hover:text-primary transition-colors">
-                    hello@thevif.com
-                  </a>
+                  <Label htmlFor="phone">Phone (optional)</Label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) => handleChange('phone', e.target.value)}
+                    placeholder="+33 X XX XX XX XX"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="property">Interested Property</Label>
+                  <Select value={formData.property} onValueChange={(value) => handleChange('property', value)}>
+                    <SelectTrigger id="property">
+                      <SelectValue placeholder="Select a property" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="villa-lumiere">Villa Lumière</SelectItem>
+                      <SelectItem value="villa-azure">Villa Azure</SelectItem>
+                      <SelectItem value="athena-apartment">Athena Apartment</SelectItem>
+                      <SelectItem value="not-sure">Not sure yet</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="check-in">Check-in Date</Label>
+                    <Input
+                      id="check-in"
+                      type="date"
+                      value={formData.checkIn}
+                      onChange={(e) => handleChange('checkIn', e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="check-out">Check-out Date</Label>
+                    <Input
+                      id="check-out"
+                      type="date"
+                      value={formData.checkOut}
+                      onChange={(e) => handleChange('checkOut', e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <Label htmlFor="guests">Number of Guests</Label>
+                  <Input
+                    id="guests"
+                    type="number"
+                    min="1"
+                    max="12"
+                    value={formData.guests}
+                    onChange={(e) => handleChange('guests', e.target.value)}
+                    placeholder="2"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="message">Message *</Label>
+                  <Textarea
+                    id="message"
+                    value={formData.message}
+                    onChange={(e) => handleChange('message', e.target.value)}
+                    required
+                    placeholder="Tell us about your travel plans, any special requests, or questions you have..."
+                    rows={5}
+                  />
+                </div>
+
+                <Button type="submit" size="lg" className="w-full">
+                  Send Message
+                </Button>
+              </form>
+            </div>
+          </AnimatedSection>
+
+          <AnimatedSection direction="right" delay={0.2}>
+            <div>
+              <h2 className="text-2xl font-heading font-semibold mb-6">Contact Details</h2>
+              <div className="space-y-6 mb-8">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <EnvelopeSimple size={24} className="text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-1">Email</h3>
+                    <a href="mailto:hello@thevif.com" className="text-muted-foreground hover:text-primary transition-colors">
+                      hello@thevif.com
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Phone size={24} className="text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-1">Phone</h3>
+                    <a href="tel:+33123456789" className="text-muted-foreground hover:text-primary transition-colors">
+                      +33 1 23 45 67 89
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <MapPin size={24} className="text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-1">Location</h3>
+                    <p className="text-muted-foreground">
+                      French Riviera<br />
+                      Côte d'Azur, France
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Phone size={24} className="text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-1">Phone</h3>
-                  <a href="tel:+33123456789" className="text-muted-foreground hover:text-primary transition-colors">
-                    +33 1 23 45 67 89
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <MapPin size={24} className="text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-1">Location</h3>
-                  <p className="text-muted-foreground">
-                    French Riviera<br />
-                    Côte d'Azur, France
-                  </p>
-                </div>
+              <div className="bg-muted/30 rounded-lg p-6">
+                <h3 className="font-semibold mb-3">Response Time</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  We typically respond to inquiries within 24 hours during business days. For urgent requests, please mention this in your message.
+                </p>
+                <h3 className="font-semibold mb-3">Office Hours</h3>
+                <p className="text-sm text-muted-foreground">
+                  Monday - Friday: 9:00 AM - 6:00 PM (CET)<br />
+                  Saturday: 10:00 AM - 4:00 PM (CET)<br />
+                  Sunday: Closed
+                </p>
               </div>
             </div>
-
-            <div className="bg-muted/30 rounded-lg p-6">
-              <h3 className="font-semibold mb-3">Response Time</h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                We typically respond to inquiries within 24 hours during business days. For urgent requests, please mention this in your message.
-              </p>
-              <h3 className="font-semibold mb-3">Office Hours</h3>
-              <p className="text-sm text-muted-foreground">
-                Monday - Friday: 9:00 AM - 6:00 PM (CET)<br />
-                Saturday: 10:00 AM - 4:00 PM (CET)<br />
-                Sunday: Closed
-              </p>
-            </div>
-          </div>
+          </AnimatedSection>
         </div>
       </Section>
     </div>

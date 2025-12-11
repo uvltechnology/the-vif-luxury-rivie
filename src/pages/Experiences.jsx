@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Section from '@/components/shared/Section'
+import AnimatedSection from '@/components/shared/AnimatedSection'
 import ExperienceCardSkeleton from '@/components/shared/ExperienceCardSkeleton'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -88,15 +89,17 @@ export default function Experiences() {
       </Section>
 
       <Section className="bg-muted/30">
-        <div className="text-center max-w-2xl mx-auto">
-          <h2 className="text-3xl font-heading font-semibold mb-4">Custom Experiences</h2>
-          <p className="text-muted-foreground mb-6">
-            Have something specific in mind? We can arrange bespoke experiences tailored to your interests and group.
-          </p>
-          <Button asChild size="lg">
-            <a href="/contact">Contact Us</a>
-          </Button>
-        </div>
+        <AnimatedSection direction="fade">
+          <div className="text-center max-w-2xl mx-auto">
+            <h2 className="text-3xl font-heading font-semibold mb-4">Custom Experiences</h2>
+            <p className="text-muted-foreground mb-6">
+              Have something specific in mind? We can arrange bespoke experiences tailored to your interests and group.
+            </p>
+            <Button asChild size="lg">
+              <a href="/contact">Contact Us</a>
+            </Button>
+          </div>
+        </AnimatedSection>
       </Section>
     </div>
   )

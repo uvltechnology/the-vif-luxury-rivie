@@ -1,4 +1,5 @@
 import Section from '@/components/shared/Section'
+import AnimatedSection from '@/components/shared/AnimatedSection'
 import { Card, CardContent } from '@/components/ui/card'
 
 export default function AreaGuide() {
@@ -41,57 +42,71 @@ export default function AreaGuide() {
       </div>
 
       <Section>
-        <h2 className="text-4xl font-heading font-semibold mb-8">Nearby Towns & Villages</h2>
+        <AnimatedSection>
+          <h2 className="text-4xl font-heading font-semibold mb-8">Nearby Towns & Villages</h2>
+        </AnimatedSection>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {towns.map((town, index) => (
-            <Card key={index}>
-              <CardContent className="p-6">
-                <div className="flex justify-between items-start mb-3">
-                  <h3 className="text-xl font-heading font-semibold">{town.name}</h3>
-                  <span className="text-sm text-primary font-medium">{town.distance}</span>
-                </div>
-                <p className="text-muted-foreground text-sm">{town.description}</p>
-              </CardContent>
-            </Card>
+            <AnimatedSection key={index} delay={index * 0.1}>
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex justify-between items-start mb-3">
+                    <h3 className="text-xl font-heading font-semibold">{town.name}</h3>
+                    <span className="text-sm text-primary font-medium">{town.distance}</span>
+                  </div>
+                  <p className="text-muted-foreground text-sm">{town.description}</p>
+                </CardContent>
+              </Card>
+            </AnimatedSection>
           ))}
         </div>
       </Section>
 
       <Section className="bg-muted/30">
-        <h2 className="text-4xl font-heading font-semibold mb-8">Beaches & Coastal Life</h2>
+        <AnimatedSection>
+          <h2 className="text-4xl font-heading font-semibold mb-8">Beaches & Coastal Life</h2>
+        </AnimatedSection>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {beaches.map((beach, index) => (
-            <Card key={index}>
-              <CardContent className="p-6">
-                <h3 className="text-lg font-heading font-semibold mb-2">{beach.name}</h3>
-                <p className="text-muted-foreground text-sm">{beach.description}</p>
-              </CardContent>
-            </Card>
+            <AnimatedSection key={index} delay={index * 0.15}>
+              <Card>
+                <CardContent className="p-6">
+                  <h3 className="text-lg font-heading font-semibold mb-2">{beach.name}</h3>
+                  <p className="text-muted-foreground text-sm">{beach.description}</p>
+                </CardContent>
+              </Card>
+            </AnimatedSection>
           ))}
         </div>
       </Section>
 
       <Section>
-        <h2 className="text-4xl font-heading font-semibold mb-8">Dining & Markets</h2>
+        <AnimatedSection>
+          <h2 className="text-4xl font-heading font-semibold mb-8">Dining & Markets</h2>
+        </AnimatedSection>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {dining.map((item, index) => (
-            <Card key={index}>
-              <CardContent className="p-6">
-                <h3 className="text-lg font-heading font-semibold mb-2">{item.name}</h3>
-                <p className="text-muted-foreground text-sm">{item.description}</p>
-              </CardContent>
-            </Card>
+            <AnimatedSection key={index} delay={index * 0.15}>
+              <Card>
+                <CardContent className="p-6">
+                  <h3 className="text-lg font-heading font-semibold mb-2">{item.name}</h3>
+                  <p className="text-muted-foreground text-sm">{item.description}</p>
+                </CardContent>
+              </Card>
+            </AnimatedSection>
           ))}
         </div>
       </Section>
 
       <Section className="bg-primary/5">
-        <div className="text-center max-w-2xl mx-auto">
-          <h2 className="text-3xl font-heading font-semibold mb-4">Local Insights</h2>
-          <p className="text-muted-foreground">
-            Each of our properties includes a personalized welcome guide with our favorite restaurants, hidden beaches, and insider tips to help you experience the Riviera like a local.
-          </p>
-        </div>
+        <AnimatedSection direction="fade">
+          <div className="text-center max-w-2xl mx-auto">
+            <h2 className="text-3xl font-heading font-semibold mb-4">Local Insights</h2>
+            <p className="text-muted-foreground">
+              Each of our properties includes a personalized welcome guide with our favorite restaurants, hidden beaches, and insider tips to help you experience the Riviera like a local.
+            </p>
+          </div>
+        </AnimatedSection>
       </Section>
     </div>
   )

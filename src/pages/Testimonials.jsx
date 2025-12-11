@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import Section from '@/components/shared/Section'
+import AnimatedSection from '@/components/shared/AnimatedSection'
 import { testimonials, stats } from '@/data/testimonials'
 import { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
@@ -72,48 +73,58 @@ function TestimonialCard({ testimonial, index }) {
 function StatsHero() {
   return (
     <div className="bg-gradient-to-br from-primary/5 via-accent/5 to-secondary/5 rounded-2xl p-8 md:p-12 mb-12">
-      <div className="text-center mb-8">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-semibold mb-4">
-          Guest Reviews
-        </h1>
-        <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-          Real experiences from real guests. Every review is verified from guests who have stayed at our properties.
-        </p>
-      </div>
+      <AnimatedSection>
+        <div className="text-center mb-8">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-semibold mb-4">
+            Guest Reviews
+          </h1>
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+            Real experiences from real guests. Every review is verified from guests who have stayed at our properties.
+          </p>
+        </div>
+      </AnimatedSection>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-        <div className="text-center p-6 rounded-xl bg-card border border-border shadow-sm">
-          <div className="text-4xl md:text-5xl font-heading font-semibold text-primary mb-2">
-            {stats.averageRating}
+        <AnimatedSection delay={0.1}>
+          <div className="text-center p-6 rounded-xl bg-card border border-border shadow-sm">
+            <div className="text-4xl md:text-5xl font-heading font-semibold text-primary mb-2">
+              {stats.averageRating}
+            </div>
+            <div className="flex justify-center gap-1 mb-2">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} size={16} weight="fill" className="text-secondary" />
+              ))}
+            </div>
+            <p className="text-sm text-muted-foreground">Average Rating</p>
           </div>
-          <div className="flex justify-center gap-1 mb-2">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} size={16} weight="fill" className="text-secondary" />
-            ))}
-          </div>
-          <p className="text-sm text-muted-foreground">Average Rating</p>
-        </div>
+        </AnimatedSection>
 
-        <div className="text-center p-6 rounded-xl bg-card border border-border shadow-sm">
-          <div className="text-4xl md:text-5xl font-heading font-semibold text-primary mb-2">
-            {stats.totalGuests}+
+        <AnimatedSection delay={0.2}>
+          <div className="text-center p-6 rounded-xl bg-card border border-border shadow-sm">
+            <div className="text-4xl md:text-5xl font-heading font-semibold text-primary mb-2">
+              {stats.totalGuests}+
+            </div>
+            <p className="text-sm text-muted-foreground mt-4">Happy Guests</p>
           </div>
-          <p className="text-sm text-muted-foreground mt-4">Happy Guests</p>
-        </div>
+        </AnimatedSection>
 
-        <div className="text-center p-6 rounded-xl bg-card border border-border shadow-sm">
-          <div className="text-4xl md:text-5xl font-heading font-semibold text-primary mb-2">
-            {stats.repeatGuestRate}%
+        <AnimatedSection delay={0.3}>
+          <div className="text-center p-6 rounded-xl bg-card border border-border shadow-sm">
+            <div className="text-4xl md:text-5xl font-heading font-semibold text-primary mb-2">
+              {stats.repeatGuestRate}%
+            </div>
+            <p className="text-sm text-muted-foreground mt-4">Repeat Guests</p>
           </div>
-          <p className="text-sm text-muted-foreground mt-4">Repeat Guests</p>
-        </div>
+        </AnimatedSection>
 
-        <div className="text-center p-6 rounded-xl bg-card border border-border shadow-sm">
-          <div className="text-4xl md:text-5xl font-heading font-semibold text-primary mb-2">
-            {stats.yearsHosting}+
+        <AnimatedSection delay={0.4}>
+          <div className="text-center p-6 rounded-xl bg-card border border-border shadow-sm">
+            <div className="text-4xl md:text-5xl font-heading font-semibold text-primary mb-2">
+              {stats.yearsHosting}+
+            </div>
+            <p className="text-sm text-muted-foreground mt-4">Years Hosting</p>
           </div>
-          <p className="text-sm text-muted-foreground mt-4">Years Hosting</p>
-        </div>
+        </AnimatedSection>
       </div>
     </div>
   )
@@ -201,22 +212,24 @@ export default function TestimonialsPage() {
       </Section>
 
       <Section className="bg-gradient-to-br from-primary/5 to-accent/5">
-        <div className="text-center max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-heading font-semibold mb-4">
-            Ready to Create Your Own Story?
-          </h2>
-          <p className="text-lg text-muted-foreground mb-8">
-            Join our community of satisfied guests and discover why The VIF is the premier choice for French Riviera vacations.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-primary hover:bg-primary/90">
-              View Our Stays
-            </Button>
-            <Button size="lg" variant="outline">
-              Contact Us
-            </Button>
+        <AnimatedSection direction="fade">
+          <div className="text-center max-w-3xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-heading font-semibold mb-4">
+              Ready to Create Your Own Story?
+            </h2>
+            <p className="text-lg text-muted-foreground mb-8">
+              Join our community of satisfied guests and discover why The VIF is the premier choice for French Riviera vacations.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" className="bg-primary hover:bg-primary/90">
+                View Our Stays
+              </Button>
+              <Button size="lg" variant="outline">
+                Contact Us
+              </Button>
+            </div>
           </div>
-        </div>
+        </AnimatedSection>
       </Section>
     </div>
   )

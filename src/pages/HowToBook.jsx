@@ -1,4 +1,5 @@
 import Section from '@/components/shared/Section'
+import AnimatedSection from '@/components/shared/AnimatedSection'
 import {
   Accordion,
   AccordionContent,
@@ -74,107 +75,127 @@ export default function HowToBook() {
       </Section>
 
       <Section>
-        <h2 className="text-3xl font-heading font-semibold mb-8 text-center">Booking Process</h2>
+        <AnimatedSection>
+          <h2 className="text-3xl font-heading font-semibold mb-8 text-center">Booking Process</h2>
+        </AnimatedSection>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {steps.map((step, index) => (
-            <div key={index} className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 text-primary text-2xl font-heading font-bold mb-4">
-                {step.number}
+            <AnimatedSection key={index} delay={index * 0.15}>
+              <div className="text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 text-primary text-2xl font-heading font-bold mb-4">
+                  {step.number}
+                </div>
+                <h3 className="text-xl font-heading font-semibold mb-2">{step.title}</h3>
+                <p className="text-muted-foreground text-sm">{step.description}</p>
               </div>
-              <h3 className="text-xl font-heading font-semibold mb-2">{step.title}</h3>
-              <p className="text-muted-foreground text-sm">{step.description}</p>
-            </div>
+            </AnimatedSection>
           ))}
         </div>
       </Section>
 
       <Section className="bg-muted/30">
-        <h2 className="text-3xl font-heading font-semibold mb-8">Booking Policies</h2>
+        <AnimatedSection>
+          <h2 className="text-3xl font-heading font-semibold mb-8">Booking Policies</h2>
+        </AnimatedSection>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
-          <Card>
-            <CardContent className="p-6">
-              <h3 className="font-semibold mb-4 flex items-center gap-2">
-                <Check className="text-primary" size={20} />
-                Payment Terms
-              </h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>• 30% deposit to secure booking</li>
-                <li>• Balance due 30 days before arrival</li>
-                <li>• Secure payment via bank transfer or card</li>
-              </ul>
-            </CardContent>
-          </Card>
+          <AnimatedSection delay={0.1}>
+            <Card>
+              <CardContent className="p-6">
+                <h3 className="font-semibold mb-4 flex items-center gap-2">
+                  <Check className="text-primary" size={20} />
+                  Payment Terms
+                </h3>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li>• 30% deposit to secure booking</li>
+                  <li>• Balance due 30 days before arrival</li>
+                  <li>• Secure payment via bank transfer or card</li>
+                </ul>
+              </CardContent>
+            </Card>
+          </AnimatedSection>
 
-          <Card>
-            <CardContent className="p-6">
-              <h3 className="font-semibold mb-4 flex items-center gap-2">
-                <Check className="text-primary" size={20} />
-                Cancellation Policy
-              </h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>• 60+ days: Full refund</li>
-                <li>• 30-60 days: 50% refund</li>
-                <li>• Under 30 days: No refund</li>
-              </ul>
-            </CardContent>
-          </Card>
+          <AnimatedSection delay={0.2}>
+            <Card>
+              <CardContent className="p-6">
+                <h3 className="font-semibold mb-4 flex items-center gap-2">
+                  <Check className="text-primary" size={20} />
+                  Cancellation Policy
+                </h3>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li>• 60+ days: Full refund</li>
+                  <li>• 30-60 days: 50% refund</li>
+                  <li>• Under 30 days: No refund</li>
+                </ul>
+              </CardContent>
+            </Card>
+          </AnimatedSection>
 
-          <Card>
-            <CardContent className="p-6">
-              <h3 className="font-semibold mb-4 flex items-center gap-2">
-                <Check className="text-primary" size={20} />
-                Check-in & Check-out
-              </h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>• Check-in: 4:00 PM</li>
-                <li>• Check-out: 10:00 AM</li>
-                <li>• Early/late options may be available</li>
-              </ul>
-            </CardContent>
-          </Card>
+          <AnimatedSection delay={0.3}>
+            <Card>
+              <CardContent className="p-6">
+                <h3 className="font-semibold mb-4 flex items-center gap-2">
+                  <Check className="text-primary" size={20} />
+                  Check-in & Check-out
+                </h3>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li>• Check-in: 4:00 PM</li>
+                  <li>• Check-out: 10:00 AM</li>
+                  <li>• Early/late options may be available</li>
+                </ul>
+              </CardContent>
+            </Card>
+          </AnimatedSection>
 
-          <Card>
-            <CardContent className="p-6">
-              <h3 className="font-semibold mb-4 flex items-center gap-2">
-                <Check className="text-primary" size={20} />
-                Security Deposit
-              </h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>• €500 refundable deposit</li>
-                <li>• Charged before arrival</li>
-                <li>• Refunded within 7 days after checkout</li>
-              </ul>
-            </CardContent>
-          </Card>
+          <AnimatedSection delay={0.4}>
+            <Card>
+              <CardContent className="p-6">
+                <h3 className="font-semibold mb-4 flex items-center gap-2">
+                  <Check className="text-primary" size={20} />
+                  Security Deposit
+                </h3>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li>• €500 refundable deposit</li>
+                  <li>• Charged before arrival</li>
+                  <li>• Refunded within 7 days after checkout</li>
+                </ul>
+              </CardContent>
+            </Card>
+          </AnimatedSection>
         </div>
       </Section>
 
       <Section>
-        <h2 className="text-3xl font-heading font-semibold mb-8">Frequently Asked Questions</h2>
-        <div className="max-w-3xl">
-          <Accordion type="single" collapsible>
-            {faqs.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`}>
-                <AccordionTrigger className="text-left">{faq.question}</AccordionTrigger>
-                <AccordionContent className="text-muted-foreground">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
+        <AnimatedSection>
+          <h2 className="text-3xl font-heading font-semibold mb-8">Frequently Asked Questions</h2>
+        </AnimatedSection>
+        <AnimatedSection delay={0.2}>
+          <div className="max-w-3xl">
+            <Accordion type="single" collapsible>
+              {faqs.map((faq, index) => (
+                <AccordionItem key={index} value={`item-${index}`}>
+                  <AccordionTrigger className="text-left">{faq.question}</AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        </AnimatedSection>
       </Section>
 
       <Section className="bg-primary/5">
-        <div className="text-center max-w-2xl mx-auto">
-          <h2 className="text-3xl font-heading font-semibold mb-4">Ready to Book?</h2>
-          <p className="text-muted-foreground mb-6">
-            Get in touch to check availability and start planning your French Riviera escape.
-          </p>
-          <Button asChild size="lg">
-            <a href="/contact">Contact Us</a>
-          </Button>
-        </div>
+        <AnimatedSection direction="fade">
+          <div className="text-center max-w-2xl mx-auto">
+            <h2 className="text-3xl font-heading font-semibold mb-4">Ready to Book?</h2>
+            <p className="text-muted-foreground mb-6">
+              Get in touch to check availability and start planning your French Riviera escape.
+            </p>
+            <Button asChild size="lg">
+              <a href="/contact">Contact Us</a>
+            </Button>
+          </div>
+        </AnimatedSection>
       </Section>
     </div>
   )

@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom'
 import { Bed, Bathtub, Users, WifiHigh, Car, Waves, Check } from '@phosphor-icons/react'
 import Section from '@/components/shared/Section'
+import AnimatedSection from '@/components/shared/AnimatedSection'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -115,62 +116,76 @@ export default function PropertyDetail() {
             </div>
 
             <div className="mb-8">
-              <h2 className="text-2xl font-heading font-semibold mb-4">Location</h2>
-              <div className="bg-muted rounded-lg p-6 mb-4">
-                <p className="text-muted-foreground mb-4">Interactive map placeholder</p>
-                <div className="h-64 bg-card rounded flex items-center justify-center">
-                  <p className="text-muted-foreground">Map of {property.location}</p>
+              <AnimatedSection>
+                <h2 className="text-2xl font-heading font-semibold mb-4">Location</h2>
+              </AnimatedSection>
+              <AnimatedSection delay={0.2}>
+                <div className="bg-muted rounded-lg p-6 mb-4">
+                  <p className="text-muted-foreground mb-4">Interactive map placeholder</p>
+                  <div className="h-64 bg-card rounded flex items-center justify-center">
+                    <p className="text-muted-foreground">Map of {property.location}</p>
+                  </div>
                 </div>
-              </div>
+              </AnimatedSection>
               <div className="grid grid-cols-2 gap-4">
                 {property.nearbyAttractions.map((attraction, index) => (
-                  <div key={index} className="flex justify-between items-center p-3 bg-muted rounded">
-                    <span className="text-sm">{attraction.name}</span>
-                    <span className="text-sm font-medium text-primary">{attraction.distance}</span>
-                  </div>
+                  <AnimatedSection key={index} delay={0.3 + index * 0.1}>
+                    <div className="flex justify-between items-center p-3 bg-muted rounded">
+                      <span className="text-sm">{attraction.name}</span>
+                      <span className="text-sm font-medium text-primary">{attraction.distance}</span>
+                    </div>
+                  </AnimatedSection>
                 ))}
               </div>
             </div>
 
             <div className="mb-8">
-              <h2 className="text-2xl font-heading font-semibold mb-4">Perfect For</h2>
-              <div className="flex flex-wrap gap-3">
-                {property.perfectFor.map((item, index) => (
-                  <Badge key={index} variant="outline" className="px-4 py-2 text-sm">
-                    {item}
-                  </Badge>
-                ))}
-              </div>
+              <AnimatedSection>
+                <h2 className="text-2xl font-heading font-semibold mb-4">Perfect For</h2>
+              </AnimatedSection>
+              <AnimatedSection delay={0.2}>
+                <div className="flex flex-wrap gap-3">
+                  {property.perfectFor.map((item, index) => (
+                    <Badge key={index} variant="outline" className="px-4 py-2 text-sm">
+                      {item}
+                    </Badge>
+                  ))}
+                </div>
+              </AnimatedSection>
             </div>
 
             <div className="mb-8">
-              <h2 className="text-2xl font-heading font-semibold mb-4">House Rules & Policies</h2>
-              <Accordion type="single" collapsible>
-                <AccordionItem value="check-in">
-                  <AccordionTrigger>Check-in & Check-out</AccordionTrigger>
-                  <AccordionContent>
-                    <p><strong>Check-in:</strong> {property.houseRules.checkIn}</p>
-                    <p><strong>Check-out:</strong> {property.houseRules.checkOut}</p>
-                  </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="stay">
-                  <AccordionTrigger>Minimum Stay</AccordionTrigger>
-                  <AccordionContent>
-                    <p>{property.houseRules.minStay}</p>
-                  </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="rules">
-                  <AccordionTrigger>Property Rules</AccordionTrigger>
-                  <AccordionContent>
-                    <ul className="space-y-2">
-                      <li><strong>Smoking:</strong> {property.houseRules.smoking}</li>
-                      <li><strong>Pets:</strong> {property.houseRules.pets}</li>
-                      <li><strong>Events:</strong> {property.houseRules.events}</li>
-                      <li><strong>Quiet hours:</strong> {property.houseRules.quietHours}</li>
-                    </ul>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
+              <AnimatedSection>
+                <h2 className="text-2xl font-heading font-semibold mb-4">House Rules & Policies</h2>
+              </AnimatedSection>
+              <AnimatedSection delay={0.2}>
+                <Accordion type="single" collapsible>
+                  <AccordionItem value="check-in">
+                    <AccordionTrigger>Check-in & Check-out</AccordionTrigger>
+                    <AccordionContent>
+                      <p><strong>Check-in:</strong> {property.houseRules.checkIn}</p>
+                      <p><strong>Check-out:</strong> {property.houseRules.checkOut}</p>
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="stay">
+                    <AccordionTrigger>Minimum Stay</AccordionTrigger>
+                    <AccordionContent>
+                      <p>{property.houseRules.minStay}</p>
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="rules">
+                    <AccordionTrigger>Property Rules</AccordionTrigger>
+                    <AccordionContent>
+                      <ul className="space-y-2">
+                        <li><strong>Smoking:</strong> {property.houseRules.smoking}</li>
+                        <li><strong>Pets:</strong> {property.houseRules.pets}</li>
+                        <li><strong>Events:</strong> {property.houseRules.events}</li>
+                        <li><strong>Quiet hours:</strong> {property.houseRules.quietHours}</li>
+                      </ul>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </AnimatedSection>
             </div>
 
             <PropertyTestimonials propertyName={property.name} />
@@ -202,15 +217,17 @@ export default function PropertyDetail() {
       </div>
 
       <Section className="bg-muted/30">
-        <div className="text-center max-w-2xl mx-auto">
-          <h2 className="text-3xl font-heading font-semibold mb-4">Enhance Your Stay</h2>
-          <p className="text-muted-foreground mb-6">
-            Add curated experiences to make your Riviera escape truly unforgettable.
-          </p>
-          <Button asChild size="lg" variant="outline">
-            <Link to="/experiences">View Experiences</Link>
-          </Button>
-        </div>
+        <AnimatedSection direction="fade">
+          <div className="text-center max-w-2xl mx-auto">
+            <h2 className="text-3xl font-heading font-semibold mb-4">Enhance Your Stay</h2>
+            <p className="text-muted-foreground mb-6">
+              Add curated experiences to make your Riviera escape truly unforgettable.
+            </p>
+            <Button asChild size="lg" variant="outline">
+              <Link to="/experiences">View Experiences</Link>
+            </Button>
+          </div>
+        </AnimatedSection>
       </Section>
     </div>
   )
