@@ -3,6 +3,7 @@ import { X, ArrowLeft, ArrowRight, MagnifyingGlassPlus, MagnifyingGlassMinus } f
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { motion, AnimatePresence } from 'framer-motion'
 
 export default function PropertyGalleryLightbox({ images, isOpen, onClose, initialIndex = 0 }) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex)
@@ -12,6 +13,7 @@ export default function PropertyGalleryLightbox({ images, isOpen, onClose, initi
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
   const [touchStart, setTouchStart] = useState({ x: 0, y: 0 })
   const [touchEnd, setTouchEnd] = useState({ x: 0, y: 0 })
+  const [direction, setDirection] = useState(0)
 
   useEffect(() => {
     setCurrentIndex(initialIndex)
@@ -21,6 +23,7 @@ export default function PropertyGalleryLightbox({ images, isOpen, onClose, initi
 
   const handlePrevious = useCallback(() => {
     if (currentIndex > 0) {
+      setDirection(-1)
       setCurrentIndex(currentIndex - 1)
       setScale(1)
       setPosition({ x: 0, y: 0 })
@@ -29,6 +32,7 @@ export default function PropertyGalleryLightbox({ images, isOpen, onClose, initi
 
   const handleNext = useCallback(() => {
     if (currentIndex < images.length - 1) {
+      setDirection(1)
       setCurrentIndex(currentIndex + 1)
       setScale(1)
       setPosition({ x: 0, y: 0 })
@@ -106,6 +110,35 @@ export default function PropertyGalleryLightbox({ images, isOpen, onClose, initi
     setTouchEnd({ x: 0, y: 0 })
   }
 
+  const slideVariants = {
+    enter: (direction) => ({
+      x: direction > 0 ? '100%' : '-100%',
+      opacity: 0,
+      scale: 0.9
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+      scale: 1
+    },
+    exit: (direction) => ({
+      x: direction > 0 ? '-100%' : '100%',
+      opacity: 0,
+      scale: 0.9
+    })
+  }
+
+  const thumbnailVariants = {
+    inactive: {
+      scale: 1,
+      opacity: 0.6
+    },
+    active: {
+      scale: 1.1,
+      opacity: 1
+    }
+  }
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (!isOpen) return
@@ -173,27 +206,37 @@ export default function PropertyGalleryLightbox({ images, isOpen, onClose, initi
           </div>
 
           {currentIndex > 0 && (
-            <button
+            <motion.button
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
               onClick={handlePrevious}
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-40 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all hover:scale-110"
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-40 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
               aria-label="Previous image"
             >
               <ArrowLeft size={28} weight="bold" />
-            </button>
+            </motion.button>
           )}
 
           {currentIndex < images.length - 1 && (
-            <button
+            <motion.button
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
               onClick={handleNext}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-40 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all hover:scale-110"
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-40 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
               aria-label="Next image"
             >
               <ArrowRight size={28} weight="bold" />
-            </button>
+            </motion.button>
           )}
 
           <div
-            className="w-full h-full flex items-center justify-center cursor-move select-none overflow-hidden"
+            className="w-full h-full flex items-center justify-center select-none overflow-hidden"
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
@@ -202,40 +245,64 @@ export default function PropertyGalleryLightbox({ images, isOpen, onClose, initi
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            <img
-              src={images[currentIndex]}
-              alt={`Gallery image ${currentIndex + 1}`}
-              className={cn(
-                "max-w-full max-h-full object-contain transition-transform duration-300",
-                isDragging ? "cursor-grabbing" : scale > 1 ? "cursor-grab" : "cursor-default"
-              )}
-              style={{
-                transform: `scale(${scale}) translate(${position.x / scale}px, ${position.y / scale}px)`,
-              }}
-              draggable={false}
-            />
+            <AnimatePresence initial={false} custom={direction} mode="wait">
+              <motion.img
+                key={currentIndex}
+                custom={direction}
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{
+                  x: { type: "spring", stiffness: 300, damping: 30 },
+                  opacity: { duration: 0.2 },
+                  scale: { duration: 0.2 }
+                }}
+                src={images[currentIndex]}
+                alt={`Gallery image ${currentIndex + 1}`}
+                className={cn(
+                  "max-w-full max-h-full object-contain",
+                  isDragging ? "cursor-grabbing" : scale > 1 ? "cursor-grab" : "cursor-default"
+                )}
+                style={{
+                  transform: scale > 1 ? `scale(${scale}) translate(${position.x / scale}px, ${position.y / scale}px)` : undefined,
+                }}
+                draggable={false}
+              />
+            </AnimatePresence>
           </div>
 
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2 bg-black/50 backdrop-blur-sm px-4 py-3 rounded-full">
+          <motion.div 
+            className="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2 bg-black/50 backdrop-blur-sm px-4 py-3 rounded-full"
+            key={currentIndex}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2 }}
+          >
             <span className="text-white text-sm font-medium">
               {currentIndex + 1} / {images.length}
             </span>
-          </div>
+          </motion.div>
 
           <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-30 flex gap-2 max-w-[90vw] overflow-x-auto px-4 pb-2 scrollbar-hide">
             {images.map((img, index) => (
-              <button
+              <motion.button
                 key={index}
                 onClick={() => {
+                  setDirection(index > currentIndex ? 1 : -1)
                   setCurrentIndex(index)
                   setScale(1)
                   setPosition({ x: 0, y: 0 })
                 }}
+                variants={thumbnailVariants}
+                animate={currentIndex === index ? "active" : "inactive"}
+                whileHover={{ opacity: 1, scale: currentIndex === index ? 1.1 : 1.05 }}
+                transition={{ duration: 0.2 }}
                 className={cn(
-                  "flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden transition-all border-2",
+                  "flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2",
                   currentIndex === index
-                    ? "border-white scale-110 opacity-100"
-                    : "border-transparent opacity-60 hover:opacity-100"
+                    ? "border-white"
+                    : "border-transparent"
                 )}
               >
                 <img
@@ -243,7 +310,7 @@ export default function PropertyGalleryLightbox({ images, isOpen, onClose, initi
                   alt={`Thumbnail ${index + 1}`}
                   className="w-full h-full object-cover"
                 />
-              </button>
+              </motion.button>
             ))}
           </div>
         </div>
