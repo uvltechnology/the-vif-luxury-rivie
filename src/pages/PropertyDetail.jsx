@@ -13,6 +13,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
+import { motion } from 'framer-motion'
 
 export default function PropertyDetail() {
   const { propertySlug } = useParams()
@@ -78,18 +79,37 @@ export default function PropertyDetail() {
             <div className="mb-8">
               <h2 className="text-2xl font-heading font-semibold mb-6">Amenities & Features</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {Object.entries(property.amenities).map(([category, items]) => (
-                  <div key={category}>
+                {Object.entries(property.amenities).map(([category, items], categoryIndex) => (
+                  <motion.div 
+                    key={category}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ 
+                      duration: 0.5,
+                      delay: categoryIndex * 0.1
+                    }}
+                  >
                     <h3 className="font-semibold capitalize mb-3 text-primary">{category}</h3>
                     <ul className="space-y-2">
                       {items.map((item, index) => (
-                        <li key={index} className="flex items-start gap-2 text-sm">
+                        <motion.li 
+                          key={index} 
+                          className="flex items-start gap-2 text-sm"
+                          initial={{ opacity: 0, x: -10 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true, margin: "-50px" }}
+                          transition={{ 
+                            duration: 0.4,
+                            delay: categoryIndex * 0.1 + index * 0.05
+                          }}
+                        >
                           <Check size={18} className="text-primary mt-0.5 flex-shrink-0" />
                           <span>{item}</span>
-                        </li>
+                        </motion.li>
                       ))}
                     </ul>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
