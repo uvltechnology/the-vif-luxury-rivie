@@ -68,7 +68,8 @@ Your French Riviera retreat awaits. A premium vacation rental platform showcasin
 
 - **No Properties Available for Dates** – Show alternative date suggestions or waitlist signup option
 - **Mobile Menu Open + Orientation Change** – Menu repositions gracefully; closes automatically on large landscape
-- **Slow Image Loading** – Blur-up placeholders prevent layout shift; skeleton loaders for cards
+- **Slow Image Loading** – Blur-up placeholders prevent layout shift; skeleton loaders with shimmer animation for property cards during initial load and filter changes
+- **Property Card Loading States** – Animated skeleton placeholders appear during data fetching with smooth shimmer effect; staggered fade-in when content loads
 - **Form Submission Errors** – Clear error messages with specific field highlights; data persists on error
 - **Invalid URLs / 404 Pages** – Custom 404 page with navigation back to home/stays
 - **Accessibility Navigation** – Full keyboard support; skip-to-content link; focus trapping in modals
@@ -134,8 +135,11 @@ Animations should feel like natural, physics-based movements—never robotic or 
 **Specific Uses**:
 - **Page transitions**: Gentle fade (300ms) prevents jarring jumps between routes
 - **Property cards on hover**: Lift upward (8px translateY) with shadow growth (400ms ease-out) suggests physicality
+- **Property card loading skeletons**: Shimmer animation (2s infinite) with gradient sweep across skeleton elements; staggered fade-in (100ms delay between cards) when real content loads
 - **Scroll-triggered content**: Fade + slide from bottom (600ms ease-out, staggered 100ms) as sections enter viewport
-- **Image galleries**: Smooth scale on hover (1.05x over 500ms); swipe gestures feel responsive with 60fps
+- **Image galleries**: Smooth scale on hover (1.05x over 500ms); swipe gestures feel responsive with 60fps; cross-fade transitions (300ms) when switching images
+- **Property amenities list**: Staggered fade-in from left (400ms ease-out, 50ms delay between items) when scrolling into view
+- **Filter buttons**: Hover scale-up (1.05x) with subtle lift (2px translateY); pressed scale-down (0.98x) for tactile feedback
 - **CTA buttons**: Micro-scale (1.02x) + shadow on hover (250ms ease); ripple effect on click for tactile feedback
 - **Form interactions**: Input border color/glow transitions (200ms); success checkmarks draw in (400ms)
 - **Mobile menu**: Slide-in from left (350ms cubic-bezier) with backdrop blur fade
@@ -158,6 +162,7 @@ Animations should feel like natural, physics-based movements—never robotic or 
 
 **Customizations**:
 - Custom PropertyGallery component using Dialog + Carousel for lightbox
+- PropertyCardSkeleton with shimmer animation for loading states on Stays page and home page featured properties
 - StickyBookingBar custom component with scroll-triggered visibility
 - Custom Section wrapper component for consistent spacing and fade-in animations
 - ExperienceCard and PropertyCard as specialized Card extensions with branded styling

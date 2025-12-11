@@ -1,12 +1,21 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Section from '@/components/shared/Section'
 import PropertyCard from '@/components/stays/PropertyCard'
+import PropertyCardSkeleton from '@/components/stays/PropertyCardSkeleton'
 import { properties } from '@/data/properties'
 import { Button } from '@/components/ui/button'
 
 export default function Stays() {
   const [filter, setFilter] = useState('all')
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 1200)
+    return () => clearTimeout(timer)
+  }, [filter])
 
   const filters = [
     { id: 'all', label: 'All Properties' },
@@ -69,7 +78,10 @@ export default function Stays() {
               >
                 <Button
                   variant={filter === f.id ? 'default' : 'outline'}
-                  onClick={() => setFilter(f.id)}
+                  onClick={() => {
+                    setFilter(f.id)
+                    setIsLoading(true)
+                  }}
                   size="sm"
                   className="relative overflow-hidden"
                 >
@@ -83,23 +95,44 @@ export default function Stays() {
 
       <Section>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProperties.map((property, index) => (
-            <motion.div
-              key={property.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.5,
-                delay: index * 0.1,
-                ease: [0.25, 0.1, 0.25, 1]
-              }}
-            >
-              <PropertyCard property={property} />
-            </motion.div>
-          ))}
+          {isLoading ? (
+            <>
+              {[...Array(3)].map((_, index) => (
+                <motion.div
+                  key={`skeleton-${index}`}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.4,
+                    delay: index * 0.1,
+                    ease: [0.25, 0.1, 0.25, 1]
+                  }}
+                >
+                  <PropertyCardSkeleton />
+                </motion.div>
+              ))}
+            </>
+          ) : (
+            <>
+              {filteredProperties.map((property, index) => (
+                <motion.div
+                  key={property.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: index * 0.1,
+                    ease: [0.25, 0.1, 0.25, 1]
+                  }}
+                >
+                  <PropertyCard property={property} />
+                </motion.div>
+              ))}
+            </>
+          )}
         </div>
 
-        {filteredProperties.length === 0 && (
+        {!isLoading && filteredProperties.length === 0 && (
           <div className="text-center py-12">
             <p className="text-muted-foreground">No properties match your filters.</p>
             <Button variant="outline" onClick={() => setFilter('all')} className="mt-4">
