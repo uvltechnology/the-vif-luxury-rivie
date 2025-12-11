@@ -21,6 +21,7 @@ export default function Header() {
     { path: '/stays', label: 'Stays' },
     { path: '/experiences', label: 'Experiences' },
     { path: '/the-riviera', label: 'The Riviera' },
+    { path: '/reviews', label: 'Reviews' },
     { path: '/how-to-book', label: 'How to Book' },
     { path: '/our-story', label: 'Our Story' }
   ]

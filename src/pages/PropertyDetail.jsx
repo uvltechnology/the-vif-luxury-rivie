@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { properties } from '@/data/properties'
+import PropertyTestimonials from '@/components/stays/PropertyTestimonials'
 import { 
   Accordion,
   AccordionContent,
@@ -173,6 +174,8 @@ export default function PropertyDetail() {
                 </AccordionItem>
               </Accordion>
             </div>
+
+            <PropertyTestimonials propertyName={property.name} />
           </div>
 
           <div className="lg:col-span-1">

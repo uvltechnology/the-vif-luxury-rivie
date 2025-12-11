@@ -71,6 +71,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/reviews" className="text-muted-foreground hover:text-primary transition-colors">
+                  Guest Reviews
+                </Link>
+              </li>
+              <li>
                 <Link to="/how-to-book" className="text-muted-foreground hover:text-primary transition-colors">
                   How to Book
                 </Link>

@@ -50,6 +50,13 @@ Your French Riviera retreat awaits. A premium vacation rental platform showcasin
 - **Progression**: Click CTA → Form opens (or navigates to Contact page) → Fill required fields → Submit → See confirmation message → Receive email response within 24h
 - **Success criteria**: Form completion rate >60%; mobile form is easy to use; validation prevents errors
 
+### Guest Reviews & Testimonials
+- **Functionality**: Display verified guest reviews on home page, dedicated reviews page, and property detail pages with filtering and sorting capabilities
+- **Purpose**: Build trust through social proof; showcase authentic guest experiences; help potential guests make informed decisions
+- **Trigger**: User views home page testimonials section, navigates to /reviews page, or scrolls to reviews on property detail page
+- **Progression**: View testimonials section → Read featured reviews → Click "Read More Reviews" or "View All" → Filter by property or sort by date/rating → Read detailed reviews → Feel confident about booking
+- **Success criteria**: Reviews appear on key pages; filters work smoothly; users spend time reading reviews; contributes to booking confidence
+
 ## Edge Case Handling
 
 - **No Properties Available for Dates** – Show alternative date suggestions or waitlist signup option

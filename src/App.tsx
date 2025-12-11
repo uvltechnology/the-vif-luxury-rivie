@@ -9,6 +9,7 @@ import AreaGuide from '@/pages/AreaGuide'
 import HowToBook from '@/pages/HowToBook'
 import OurStory from '@/pages/OurStory'
 import Contact from '@/pages/Contact'
+import Testimonials from '@/pages/Testimonials'
 import NotFound from '@/pages/NotFound'
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
                     <Route path="the-riviera" element={<AreaGuide />} />
                     <Route path="how-to-book" element={<HowToBook />} />
                     <Route path="our-story" element={<OurStory />} />
+                    <Route path="reviews" element={<Testimonials />} />
                     <Route path="contact" element={<Contact />} />
                     <Route path="*" element={<NotFound />} />
                 </Route>
