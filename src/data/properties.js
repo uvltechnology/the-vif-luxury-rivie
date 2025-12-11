@@ -48,6 +48,9 @@ Your mornings begin on the breakfast terrace with fresh croissants and coffee, a
       '/api/placeholder/1200/800',
       '/api/placeholder/1200/800',
       '/api/placeholder/1200/800',
+      '/api/placeholder/1200/800',
+      '/api/placeholder/1200/800',
+      '/api/placeholder/1200/800',
       '/api/placeholder/1200/800'
     ]
   },
@@ -99,6 +102,8 @@ The outdoor space is equally enchanting—a heated pool surrounded by lavender a
       '/api/placeholder/1200/800',
       '/api/placeholder/1200/800',
       '/api/placeholder/1200/800',
+      '/api/placeholder/1200/800',
+      '/api/placeholder/1200/800',
       '/api/placeholder/1200/800'
     ]
   },
@@ -147,6 +152,8 @@ This is the ideal base for couples who want to explore the Côte d'Azur by day a
       { name: 'Nice', distance: '15 min' }
     ],
     images: [
+      '/api/placeholder/1200/800',
+      '/api/placeholder/1200/800',
       '/api/placeholder/1200/800',
       '/api/placeholder/1200/800',
       '/api/placeholder/1200/800'

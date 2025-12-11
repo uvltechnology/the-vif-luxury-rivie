@@ -116,3 +116,12 @@ h3 {
     padding: 5rem 5rem;
   }
 }
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

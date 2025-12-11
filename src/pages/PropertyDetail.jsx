@@ -1,5 +1,4 @@
 import { useParams, Link } from 'react-router-dom'
-import { useState } from 'react'
 import { Bed, Bathtub, Users, WifiHigh, Car, Waves, Check } from '@phosphor-icons/react'
 import Section from '@/components/shared/Section'
 import { Button } from '@/components/ui/button'
@@ -7,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { properties } from '@/data/properties'
 import PropertyTestimonials from '@/components/stays/PropertyTestimonials'
+import PropertyGallery from '@/components/stays/PropertyGallery'
 import { 
   Accordion,
   AccordionContent,
@@ -17,7 +17,6 @@ import {
 export default function PropertyDetail() {
   const { propertySlug } = useParams()
   const property = properties.find((p) => p.slug === propertySlug)
-  const [selectedImage, setSelectedImage] = useState(0)
 
   if (!property) {
     return (
@@ -35,28 +34,7 @@ export default function PropertyDetail() {
   return (
     <div className="pt-20">
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-2 mb-8">
-          <div className="lg:col-span-3 relative h-96 lg:h-[500px] rounded-lg overflow-hidden">
-            <img
-              src={property.images[selectedImage]}
-              alt={property.name}
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <div className="grid grid-cols-2 lg:grid-cols-1 gap-2">
-            {property.images.slice(0, 4).map((img, index) => (
-              <button
-                key={index}
-                onClick={() => setSelectedImage(index)}
-                className={`relative h-32 lg:h-[120px] rounded-lg overflow-hidden ${
-                  selectedImage === index ? 'ring-2 ring-primary' : ''
-                }`}
-              >
-                <img src={img} alt={`${property.name} ${index + 1}`} className="w-full h-full object-cover" />
-              </button>
-            ))}
-          </div>
-        </div>
+        <PropertyGallery images={property.images} propertyName={property.name} />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           <div className="lg:col-span-2">

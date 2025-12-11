@@ -23,11 +23,11 @@ Your French Riviera retreat awaits. A premium vacation rental platform showcasin
 - **Success criteria**: Users can identify the right property within 30 seconds; mobile users can easily swipe/scroll through options
 
 ### Property Detail Pages
-- **Functionality**: Comprehensive information about each villa/apartment with gallery, amenities, location, policies, and booking CTA
-- **Purpose**: Provide all information needed to make a booking decision in one place
+- **Functionality**: Comprehensive information about each villa/apartment with interactive gallery, amenities, location, policies, and booking CTA
+- **Purpose**: Provide all information needed to make a booking decision in one place with engaging visual presentation
 - **Trigger**: User clicks "View Details" on any property card
-- **Progression**: View hero gallery → Scroll through key facts → Read description → Check amenities → Review location/policies → Click "Check Availability" CTA → Navigate to contact/booking
-- **Success criteria**: Users spend 2-3 minutes on page (engaged); CTA clicked within first scroll on mobile; no confusion about what's included
+- **Progression**: View hero gallery with lightbox → Click to open full-screen gallery → Zoom and swipe through images → Close lightbox → Scroll through key facts → Read description → Check amenities → Review location/policies → Click "Check Availability" CTA → Navigate to contact/booking
+- **Success criteria**: Users spend 2-3 minutes on page (engaged); CTA clicked within first scroll on mobile; no confusion about what's included; gallery engagement rate >70%
 
 ### Experiences Add-Ons
 - **Functionality**: Showcase optional services (private chef, wine tours, transfers, yacht excursions) with pricing and inquiry options
@@ -56,6 +56,13 @@ Your French Riviera retreat awaits. A premium vacation rental platform showcasin
 - **Trigger**: User views home page testimonials section, navigates to /reviews page, or scrolls to reviews on property detail page
 - **Progression**: View testimonials section → Read featured reviews → Click "Read More Reviews" or "View All" → Filter by property or sort by date/rating → Read detailed reviews → Feel confident about booking
 - **Success criteria**: Reviews appear on key pages; filters work smoothly; users spend time reading reviews; contributes to booking confidence
+
+### Photo Gallery Lightbox
+- **Functionality**: Full-screen, immersive photo gallery with zoom (up to 3x), pan, and swipe/keyboard navigation for all property images
+- **Purpose**: Allow guests to thoroughly inspect properties; build confidence through detailed visual exploration; create engaging, premium browsing experience
+- **Trigger**: User clicks on any property image, "View Gallery" overlay, or "View All Photos" button on property detail pages
+- **Progression**: Click image/button → Lightbox opens full-screen → View current image → Swipe/arrow to next/previous → Zoom in to inspect details → Pan around zoomed image → Click thumbnails to jump to specific image → Press ESC or close to exit
+- **Success criteria**: Smooth 60fps animations; touch gestures work intuitively on mobile; zoom functionality allows detailed inspection; keyboard shortcuts work (arrows, +/-, ESC); no lag or janky transitions
 
 ## Edge Case Handling
 
@@ -141,6 +148,7 @@ Animations should feel like natural, physics-based movements—never robotic or 
 - **Navigation**: Custom Header component with shadcn Sheet for mobile menu; includes backdrop blur and smooth slide animation
 - **Property Cards**: shadcn Card as base, heavily customized with hover effects, image overlays, and badge components
 - **Hero Sections**: Custom full-bleed components with background images/video, text overlays with gradient scrims for legibility
+- **Photo Gallery Lightbox**: Custom full-screen Dialog component with zoom controls (1x-3x), pan/drag on zoomed images, swipe gestures, keyboard navigation, thumbnail strip, and image counter
 - **Buttons**: shadcn Button with three variants (primary filled, secondary outline, ghost) using brand colors
 - **Forms**: shadcn Input, Textarea, Select components with custom focus states matching brand; integrated with react-hook-form for validation
 - **Dialogs/Modals**: shadcn Dialog for lightbox galleries and booking forms; mobile-optimized as full-screen on small devices
