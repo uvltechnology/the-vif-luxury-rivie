@@ -1,9 +1,20 @@
+import { useState, useEffect } from 'react'
 import Section from '@/components/shared/Section'
+import ExperienceCardSkeleton from '@/components/shared/ExperienceCardSkeleton'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { experiences } from '@/data/experiences'
 
 export default function Experiences() {
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false)
+    }, 800)
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
     <div className="pt-20">
       <Section className="bg-card border-b border-border">
@@ -19,39 +30,48 @@ export default function Experiences() {
 
       <Section>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {experiences.map((exp) => (
-            <Card key={exp.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="h-48 bg-muted relative">
-                <img
-                  src="/api/placeholder/800/400"
-                  alt={exp.name}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute top-4 right-4 bg-card px-4 py-2 rounded-full">
-                  <p className="text-sm font-semibold">From €{exp.price}</p>
-                  <p className="text-xs text-muted-foreground">{exp.priceUnit}</p>
+          {loading ? (
+            <>
+              <ExperienceCardSkeleton />
+              <ExperienceCardSkeleton />
+              <ExperienceCardSkeleton />
+              <ExperienceCardSkeleton />
+            </>
+          ) : (
+            experiences.map((exp) => (
+              <Card key={exp.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                <div className="h-48 bg-muted relative">
+                  <img
+                    src="/api/placeholder/800/400"
+                    alt={exp.name}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute top-4 right-4 bg-card px-4 py-2 rounded-full">
+                    <p className="text-sm font-semibold">From €{exp.price}</p>
+                    <p className="text-xs text-muted-foreground">{exp.priceUnit}</p>
+                  </div>
                 </div>
-              </div>
-              <CardContent className="p-6">
-                <h3 className="text-2xl font-heading font-semibold mb-2">{exp.name}</h3>
-                <p className="text-muted-foreground mb-4">{exp.tagline}</p>
-                <p className="text-sm mb-6">{exp.shortDescription}</p>
-                
-                <div className="mb-6">
-                  <h4 className="font-semibold mb-2 text-sm">Includes:</h4>
-                  <ul className="text-sm text-muted-foreground space-y-1">
-                    {exp.includes.map((item, index) => (
-                      <li key={index}>• {item}</li>
-                    ))}
-                  </ul>
-                </div>
+                <CardContent className="p-6">
+                  <h3 className="text-2xl font-heading font-semibold mb-2">{exp.name}</h3>
+                  <p className="text-muted-foreground mb-4">{exp.tagline}</p>
+                  <p className="text-sm mb-6">{exp.shortDescription}</p>
+                  
+                  <div className="mb-6">
+                    <h4 className="font-semibold mb-2 text-sm">Includes:</h4>
+                    <ul className="text-sm text-muted-foreground space-y-1">
+                      {exp.includes.map((item, index) => (
+                        <li key={index}>• {item}</li>
+                      ))}
+                    </ul>
+                  </div>
 
-                <Button asChild variant="outline" className="w-full">
-                  <a href="/contact">Request This Experience</a>
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
+                  <Button asChild variant="outline" className="w-full">
+                    <a href="/contact">Request This Experience</a>
+                  </Button>
+                </CardContent>
+              </Card>
+            ))
+          )}
         </div>
       </Section>
 
