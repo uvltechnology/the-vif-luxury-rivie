@@ -1,3 +1,4 @@
+import { motion, useScroll, useTransform } from 'framer-motion'
 import Section from '@/components/shared/Section'
 import AnimatedSection from '@/components/shared/AnimatedSection'
 import {
@@ -11,6 +12,10 @@ import { Button } from '@/components/ui/button'
 import { Check } from '@phosphor-icons/react'
 
 export default function HowToBook() {
+  const { scrollY } = useScroll()
+  const headerY = useTransform(scrollY, [0, 200], [0, 50])
+  const headerOpacity = useTransform(scrollY, [0, 200], [1, 0.3])
+
   const steps = [
     {
       number: '01',
@@ -64,14 +69,30 @@ export default function HowToBook() {
   return (
     <div className="pt-20">
       <Section className="bg-card border-b border-border">
-        <div className="text-center max-w-3xl mx-auto">
-          <h1 className="text-5xl md:text-6xl font-heading font-semibold mb-4">
+        <motion.div
+          className="text-center max-w-3xl mx-auto"
+          style={{
+            y: headerY,
+            opacity: headerOpacity,
+          }}
+        >
+          <motion.h1
+            className="text-5xl md:text-6xl font-heading font-semibold mb-4"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
             How to Book Your Stay
-          </h1>
-          <p className="text-xl text-muted-foreground">
+          </motion.h1>
+          <motion.p
+            className="text-xl text-muted-foreground"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
             A simple, transparent process designed to make booking your French Riviera retreat effortless.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
       </Section>
 
       <Section>

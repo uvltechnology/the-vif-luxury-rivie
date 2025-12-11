@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import Section from '@/components/shared/Section'
 import PropertyCard from '@/components/stays/PropertyCard'
 import PropertyCardSkeleton from '@/components/stays/PropertyCardSkeleton'
@@ -9,6 +9,9 @@ import { Button } from '@/components/ui/button'
 export default function Stays() {
   const [filter, setFilter] = useState('all')
   const [isLoading, setIsLoading] = useState(true)
+  const { scrollY } = useScroll()
+  const headerY = useTransform(scrollY, [0, 200], [0, 50])
+  const headerOpacity = useTransform(scrollY, [0, 200], [1, 0.3])
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -40,14 +43,27 @@ export default function Stays() {
         <Section>
           <motion.div
             className="text-center mb-8"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+            style={{
+              y: headerY,
+              opacity: headerOpacity,
+            }}
           >
-            <h1 className="text-5xl md:text-6xl font-heading font-semibold mb-4">Our Collection</h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <motion.h1
+              className="text-5xl md:text-6xl font-heading font-semibold mb-4"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              Our Collection
+            </motion.h1>
+            <motion.p
+              className="text-xl text-muted-foreground max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
               Choose your perfect French Riviera home. Each property offers a unique perspective on Mediterranean living.
-            </p>
+            </motion.p>
           </motion.div>
 
           <motion.div

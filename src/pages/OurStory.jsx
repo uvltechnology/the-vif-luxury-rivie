@@ -1,19 +1,40 @@
+import { motion, useScroll, useTransform } from 'framer-motion'
 import Section from '@/components/shared/Section'
 import AnimatedSection from '@/components/shared/AnimatedSection'
+import { useParallax } from '@/hooks/use-parallax'
 
 export default function OurStory() {
+  const { scrollY } = useScroll()
+  const backgroundY = useParallax(0.4)
+  const contentY = useTransform(scrollY, [0, 400], [0, 100])
+  const opacity = useTransform(scrollY, [0, 300], [1, 0])
+
   return (
     <div className="pt-20">
       <div className="relative h-96 flex items-center justify-center overflow-hidden">
-        <div
+        <motion.div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/api/placeholder/1920/800')`
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/api/placeholder/1920/800')`,
+            y: backgroundY,
           }}
         />
-        <div className="relative z-10 text-center text-white px-6">
-          <h1 className="text-5xl md:text-6xl font-heading font-bold">Our Story</h1>
-        </div>
+        <motion.div
+          className="relative z-10 text-center text-white px-6"
+          style={{
+            y: contentY,
+            opacity,
+          }}
+        >
+          <motion.h1
+            className="text-5xl md:text-6xl font-heading font-bold"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            Our Story
+          </motion.h1>
+        </motion.div>
       </div>
 
       <Section>

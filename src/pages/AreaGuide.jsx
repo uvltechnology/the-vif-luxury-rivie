@@ -1,8 +1,15 @@
+import { motion, useScroll, useTransform } from 'framer-motion'
 import Section from '@/components/shared/Section'
 import AnimatedSection from '@/components/shared/AnimatedSection'
 import { Card, CardContent } from '@/components/ui/card'
+import { useParallax } from '@/hooks/use-parallax'
 
 export default function AreaGuide() {
+  const { scrollY } = useScroll()
+  const backgroundY = useParallax(0.4)
+  const contentY = useTransform(scrollY, [0, 400], [0, 100])
+  const opacity = useTransform(scrollY, [0, 300], [1, 0])
+
   const towns = [
     { name: 'Nice', distance: '15 min', description: 'The capital of the French Riviera, with stunning old town, markets, and museums.' },
     { name: 'Monaco', distance: '10-20 min', description: 'Glamorous principality known for luxury, the casino, and the Grand Prix circuit.' },
@@ -27,18 +34,37 @@ export default function AreaGuide() {
   return (
     <div className="pt-20">
       <div className="relative h-96 flex items-center justify-center overflow-hidden mb-12">
-        <div
+        <motion.div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/api/placeholder/1920/800')`
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/api/placeholder/1920/800')`,
+            y: backgroundY,
           }}
         />
-        <div className="relative z-10 text-center text-white px-6">
-          <h1 className="text-5xl md:text-6xl font-heading font-bold mb-4">Discover the Riviera</h1>
-          <p className="text-xl max-w-2xl mx-auto">
+        <motion.div
+          className="relative z-10 text-center text-white px-6"
+          style={{
+            y: contentY,
+            opacity,
+          }}
+        >
+          <motion.h1
+            className="text-5xl md:text-6xl font-heading font-bold mb-4"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            Discover the Riviera
+          </motion.h1>
+          <motion.p
+            className="text-xl max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
             Your guide to the best towns, beaches, dining, and experiences along the Côte d'Azur
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
       </div>
 
       <Section>

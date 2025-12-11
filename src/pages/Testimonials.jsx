@@ -1,4 +1,5 @@
 import { Star, Quotes, Seal, FunnelSimple, SortAscending } from '@phosphor-icons/react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -13,7 +14,6 @@ import Section from '@/components/shared/Section'
 import AnimatedSection from '@/components/shared/AnimatedSection'
 import { testimonials, stats } from '@/data/testimonials'
 import { useState, useMemo } from 'react'
-import { motion } from 'framer-motion'
 
 function TestimonialCard({ testimonial, index }) {
   return (
@@ -71,16 +71,36 @@ function TestimonialCard({ testimonial, index }) {
 }
 
 function StatsHero() {
+  const { scrollY } = useScroll()
+  const headerY = useTransform(scrollY, [0, 200], [0, 50])
+  const headerOpacity = useTransform(scrollY, [0, 200], [1, 0.3])
+
   return (
-    <div className="bg-gradient-to-br from-primary/5 via-accent/5 to-secondary/5 rounded-2xl p-8 md:p-12 mb-12">
+    <motion.div
+      className="bg-gradient-to-br from-primary/5 via-accent/5 to-secondary/5 rounded-2xl p-8 md:p-12 mb-12"
+      style={{
+        y: headerY,
+        opacity: headerOpacity,
+      }}
+    >
       <AnimatedSection>
         <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-semibold mb-4">
+          <motion.h1
+            className="text-4xl md:text-5xl lg:text-6xl font-heading font-semibold mb-4"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
             Guest Reviews
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+          </motion.h1>
+          <motion.p
+            className="text-lg text-muted-foreground max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
             Real experiences from real guests. Every review is verified from guests who have stayed at our properties.
-          </p>
+          </motion.p>
         </div>
       </AnimatedSection>
 
@@ -126,7 +146,7 @@ function StatsHero() {
           </div>
         </AnimatedSection>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
