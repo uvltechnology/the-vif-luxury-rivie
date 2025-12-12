@@ -1,3 +1,26 @@
+import Athena01 from '@/assets/images/Athena_01.jpg'
+import Athena02 from '@/assets/images/Athena_02.jpg'
+import Athena03 from '@/assets/images/Athena_03.jpg'
+import Athena04 from '@/assets/images/Athena_04.jpg'
+import Athena05 from '@/assets/images/Athena_05.jpg'
+import Athena06 from '@/assets/images/Athena_06.jpg'
+import Athena07 from '@/assets/images/Athena_07.jpg'
+import Athena08 from '@/assets/images/Athena_08.jpg'
+import Athena09 from '@/assets/images/Athena_09.jpg'
+import Athena10 from '@/assets/images/Athena_10.jpg'
+import Athena11 from '@/assets/images/Athena_11.jpg'
+import Athena12 from '@/assets/images/Athena_12.jpg'
+import Athena13 from '@/assets/images/Athena_13.jpg'
+import Athena14 from '@/assets/images/Athena_14.jpg'
+import Athena15 from '@/assets/images/Athena_15.jpg'
+import Athena16 from '@/assets/images/Athena_16.jpg'
+import Athena17 from '@/assets/images/Athena_17.jpg'
+import Athena18 from '@/assets/images/Athena_18.jpg'
+import Athena19 from '@/assets/images/Athena_19.jpg'
+import Athena20 from '@/assets/images/Athena_20.jpg'
+import Athena21 from '@/assets/images/Athena_21.jpg'
+import Athena22 from '@/assets/images/Athena_22.jpg'
+
 export const properties = [
   {
     id: 'villa-lumiere',
@@ -152,11 +175,28 @@ This is the ideal base for couples who want to explore the Côte d'Azur by day a
       { name: 'Nice', distance: '15 min' }
     ],
     images: [
-      '/api/placeholder/1200/800',
-      '/api/placeholder/1200/800',
-      '/api/placeholder/1200/800',
-      '/api/placeholder/1200/800',
-      '/api/placeholder/1200/800'
+      Athena01,
+      Athena02,
+      Athena03,
+      Athena04,
+      Athena05,
+      Athena06,
+      Athena07,
+      Athena08,
+      Athena09,
+      Athena10,
+      Athena11,
+      Athena12,
+      Athena13,
+      Athena14,
+      Athena15,
+      Athena16,
+      Athena17,
+      Athena18,
+      Athena19,
+      Athena20,
+      Athena21,
+      Athena22
     ]
   }
 ]
