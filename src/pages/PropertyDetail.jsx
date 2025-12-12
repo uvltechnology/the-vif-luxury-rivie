@@ -137,6 +137,7 @@ export default function PropertyDetail() {
                 <PropertyMap 
                   address={property.exactAddress} 
                   location={property.location}
+                  mapMarkers={property.mapMarkers}
                 />
               </AnimatedSection>
               <div className="grid grid-cols-2 gap-4 mt-6">

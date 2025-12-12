@@ -66,6 +66,60 @@ Your mornings begin on the breakfast terrace with fresh croissants and coffee, a
       { name: 'Beach access', distance: '5 min' },
       { name: 'Grocery store', distance: '3 min' }
     ],
+    mapMarkers: {
+      restaurants: [
+        { 
+          name: 'Le Chantecler', 
+          type: 'Fine Dining',
+          address: '37 Promenade des Anglais',
+          lat: 43.6950,
+          lng: 7.2620,
+          distance: '12 min drive'
+        },
+        { 
+          name: 'La Petite Maison', 
+          type: 'Mediterranean',
+          address: '11 Rue Saint-François de Paule',
+          lat: 43.6965,
+          lng: 7.2750,
+          distance: '15 min drive'
+        },
+        { 
+          name: 'Jan', 
+          type: 'Contemporary',
+          address: '12 Rue Lascaris',
+          lat: 43.6970,
+          lng: 7.2755,
+          distance: '15 min drive'
+        }
+      ],
+      attractions: [
+        { 
+          name: 'Promenade des Anglais', 
+          type: 'Seafront',
+          description: 'Iconic Mediterranean promenade',
+          lat: 43.6950,
+          lng: 7.2650,
+          distance: '10 min drive'
+        },
+        { 
+          name: 'Castle Hill', 
+          type: 'Viewpoint',
+          description: 'Panoramic views of Nice',
+          lat: 43.6955,
+          lng: 7.2800,
+          distance: '15 min drive'
+        },
+        { 
+          name: 'Nice Old Town', 
+          type: 'Historic District',
+          description: 'Charming streets and markets',
+          lat: 43.6965,
+          lng: 7.2760,
+          distance: '15 min drive'
+        }
+      ]
+    },
     images: [
       '/api/placeholder/1200/800',
       '/api/placeholder/1200/800',
@@ -121,6 +175,68 @@ The outdoor space is equally enchanting—a heated pool surrounded by lavender a
       { name: 'Nice', distance: '18 min' },
       { name: 'Beach', distance: '8 min' }
     ],
+    mapMarkers: {
+      restaurants: [
+        { 
+          name: 'Château de la Chèvre d\'Or', 
+          type: 'Michelin Star',
+          address: 'Rue du Barri',
+          lat: 43.7275,
+          lng: 7.3615,
+          distance: '5 min drive'
+        },
+        { 
+          name: 'La Table de Patrick Raingeard', 
+          type: 'Fine Dining',
+          address: 'Avenue des Diables Bleus',
+          lat: 43.7200,
+          lng: 7.3580,
+          distance: '8 min drive'
+        },
+        { 
+          name: 'Château Eza', 
+          type: 'Gastronomic',
+          address: 'Rue de la Pise',
+          lat: 43.7270,
+          lng: 7.3610,
+          distance: '5 min drive'
+        }
+      ],
+      attractions: [
+        { 
+          name: 'Èze Village', 
+          type: 'Medieval Village',
+          description: 'Stunning hilltop village',
+          lat: 43.7275,
+          lng: 7.3615,
+          distance: '5 min drive'
+        },
+        { 
+          name: 'Jardin Exotique d\'Èze', 
+          type: 'Garden',
+          description: 'Exotic garden with panoramic views',
+          lat: 43.7280,
+          lng: 7.3620,
+          distance: '6 min drive'
+        },
+        { 
+          name: 'Monaco', 
+          type: 'City',
+          description: 'Glamorous principality',
+          lat: 43.7384,
+          lng: 7.4246,
+          distance: '10 min drive'
+        },
+        { 
+          name: 'Plage Mala', 
+          type: 'Beach',
+          description: 'Secluded pebble beach',
+          lat: 43.7190,
+          lng: 7.3570,
+          distance: '8 min drive'
+        }
+      ]
+    },
     images: [
       '/api/placeholder/1200/800',
       '/api/placeholder/1200/800',
@@ -184,6 +300,92 @@ This is more than accommodation—it's your gateway to the authentic Riviera lif
       { name: 'Nice Airport', distance: '30 min' },
       { name: 'Monaco', distance: '40 min' }
     ],
+    mapMarkers: {
+      restaurants: [
+        { 
+          name: 'La Palme d\'Or', 
+          type: 'Fine Dining',
+          address: '73 Boulevard de la Croisette',
+          lat: 43.5501,
+          lng: 7.0235,
+          distance: '4 min walk'
+        },
+        { 
+          name: 'Le Park 45', 
+          type: 'Gastronomic',
+          address: 'Grand Hôtel, 45 Boulevard de la Croisette',
+          lat: 43.5495,
+          lng: 7.0220,
+          distance: '6 min walk'
+        },
+        { 
+          name: 'Côté Jardin', 
+          type: 'Mediterranean',
+          address: '12 Avenue Saint-Jean',
+          lat: 43.5480,
+          lng: 7.0198,
+          distance: '8 min walk'
+        },
+        { 
+          name: 'La Môme', 
+          type: 'French Bistro',
+          address: '10 Rue Meynadier',
+          lat: 43.5510,
+          lng: 7.0190,
+          distance: '10 min walk'
+        },
+        { 
+          name: 'Mantel', 
+          type: 'Contemporary French',
+          address: '22 Rue Saint-Antoine',
+          lat: 43.5488,
+          lng: 7.0175,
+          distance: '12 min walk'
+        }
+      ],
+      attractions: [
+        { 
+          name: 'Plage de la Croisette', 
+          type: 'Beach',
+          description: 'Iconic Riviera beach with crystal-clear waters',
+          lat: 43.5490,
+          lng: 7.0240,
+          distance: '3 min walk'
+        },
+        { 
+          name: 'Palais des Festivals', 
+          type: 'Cultural Landmark',
+          description: 'Home of the Cannes Film Festival',
+          lat: 43.5515,
+          lng: 7.0175,
+          distance: '12 min walk'
+        },
+        { 
+          name: 'Marché Forville', 
+          type: 'Market',
+          description: 'Authentic Provençal food market',
+          lat: 43.5520,
+          lng: 7.0165,
+          distance: '14 min walk'
+        },
+        { 
+          name: 'Le Suquet', 
+          type: 'Historic District',
+          description: 'Charming old town with panoramic views',
+          lat: 43.5530,
+          lng: 7.0155,
+          distance: '15 min walk'
+        },
+        { 
+          name: 'Îles de Lérins', 
+          type: 'Island',
+          description: 'Beautiful islands accessible by ferry',
+          lat: 43.5200,
+          lng: 7.0500,
+          distance: '15 min by ferry'
+        }
+      ]
+    },
     images: [
       Athena01,
       Athena02,
