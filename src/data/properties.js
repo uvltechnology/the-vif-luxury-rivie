@@ -535,9 +535,9 @@ This is not merely a vacation rental. Villa Rocsea is your invitation to experie
     ]
   },
   {
-    id: 'villa-azure',
-    slug: 'villa-azure',
-    name: 'Villa Azure',
+    id: 'villa-bellevue',
+    slug: 'villa-bellevue',
+    name: 'Villa Bellevue',
     type: 'villa',
     tagline: 'Perched above the Mediterranean in La Turbie\'s timeless hills',
     location: 'La Turbie, French Riviera',
@@ -563,8 +563,8 @@ This is not merely a vacation rental. Villa Rocsea is your invitation to experie
       languages: ['English', 'French', 'Italian', 'Russian'],
       description: 'I speak French, English, Italian and Russian and it\'s my pleasure to offer you an unforgettable stay in my beautiful country. There are so many things to do and to see here! I\'ll try to be as helpful as possible during your stay. Looking forward to hosting you at any moment of the year!'
     },
-    shortDescription: 'Discover exceptional privacy and breathtaking panoramas at Villa Azure. Perched in the historic village of La Turbie, this three-bedroom sanctuary offers commanding views across Monaco, the Mediterranean, and the Italian coastline—where ancient Roman heritage meets contemporary Riviera luxury.',
-    fullDescription: `Villa Azure stands as a masterpiece of location and design, nestled at 205 Chemin de Giram in the medieval hilltop village of La Turbie. This exceptional three-bedroom villa captures the very essence of elevated Riviera living, where sweeping vistas meet sophisticated comfort in one of the French Côte d'Azur's most prestigious addresses.
+    shortDescription: 'Discover exceptional privacy and breathtaking panoramas at Villa Bellevue. Perched in the historic village of La Turbie, this three-bedroom sanctuary offers commanding views across Monaco, the Mediterranean, and the Italian coastline—where ancient Roman heritage meets contemporary Riviera luxury.',
+    fullDescription: `Villa Bellevue stands as a masterpiece of location and design, nestled at 205 Chemin de Giram in the medieval hilltop village of La Turbie. This exceptional three-bedroom villa captures the very essence of elevated Riviera living, where sweeping vistas meet sophisticated comfort in one of the French Côte d'Azur's most prestigious addresses.
 
 Positioned at 450 meters above sea level, the villa commands a breathtaking 180-degree panorama that stretches from the glittering principality of Monaco to the distant shores of Italy. Here, beneath the shadow of the ancient Roman monument Trophée des Alpes, you'll experience the Riviera from a perspective few discover—where eagles soar and the Mediterranean unfolds like a sapphire tapestry below.
 
@@ -580,7 +580,7 @@ La Turbie itself adds layers of enchantment to your stay. This small town is sit
 
 There are too many highlights in the region to list here, from magnificent scenery and traditional Provençal hilltop villages such as Èze to the glitzy resorts of the French Riviera like Roquebrune Cap Martin, Beaulieu sur Mer, Saint Jean Cap Ferrat and the wealthy principality of Monaco. Nice airport and Italy are also within a quarter hour drive from La Turbie. There is something close to La Turbie for everyone!
 
-This is not merely a vacation rental. Villa Azure is your invitation to live as the Romans, artists, and aristocrats have for millennia—elevated above the everyday, immersed in beauty, and surrounded by the timeless allure of the French Riviera's most spectacular coastline.`,
+This is not merely a vacation rental. Villa Bellevue is your invitation to live as the Romans, artists, and aristocrats have for millennia—elevated above the everyday, immersed in beauty, and surrounded by the timeless allure of the French Riviera's most spectacular coastline.`,
     amenities: {
       property: ['The entire place is yours - 200 m² of private luxury', 'Panoramic sea views across the Mediterranean', 'Spectacular vistas of Monaco and Italian coastline', 'Private balcony with outdoor seating', 'Family-friendly configuration with spacious rooms'],
       comfort: ['Air conditioning throughout', 'Central heating system', 'Premium Italian linens', 'Luxury bathrobes & slippers', 'Professional hairdryers in all bathrooms'],
