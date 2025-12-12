@@ -21,6 +21,43 @@ import Athena20 from '@/assets/images/Athena_20.jpg'
 import Athena21 from '@/assets/images/Athena_21.jpg'
 import Athena22 from '@/assets/images/Athena_22.jpg'
 
+import Villa101 from '@/assets/images/Villa_101.jpg'
+import Villa102 from '@/assets/images/Villa_102.jpg'
+import Villa103 from '@/assets/images/Villa_103.jpg'
+import Villa104 from '@/assets/images/Villa_104.jpg'
+import Villa105 from '@/assets/images/Villa_105.jpg'
+import Villa106 from '@/assets/images/Villa_106.jpg'
+import Villa107 from '@/assets/images/Villa_107.jpg'
+import Villa108 from '@/assets/images/Villa_108.jpg'
+import Villa109 from '@/assets/images/Villa_109.jpg'
+import Villa110 from '@/assets/images/Villa_110.jpg'
+import Villa111 from '@/assets/images/Villa_111.jpg'
+import Villa112 from '@/assets/images/Villa_112.jpg'
+import Villa113 from '@/assets/images/Villa_113.jpg'
+import Villa114 from '@/assets/images/Villa_114.jpg'
+import Villa115 from '@/assets/images/Villa_115.jpg'
+import Villa116 from '@/assets/images/Villa_116.jpg'
+import Villa117 from '@/assets/images/Villa_117.jpg'
+import Villa118 from '@/assets/images/Villa_118.jpg'
+import Villa119 from '@/assets/images/Villa_119.jpg'
+import Villa120 from '@/assets/images/Villa_120.jpg'
+import Villa121 from '@/assets/images/Villa_121.jpg'
+import Villa122 from '@/assets/images/Villa_122.jpg'
+import Villa123 from '@/assets/images/Villa_123.jpg'
+import Villa124 from '@/assets/images/Villa_124.jpg'
+import Villa125 from '@/assets/images/Villa_125.jpg'
+import Villa126 from '@/assets/images/Villa_126.jpg'
+import Villa127 from '@/assets/images/Villa_127.jpg'
+import Villa128 from '@/assets/images/Villa_128.jpg'
+import Villa129 from '@/assets/images/Villa_129.jpg'
+import Villa130 from '@/assets/images/Villa_130.jpg'
+import Villa131 from '@/assets/images/Villa_131.jpg'
+import Villa132 from '@/assets/images/Villa_132.jpg'
+import Villa133 from '@/assets/images/Villa_133.jpg'
+import Villa134 from '@/assets/images/Villa_134.jpg'
+import Villa135 from '@/assets/images/Villa_135.jpg'
+import Villa136 from '@/assets/images/Villa_136.jpg'
+
 export const properties = [
   {
     id: 'villa-lumiere',
@@ -422,12 +459,42 @@ The outdoor space is equally enchanting—a heated pool surrounded by lavender a
       ]
     },
     images: [
-      '/api/placeholder/1200/800',
-      '/api/placeholder/1200/800',
-      '/api/placeholder/1200/800',
-      '/api/placeholder/1200/800',
-      '/api/placeholder/1200/800',
-      '/api/placeholder/1200/800'
+      Villa101,
+      Villa102,
+      Villa103,
+      Villa104,
+      Villa105,
+      Villa106,
+      Villa107,
+      Villa108,
+      Villa109,
+      Villa110,
+      Villa111,
+      Villa112,
+      Villa113,
+      Villa114,
+      Villa115,
+      Villa116,
+      Villa117,
+      Villa118,
+      Villa119,
+      Villa120,
+      Villa121,
+      Villa122,
+      Villa123,
+      Villa124,
+      Villa125,
+      Villa126,
+      Villa127,
+      Villa128,
+      Villa129,
+      Villa130,
+      Villa131,
+      Villa132,
+      Villa133,
+      Villa134,
+      Villa135,
+      Villa136
     ]
   },
   {
