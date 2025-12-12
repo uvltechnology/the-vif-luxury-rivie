@@ -57,6 +57,75 @@ import Villa133 from '@/assets/images/Villa_133.jpg'
 import Villa134 from '@/assets/images/Villa_134.jpg'
 import Villa135 from '@/assets/images/Villa_135.jpg'
 import Villa136 from '@/assets/images/Villa_136.jpg'
+
+import Villa201 from '@/assets/images/Villa_201.jpg'
+import Villa202 from '@/assets/images/Villa_202.jpg'
+import Villa203 from '@/assets/images/Villa_203.jpg'
+import Villa204 from '@/assets/images/Villa_204.jpg'
+import Villa205 from '@/assets/images/Villa_205.jpg'
+import Villa206 from '@/assets/images/Villa_206.jpg'
+import Villa207 from '@/assets/images/Villa_207.jpg'
+import Villa208 from '@/assets/images/Villa_208.jpg'
+import Villa209 from '@/assets/images/Villa_209.jpg'
+import Villa210 from '@/assets/images/Villa_210.jpg'
+import Villa211 from '@/assets/images/Villa_211.jpg'
+import Villa212 from '@/assets/images/Villa_212.jpg'
+import Villa213 from '@/assets/images/Villa_213.jpg'
+import Villa214 from '@/assets/images/Villa_214.jpg'
+import Villa215 from '@/assets/images/Villa_215.jpg'
+import Villa216 from '@/assets/images/Villa_216.jpg'
+import Villa217 from '@/assets/images/Villa_217.jpg'
+import Villa218 from '@/assets/images/Villa_218.jpg'
+import Villa219 from '@/assets/images/Villa_219.jpg'
+import Villa220 from '@/assets/images/Villa_220.jpg'
+import Villa221 from '@/assets/images/Villa_221.jpg'
+import Villa222 from '@/assets/images/Villa_222.jpg'
+import Villa223 from '@/assets/images/Villa_223.jpg'
+import Villa224 from '@/assets/images/Villa_224.jpg'
+import Villa225 from '@/assets/images/Villa_225.jpg'
+import Villa226 from '@/assets/images/Villa_226.jpg'
+import Villa227 from '@/assets/images/Villa_227.jpg'
+import Villa228 from '@/assets/images/Villa_228.jpg'
+import Villa229 from '@/assets/images/Villa_229.jpg'
+import Villa230 from '@/assets/images/Villa_230.jpg'
+import Villa231 from '@/assets/images/Villa_231.jpg'
+import Villa232 from '@/assets/images/Villa_232.jpg'
+import Villa233 from '@/assets/images/Villa_233.jpg'
+import Villa234 from '@/assets/images/Villa_234.jpg'
+import Villa235 from '@/assets/images/Villa_235.jpg'
+import Villa236 from '@/assets/images/Villa_236.jpg'
+import Villa237 from '@/assets/images/Villa_237.jpg'
+import Villa238 from '@/assets/images/Villa_238.jpg'
+import Villa239 from '@/assets/images/Villa_239.jpg'
+import Villa240 from '@/assets/images/Villa_240.jpg'
+import Villa241 from '@/assets/images/Villa_241.jpg'
+import Villa242 from '@/assets/images/Villa_242.jpg'
+import Villa243 from '@/assets/images/Villa_243.jpg'
+import Villa244 from '@/assets/images/Villa_244.jpg'
+import Villa245 from '@/assets/images/Villa_245.jpg'
+import Villa246 from '@/assets/images/Villa_246.jpg'
+import Villa247 from '@/assets/images/Villa_247.jpg'
+import Villa248 from '@/assets/images/Villa_248.jpg'
+import Villa249 from '@/assets/images/Villa_249.jpg'
+import Villa250 from '@/assets/images/Villa_250.jpg'
+import Villa251 from '@/assets/images/Villa_251.jpg'
+import Villa252 from '@/assets/images/Villa_252.jpg'
+import Villa253 from '@/assets/images/Villa_253.jpg'
+import Villa254 from '@/assets/images/Villa_254.jpg'
+import Villa255 from '@/assets/images/Villa_255.jpg'
+import Villa256 from '@/assets/images/Villa_256.jpg'
+import Villa257 from '@/assets/images/Villa_257.jpg'
+import Villa258 from '@/assets/images/Villa_258.jpg'
+import Villa259 from '@/assets/images/Villa_259.jpg'
+import Villa260 from '@/assets/images/Villa_260.jpg'
+import Villa261 from '@/assets/images/Villa_261.jpg'
+import Villa262 from '@/assets/images/Villa_262.jpg'
+import Villa263 from '@/assets/images/Villa_263.jpg'
+import Villa264 from '@/assets/images/Villa_264.jpg'
+import Villa265 from '@/assets/images/Villa_265.jpg'
+import Villa266 from '@/assets/images/Villa_266.jpg'
+import Villa267 from '@/assets/images/Villa_267.jpg'
+
 import ElenaImg from '@/assets/images/elena.jpg'
 
 export const properties = [
@@ -255,14 +324,73 @@ Your mornings begin on the breakfast terrace with fresh croissants and coffee, a
       ]
     },
     images: [
-      '/api/placeholder/1200/800',
-      '/api/placeholder/1200/800',
-      '/api/placeholder/1200/800',
-      '/api/placeholder/1200/800',
-      '/api/placeholder/1200/800',
-      '/api/placeholder/1200/800',
-      '/api/placeholder/1200/800',
-      '/api/placeholder/1200/800'
+      Villa252,
+      Villa201,
+      Villa202,
+      Villa203,
+      Villa204,
+      Villa205,
+      Villa206,
+      Villa207,
+      Villa208,
+      Villa209,
+      Villa210,
+      Villa211,
+      Villa212,
+      Villa213,
+      Villa214,
+      Villa215,
+      Villa216,
+      Villa217,
+      Villa218,
+      Villa219,
+      Villa220,
+      Villa221,
+      Villa222,
+      Villa223,
+      Villa224,
+      Villa225,
+      Villa226,
+      Villa227,
+      Villa228,
+      Villa229,
+      Villa230,
+      Villa231,
+      Villa232,
+      Villa233,
+      Villa234,
+      Villa235,
+      Villa236,
+      Villa237,
+      Villa238,
+      Villa239,
+      Villa240,
+      Villa241,
+      Villa242,
+      Villa243,
+      Villa244,
+      Villa245,
+      Villa246,
+      Villa247,
+      Villa248,
+      Villa249,
+      Villa250,
+      Villa251,
+      Villa253,
+      Villa254,
+      Villa255,
+      Villa256,
+      Villa257,
+      Villa258,
+      Villa259,
+      Villa260,
+      Villa261,
+      Villa262,
+      Villa263,
+      Villa264,
+      Villa265,
+      Villa266,
+      Villa267
     ]
   },
   {
