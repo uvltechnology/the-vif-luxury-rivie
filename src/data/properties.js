@@ -138,12 +138,19 @@ export const properties = [
     location: 'La Turbie, French Riviera',
     exactAddress: '205 Chemin de Giram, 06320 La Turbie, France',
     price: 450,
+    size: '350 m²',
     capacity: 8,
     bedrooms: 4,
     bathrooms: 3,
     hasPool: true,
     hasParking: true,
     hasSeaView: true,
+    hasBalcony: true,
+    hasFreeWifi: true,
+    petFriendly: true,
+    hasView: true,
+    hasPrivateBathroom: true,
+    entirePlace: true,
     shortDescription: 'Discover Villa Lumière—aptly named "Light"—where La Turbie\'s golden sunshine meets sweeping Mediterranean panoramas. This four-bedroom sanctuary at 205 Chemin de Giram captures the very soul of elevated Riviera living, where ancient Roman heritage, breathtaking vistas, and contemporary luxury converge beneath the watchful gaze of the Trophée des Alpes.',
     fullDescription: `Villa Lumière—named for the luminous quality of light that bathes this exceptional residence—stands as a beacon of refined living in La Turbie, one of the French Riviera's most spectacular and historically significant hilltop villages. Positioned at 205 Chemin de Giram at 450 meters above sea level, this magnificent four-bedroom villa offers more than breathtaking views; it offers a rare opportunity to inhabit the same dramatic landscape that has captivated Romans, artists, and aristocrats for over two millennia.
 
@@ -167,13 +174,13 @@ From this privileged vantage point, the entire Côte d'Azur becomes your playgro
 
 This is not merely a vacation rental. Villa Lumière is your invitation to experience the French Riviera from its most spectacular perspective—elevated, illuminated, and utterly unforgettable. Here, beneath the eternal Mediterranean sun, in a villa named for light itself, you'll discover why this coastline has captivated dreamers and wanderers for over two thousand years.`,
     amenities: {
-      property: ['The entire villa is yours - 250 m² of private luxury', 'Spectacular panoramic Mediterranean views', 'Breathtaking Monaco and Italian coastline vistas', 'Multiple private terraces and outdoor spaces', 'Family-friendly configuration with versatile rooms'],
+      property: ['The entire place is yours - 350 m² of private luxury', 'Spectacular panoramic Mediterranean and sea views', 'Breathtaking Monaco and Italian coastline vistas', 'Multiple private balconies and terraces', 'Pet-friendly accommodation (well-behaved pets welcome)', 'Private bathroom in each bedroom', 'Family-friendly configuration with versatile rooms'],
       comfort: ['Air conditioning throughout all rooms', 'Central heating system', 'Premium Italian bed linens and plush towels', 'Luxury bathrobes and slippers', 'Professional hairdryers in all bathrooms', 'In-room safes for valuables'],
-      entertainment: ['Smart 4K TVs with international satellite channels', 'Premium Bluetooth sound system', 'Free ultra-high-speed WiFi 150Mbps', 'Curated library of art, history & travel books', 'Board games, playing cards, and children\'s activities'],
+      entertainment: ['Smart 4K TVs with international satellite channels', 'Premium Bluetooth sound system', 'Free ultra-high-speed WiFi 150Mbps throughout', 'Curated library of art, history & travel books', 'Board games, playing cards, and children\'s activities'],
       kitchen: ['Fully equipped gourmet kitchen with modern appliances', 'Professional Nespresso coffee machine', 'Premium cookware, bakeware & utensils', 'Wine refrigerator for proper storage', 'Full-size dishwasher', 'Premium outdoor Weber gas BBQ grill'],
-      outdoor: ['Swimming pool with three depths for all ages', 'Lush mature Mediterranean gardens with olive trees', 'Multiple shaded terraces with comfortable lounge areas', 'Covered outdoor dining for 8 with ambient lighting', 'Premium sun loungers and parasols', 'Outdoor shower and pool amenities', 'Pool safety fence available for young children'],
+      outdoor: ['Outdoor swimming pool with three depths for all ages', 'Lush mature Mediterranean gardens with olive trees', 'Multiple shaded terraces with comfortable lounge areas', 'Covered outdoor dining for 8 with ambient lighting', 'Premium sun loungers and parasols', 'Outdoor shower and pool amenities', 'Pool safety fence available for young children'],
       services: ['Personalized welcome and property orientation', 'Weekly professional cleaning included', 'Daily pool and garden maintenance', 'Concierge recommendations and local guidance', 'Complimentary welcome provisions basket', 'Guest house available for additional booking (sleeps 4)'],
-      parking: ['Free private on-site parking for 2 vehicles', 'Secure covered parking area', 'Electric vehicle charging station available']
+      parking: ['Free on-site parking for 2 vehicles', 'Secure covered parking area', 'Electric vehicle charging station available']
     },
     houseRules: {
       checkIn: 'From 2:00 PM to 8:00 PM - Please notify the property in advance of your expected arrival time',
