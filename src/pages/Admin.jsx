@@ -3,7 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import BookingsManager from '@/components/admin/BookingsManager'
 import AvailabilityCalendar from '@/components/admin/AvailabilityCalendar'
-import { Lock } from '@phosphor-icons/react'
+import PropertyManager from '@/components/admin/PropertyManager'
+import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard'
+import GuestCommunications from '@/components/admin/GuestCommunications'
+import ReportsExport from '@/components/admin/ReportsExport'
+import { Lock, ChartLine, CalendarBlank, Bed, Chat, House, FileText } from '@phosphor-icons/react'
 import { Button } from '@/components/ui/button'
 
 function Admin() {
@@ -61,7 +65,7 @@ function Admin() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-heading font-semibold mb-1">Admin Dashboard</h1>
-              <p className="text-muted-foreground">Manage your property bookings and availability</p>
+              <p className="text-muted-foreground">Manage your luxury vacation rentals</p>
             </div>
             <Button variant="outline" onClick={() => navigate('/')}>
               Back to Site
@@ -71,11 +75,37 @@ function Admin() {
       </div>
 
       <div className="container mx-auto px-6 py-8">
-        <Tabs defaultValue="bookings" className="w-full">
-          <TabsList className="mb-8">
-            <TabsTrigger value="bookings">Bookings</TabsTrigger>
-            <TabsTrigger value="availability">Availability</TabsTrigger>
+        <Tabs defaultValue="overview" className="w-full">
+          <TabsList className="mb-8 flex-wrap h-auto">
+            <TabsTrigger value="overview" className="gap-2">
+              <ChartLine size={18} />
+              Overview
+            </TabsTrigger>
+            <TabsTrigger value="bookings" className="gap-2">
+              <CalendarBlank size={18} />
+              Bookings
+            </TabsTrigger>
+            <TabsTrigger value="availability" className="gap-2">
+              <Bed size={18} />
+              Availability
+            </TabsTrigger>
+            <TabsTrigger value="properties" className="gap-2">
+              <House size={18} />
+              Properties
+            </TabsTrigger>
+            <TabsTrigger value="guests" className="gap-2">
+              <Chat size={18} />
+              Guests
+            </TabsTrigger>
+            <TabsTrigger value="reports" className="gap-2">
+              <FileText size={18} />
+              Reports
+            </TabsTrigger>
           </TabsList>
+
+          <TabsContent value="overview">
+            <AnalyticsDashboard />
+          </TabsContent>
 
           <TabsContent value="bookings">
             <BookingsManager />
@@ -83,6 +113,18 @@ function Admin() {
 
           <TabsContent value="availability">
             <AvailabilityCalendar />
+          </TabsContent>
+
+          <TabsContent value="properties">
+            <PropertyManager />
+          </TabsContent>
+
+          <TabsContent value="guests">
+            <GuestCommunications />
+          </TabsContent>
+
+          <TabsContent value="reports">
+            <ReportsExport />
           </TabsContent>
         </Tabs>
       </div>

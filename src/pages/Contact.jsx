@@ -13,6 +13,7 @@ import { toast } from 'sonner'
 
 export default function Contact() {
   const [inquiries, setInquiries] = useKV('contact-inquiries', [])
+  const [messages, setMessages] = useKV('admin-messages', [])
   const { scrollY } = useScroll()
   const headerY = useTransform(scrollY, [0, 200], [0, 50])
   const headerOpacity = useTransform(scrollY, [0, 200], [1, 0.3])
@@ -34,7 +35,29 @@ export default function Contact() {
       id: Date.now(),
       submittedAt: new Date().toISOString()
     }
+    
+    const propertyNames = {
+      'villa-rocsea': 'Villa Rocsea',
+      'villa-bellevue': 'Villa Bellevue',
+      'palm-beach-apartment': 'Palm Beach Apartment',
+      'not-sure': 'Not specified'
+    }
+    
+    const adminMessage = {
+      id: `MSG-${Date.now()}`,
+      guestName: formData.name,
+      guestEmail: formData.email,
+      guestPhone: formData.phone || '',
+      subject: `Inquiry about ${propertyNames[formData.property] || 'properties'}`,
+      message: `${formData.message}\n\nTravel Details:\nProperty: ${propertyNames[formData.property] || 'Not specified'}\nCheck-in: ${formData.checkIn || 'Not specified'}\nCheck-out: ${formData.checkOut || 'Not specified'}\nGuests: ${formData.guests || 'Not specified'}`,
+      status: 'unread',
+      createdAt: new Date().toISOString(),
+      replies: []
+    }
+    
     setInquiries((current) => [newInquiry, ...current])
+    setMessages((current) => [adminMessage, ...(current || [])])
+    
     toast.success('Thank you! We\'ll get back to you within 24 hours.')
     setFormData({
       name: '',
@@ -128,9 +151,9 @@ export default function Contact() {
                       <SelectValue placeholder="Select a property" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="villa-lumiere">Villa Lumière</SelectItem>
-                      <SelectItem value="villa-azure">Villa Azure</SelectItem>
-                      <SelectItem value="athena-apartment">Athena Apartment</SelectItem>
+                      <SelectItem value="villa-rocsea">Villa Rocsea</SelectItem>
+                      <SelectItem value="villa-bellevue">Villa Bellevue</SelectItem>
+                      <SelectItem value="palm-beach-apartment">Palm Beach Apartment</SelectItem>
                       <SelectItem value="not-sure">Not sure yet</SelectItem>
                     </SelectContent>
                   </Select>
