@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { properties } from '@/data/properties'
 import PropertyTestimonials from '@/components/stays/PropertyTestimonials'
 import PropertyGallery from '@/components/stays/PropertyGallery'
+import PropertyMap from '@/components/stays/PropertyMap'
 import { 
   Accordion,
   AccordionContent,
@@ -133,14 +134,12 @@ export default function PropertyDetail() {
                 <h2 className="text-2xl font-heading font-semibold mb-4">Location</h2>
               </AnimatedSection>
               <AnimatedSection delay={0.2}>
-                <div className="bg-muted rounded-lg p-6 mb-4">
-                  <p className="text-muted-foreground mb-4">Interactive map placeholder</p>
-                  <div className="h-64 bg-card rounded flex items-center justify-center">
-                    <p className="text-muted-foreground">Map of {property.location}</p>
-                  </div>
-                </div>
+                <PropertyMap 
+                  address={property.exactAddress} 
+                  location={property.location}
+                />
               </AnimatedSection>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4 mt-6">
                 {property.nearbyAttractions.map((attraction, index) => (
                   <AnimatedSection key={index} delay={0.3 + index * 0.1}>
                     <div className="flex justify-between items-center p-3 bg-muted rounded">
