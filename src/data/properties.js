@@ -310,15 +310,19 @@ This is not merely a vacation rental. Villa Azure is your invitation to live as 
       parking: ['Free on-site parking for 2 vehicles', 'Private secure parking area', 'Electric vehicle charging available']
     },
     houseRules: {
-      checkIn: '4:00 PM onwards',
-      checkOut: '10:00 AM',
+      checkIn: 'From 2:00 PM to 8:00 PM - Guests are required to show a photo ID and credit card at check-in. You need to let the property know what time you\'ll be arriving in advance.',
+      checkOut: 'From 8:00 AM to 2:00 PM',
       minStay: '7 nights (July-August), 5 nights (June & September), 3 nights (October-May)',
-      smoking: 'Permitted on outdoor terraces only',
-      pets: 'Small well-behaved dogs considered upon request (€150 cleaning supplement)',
-      events: 'Intimate gatherings up to 12 guests permitted with advance approval',
-      quietHours: '10:00 PM - 8:00 AM (village ordinance)',
-      security: 'Refundable security deposit €1,000 required',
-      additional: 'Tourist tax €2.53 per adult per night (payable locally)'
+      smoking: 'Smoking is not allowed',
+      pets: 'Pets are allowed on request. Charges may apply.',
+      events: 'Parties and events permitted with advance approval',
+      quietHours: 'Guests need to be quiet between 11:00 PM and 8:00 AM',
+      ageRestriction: 'There\'s no age requirement for check-in',
+      children: 'Children of all ages are welcome. To see correct prices and occupancy info, add the number and ages of children in your group to your search.',
+      cribs: '0-2 years: Crib upon request (Free). The number of cribs allowed depends on the option you choose. Check your selected option for more info. There are no extra beds available at this property. All cribs are subject to availability.',
+      cancellation: 'Cancellation and prepayment policies vary according to accommodation type. Enter your stay dates and check the conditions of your selected option.',
+      damageDeposit: 'A damage deposit of €500 is required on arrival. That\'s about $754 SGD. This will be collected as a cash payment. You should be reimbursed on check-out. Your deposit will be refunded in full, in cash, subject to an inspection of the property.',
+      payment: 'Booking.com takes your payment for this stay on behalf of the property, but make sure you have cash for any extras once you get there.'
     },
     perfectFor: ['Romantic escapes with extraordinary views', 'Multi-generational family gatherings', 'Friends celebrating special occasions', 'Peaceful writing or creative retreats', 'Photography enthusiasts', 'History & culture lovers'],
     nearbyAttractions: [
