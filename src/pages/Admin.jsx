@@ -8,8 +8,9 @@ import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard'
 import GuestCommunications from '@/components/admin/GuestCommunications'
 import ReportsExport from '@/components/admin/ReportsExport'
 import EmailNotificationSettings from '@/components/admin/EmailNotificationSettings'
-import { Lock, ChartLine, CalendarBlank, Bed, Chat, House, FileText, Envelope } from '@phosphor-icons/react'
+import { Lock, ChartLine, CalendarBlank, Bed, Chat, House, FileText, Envelope, BellRinging } from '@phosphor-icons/react'
 import { Button } from '@/components/ui/button'
+import CheckInReminders from '@/components/admin/CheckInReminders'
 
 function Admin() {
   const navigate = useNavigate()
@@ -98,6 +99,10 @@ function Admin() {
               <Chat size={18} />
               Guests
             </TabsTrigger>
+            <TabsTrigger value="reminders" className="gap-2">
+              <BellRinging size={18} />
+              Reminders
+            </TabsTrigger>
             <TabsTrigger value="notifications" className="gap-2">
               <Envelope size={18} />
               Notifications
@@ -126,6 +131,10 @@ function Admin() {
 
           <TabsContent value="guests">
             <GuestCommunications />
+          </TabsContent>
+
+          <TabsContent value="reminders">
+            <CheckInReminders />
           </TabsContent>
 
           <TabsContent value="notifications">
