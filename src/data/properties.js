@@ -130,11 +130,11 @@ import ElenaImg from '@/assets/images/elena.jpg'
 
 export const properties = [
   {
-    id: 'villa-lumiere',
-    slug: 'villa-lumiere',
-    name: 'Villa Lumière',
+    id: 'villa-rocsea',
+    slug: 'villa-rocsea',
+    name: 'Villa Rocsea',
     type: 'villa',
-    tagline: 'Where light embraces the Mediterranean at La Turbie\'s most enchanting address',
+    tagline: 'Where rock meets sea at La Turbie\'s most enchanting address',
     location: 'La Turbie, French Riviera',
     exactAddress: '205 Chemin de Giram, 06320 La Turbie, France',
     price: 450,
@@ -151,28 +151,28 @@ export const properties = [
     hasView: true,
     hasPrivateBathroom: true,
     entirePlace: true,
-    shortDescription: 'Discover Villa Lumière—aptly named "Light"—where La Turbie\'s golden sunshine meets sweeping Mediterranean panoramas. This four-bedroom sanctuary at 205 Chemin de Giram captures the very soul of elevated Riviera living, where ancient Roman heritage, breathtaking vistas, and contemporary luxury converge beneath the watchful gaze of the Trophée des Alpes.',
-    fullDescription: `Villa Lumière—named for the luminous quality of light that bathes this exceptional residence—stands as a beacon of refined living in La Turbie, one of the French Riviera's most spectacular and historically significant hilltop villages. Positioned at 205 Chemin de Giram at 450 meters above sea level, this magnificent four-bedroom villa offers more than breathtaking views; it offers a rare opportunity to inhabit the same dramatic landscape that has captivated Romans, artists, and aristocrats for over two millennia.
+    shortDescription: 'Discover Villa Rocsea—where rugged coastal beauty meets sweeping Mediterranean panoramas. This four-bedroom sanctuary at 205 Chemin de Giram captures the very soul of elevated Riviera living, where ancient Roman heritage, breathtaking vistas, and contemporary luxury converge beneath the watchful gaze of the Trophée des Alpes.',
+    fullDescription: `Villa Rocsea—named for the dramatic meeting of rock and sea that defines this spectacular location—stands as a beacon of refined living in La Turbie, one of the French Riviera's most spectacular and historically significant hilltop villages. Positioned at 205 Chemin de Giram at 450 meters above sea level, this magnificent four-bedroom villa offers more than breathtaking views; it offers a rare opportunity to inhabit the same dramatic landscape that has captivated Romans, artists, and aristocrats for over two millennia.
 
-From the moment you arrive, Villa Lumière reveals its magic. The villa's elevated position commands a sweeping 180-degree panorama that stretches from the glittering principality of Monaco to the distant Italian coastline, with the endless azure expanse of the Mediterranean unfolding like a sapphire canvas below. This is the view that inspired emperors—the same coastline that Roman legions admired from the nearby Trophée des Alpes, the ancient monument that still crowns La Turbie's summit.
+From the moment you arrive, Villa Rocsea reveals its magic. The villa's elevated position commands a sweeping 180-degree panorama that stretches from the glittering principality of Monaco to the distant Italian coastline, with the endless azure expanse of the Mediterranean unfolding like a sapphire canvas below. This is the view that inspired emperors—the same coastline that Roman legions admired from the nearby Trophée des Alpes, the ancient monument that still crowns La Turbie's summit.
 
-The architecture of Villa Lumière pays elegant homage to classic Provençal design while embracing every modern comfort. Sun-drenched interiors—flooded with that distinctive Mediterranean light for which the villa is named—flow effortlessly through French doors onto multiple terraces, creating the seamless indoor-outdoor lifestyle that defines Riviera living at its finest. Natural stone, warm terracotta, and carefully curated furnishings create spaces that feel both timeless and utterly contemporary.
+The architecture of Villa Rocsea pays elegant homage to classic Provençal design while embracing every modern comfort. Sun-drenched interiors flow effortlessly through French doors onto multiple terraces, creating the seamless indoor-outdoor lifestyle that defines Riviera living at its finest. Natural stone, warm terracotta, and carefully curated furnishings create spaces that feel both timeless and utterly contemporary.
 
 Inside, four generously proportioned bedrooms provide sanctuary for up to eight guests. The master suite upstairs features a luxurious en-suite bathroom and private terrace where morning espresso becomes a ritual against the backdrop of sunrise over the sea. Two additional bedrooms offer independent Italian showers and captivating garden or sea views, while a versatile fourth room adapts to your needs—be it additional sleeping quarters, a peaceful home office, or a children's playroom.
 
 The heart of the villa is its expansive 60m² living and dining area, where a fully equipped modern kitchen invites culinary adventures with local market finds—ripe tomatoes from Menton, fresh herbs from the village, and wines from nearby Bellet vineyards. A traditional Provençal fireplace adds warmth and atmosphere for cooler evenings, creating the perfect gathering space for conversation and celebration.
 
-Yet it is outdoors where Villa Lumière truly reveals its soul. The swimming pool, designed with three varying depths, accommodates everyone from splashing children to adults seeking a refreshing swim after a day exploring coastal villages. Mature Mediterranean gardens—fragrant with lavender, rosemary, and century-old olive trees—provide shaded sanctuaries for afternoon reading or intimate conversations. The covered dining terrace, equipped with a premium gas BBQ and summer lounge furniture, becomes the stage for unforgettable meals where local wines taste richer and laughter carries on the breeze.
+Yet it is outdoors where Villa Rocsea truly reveals its soul. The swimming pool, designed with three varying depths, accommodates everyone from splashing children to adults seeking a refreshing swim after a day exploring coastal villages. Mature Mediterranean gardens—fragrant with lavender, rosemary, and century-old olive trees—provide shaded sanctuaries for afternoon reading or intimate conversations. The covered dining terrace, equipped with a premium gas BBQ and summer lounge furniture, becomes the stage for unforgettable meals where local wines taste richer and laughter carries on the breeze.
 
-An adorable independent guest house with its own kitchenette can accommodate an additional four people, making Villa Lumière ideal for extended families or groups of friends seeking both togetherness and privacy.
+An adorable independent guest house with its own kitchenette can accommodate an additional four people, making Villa Rocsea ideal for extended families or groups of friends seeking both togetherness and privacy.
 
 La Turbie itself enriches every moment of your stay. This medieval village sits majestically above Monaco along the spectacular Grand Corniche—the legendary cliff-edge road that ranks among the world's most scenic drives. The village center, just minutes by foot, offers authentic Provençal living: a bakery where fresh croissants emerge at dawn, a fromagerie with aged Comté and local chèvre, a weekly market bursting with regional produce, and family-run restaurants serving genuine Mediterranean cuisine.
 
 The crowning jewel is the Trophée des Alpes, the monumental Roman trophy erected by Emperor Augustus in 6 BC to commemorate his conquest of the Alpine tribes. This 2,000-year-old monument towers above the village, a daily reminder that you're living in a landscape where history and natural beauty have intertwined for millennia.
 
-From this privileged vantage point, the entire Côte d'Azur becomes your playground. Monaco's glamour lies just 10 minutes below. The medieval village of Èze, perched impossibly on its clifftop, is eight minutes away. Nice's vibrant markets, museums, and beaches await 20 minutes down the coast. The Italian border beckons 15 minutes to the east. And yet, after a day of exploration, returning to Villa Lumière feels like coming home—to peace, to beauty, to light itself.
+From this privileged vantage point, the entire Côte d'Azur becomes your playground. Monaco's glamour lies just 10 minutes below. The medieval village of Èze, perched impossibly on its clifftop, is eight minutes away. Nice's vibrant markets, museums, and beaches await 20 minutes down the coast. The Italian border beckons 15 minutes to the east. And yet, after a day of exploration, returning to Villa Rocsea feels like coming home—to peace, to beauty, to the perfect harmony of rock and sea.
 
-This is not merely a vacation rental. Villa Lumière is your invitation to experience the French Riviera from its most spectacular perspective—elevated, illuminated, and utterly unforgettable. Here, beneath the eternal Mediterranean sun, in a villa named for light itself, you'll discover why this coastline has captivated dreamers and wanderers for over two thousand years.`,
+This is not merely a vacation rental. Villa Rocsea is your invitation to experience the French Riviera from its most spectacular perspective—elevated, dramatic, and utterly unforgettable. Here, where ancient stone meets endless Mediterranean blue, you'll discover why this coastline has captivated dreamers and wanderers for over two thousand years.`,
     amenities: {
       property: ['The entire place is yours - 350 m² of private luxury', 'Spectacular panoramic Mediterranean and sea views', 'Breathtaking Monaco and Italian coastline vistas', 'Multiple private balconies and terraces', 'Pet-friendly accommodation (well-behaved pets welcome)', 'Private bathroom in each bedroom', 'Family-friendly configuration with versatile rooms'],
       comfort: ['Air conditioning throughout all rooms', 'Central heating system', 'Premium Italian bed linens and plush towels', 'Luxury bathrobes and slippers', 'Professional hairdryers in all bathrooms', 'In-room safes for valuables'],
