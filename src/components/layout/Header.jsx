@@ -1,8 +1,20 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { List, X } from '@phosphor-icons/react'
+import { 
+  List, 
+  X, 
+  House, 
+  Sparkle, 
+  MapTrifold, 
+  Star, 
+  BookOpen, 
+  Heart,
+  ChatCircleDots,
+  CaretRight
+} from '@phosphor-icons/react'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { Separator } from '@/components/ui/separator'
 import LanguageSwitcher from '@/components/shared/LanguageSwitcher'
 import { useTranslation } from '@/hooks/useTranslation'
 
@@ -21,12 +33,12 @@ export default function Header() {
   }, [])
 
   const navLinks = [
-    { path: '/stays', label: t('nav.stays') },
-    { path: '/experiences', label: t('nav.experiences') },
-    { path: '/the-riviera', label: t('nav.theRiviera') },
-    { path: '/reviews', label: t('nav.reviews') },
-    { path: '/how-to-book', label: t('nav.howToBook') },
-    { path: '/our-story', label: t('nav.ourStory') }
+    { path: '/stays', label: t('nav.stays'), icon: House, description: 'Villas & Apartments' },
+    { path: '/experiences', label: t('nav.experiences'), icon: Sparkle, description: 'Curated Extras' },
+    { path: '/the-riviera', label: t('nav.theRiviera'), icon: MapTrifold, description: 'Local Guides' },
+    { path: '/reviews', label: t('nav.reviews'), icon: Star, description: 'Guest Stories' },
+    { path: '/how-to-book', label: t('nav.howToBook'), icon: BookOpen, description: 'Booking Info' },
+    { path: '/our-story', label: t('nav.ourStory'), icon: Heart, description: 'About Us' }
   ]
 
   const isActivePath = (path) => {
@@ -90,36 +102,96 @@ export default function Header() {
                   <List className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-80">
-                <div className="flex flex-col space-y-6 mt-8">
-                  <Link
-                    to="/"
-                    className="text-2xl font-heading font-bold"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    The VIF
-                  </Link>
-                  <nav className="flex flex-col space-y-4">
-                    {navLinks.map((link) => (
-                      <Link
-                        key={link.path}
-                        to={link.path}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className={`text-lg font-medium ${
-                          isActivePath(link.path) ? 'text-primary' : 'text-foreground'
-                        }`}
-                      >
-                        {link.label}
-                      </Link>
-                    ))}
+              <SheetContent side="left" className="w-full sm:w-80 p-0">
+                <div className="flex flex-col h-full">
+                  <div className="px-6 py-6 border-b border-border">
+                    <Link
+                      to="/"
+                      className="text-3xl font-heading font-bold text-foreground"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      The VIF
+                    </Link>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      The Vacation in France
+                    </p>
+                  </div>
+                  
+                  <nav className="flex-1 px-4 py-6 overflow-y-auto">
+                    <div className="space-y-1">
+                      {navLinks.map((link) => {
+                        const Icon = link.icon
+                        const isActive = isActivePath(link.path)
+                        return (
+                          <Link
+                            key={link.path}
+                            to={link.path}
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className={`
+                              group flex items-center gap-4 px-4 py-4 rounded-lg transition-all duration-200
+                              ${isActive 
+                                ? 'bg-primary/10 text-primary' 
+                                : 'text-foreground hover:bg-accent hover:text-accent-foreground'
+                              }
+                            `}
+                          >
+                            <div className={`
+                              p-2 rounded-md transition-colors
+                              ${isActive 
+                                ? 'bg-primary/20 text-primary' 
+                                : 'bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary'
+                              }
+                            `}>
+                              <Icon className="h-5 w-5" weight={isActive ? 'fill' : 'regular'} />
+                            </div>
+                            <div className="flex-1">
+                              <div className="font-medium text-base">{link.label}</div>
+                              <div className="text-xs text-muted-foreground mt-0.5">
+                                {link.description}
+                              </div>
+                            </div>
+                            <CaretRight 
+                              className={`
+                                h-4 w-4 transition-transform
+                                ${isActive ? 'text-primary' : 'text-muted-foreground opacity-0 group-hover:opacity-100'}
+                              `}
+                              weight="bold"
+                            />
+                          </Link>
+                        )
+                      })}
+                    </div>
+
+                    <Separator className="my-6" />
+
                     <Link
                       to="/contact"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="text-lg font-medium text-foreground"
+                      className="group flex items-center gap-4 px-4 py-4 rounded-lg transition-all duration-200 text-foreground hover:bg-accent hover:text-accent-foreground"
                     >
-                      {t('nav.contact')}
+                      <div className="p-2 rounded-md bg-muted text-muted-foreground transition-colors group-hover:bg-primary/10 group-hover:text-primary">
+                        <ChatCircleDots className="h-5 w-5" weight="regular" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="font-medium text-base">{t('nav.contact')}</div>
+                        <div className="text-xs text-muted-foreground mt-0.5">
+                          Get in Touch
+                        </div>
+                      </div>
+                      <CaretRight 
+                        className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-transform"
+                        weight="bold"
+                      />
                     </Link>
                   </nav>
+
+                  <div className="p-6 border-t border-border bg-muted/30">
+                    <Button asChild className="w-full" size="lg">
+                      <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)}>
+                        {t('nav.book')}
+                      </Link>
+                    </Button>
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>
