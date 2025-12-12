@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom'
-import { Bed, Bathtub, Users, WifiHigh, Car, Waves, Check } from '@phosphor-icons/react'
+import { Bed, Bathtub, Users, WifiHigh, Car, Waves, Check, Ruler } from '@phosphor-icons/react'
 import Section from '@/components/shared/Section'
 import AnimatedSection from '@/components/shared/AnimatedSection'
 import { Button } from '@/components/ui/button'
@@ -43,6 +43,12 @@ export default function PropertyDetail() {
             <div className="mb-8">
               <h1 className="text-4xl md:text-5xl font-heading font-semibold mb-2">{property.name}</h1>
               <p className="text-lg text-muted-foreground mb-4">{property.location}</p>
+              {property.exactAddress && (
+                <p className="text-sm text-muted-foreground mb-4 flex items-start gap-2">
+                  <span className="font-medium">📍</span>
+                  <span>{property.exactAddress}</span>
+                </p>
+              )}
               
               <div className="flex flex-wrap gap-4 mb-6">
                 <div className="flex items-center gap-2">
@@ -57,6 +63,12 @@ export default function PropertyDetail() {
                   <Users size={20} className="text-muted-foreground" />
                   <span>Sleeps {property.capacity}</span>
                 </div>
+                {property.size && (
+                  <div className="flex items-center gap-2">
+                    <Ruler size={20} className="text-muted-foreground" />
+                    <span>{property.size} m²</span>
+                  </div>
+                )}
                 {property.hasPool && (
                   <div className="flex items-center gap-2">
                     <Waves size={20} className="text-muted-foreground" />
@@ -67,6 +79,7 @@ export default function PropertyDetail() {
 
               <div className="flex gap-3">
                 {property.hasSeaView && <Badge variant="secondary">Sea View</Badge>}
+                {property.hasBalcony && <Badge variant="secondary">Balcony</Badge>}
                 {property.hasPool && <Badge variant="secondary">Private Pool</Badge>}
                 {property.hasParking && <Badge variant="secondary">Parking</Badge>}
               </div>

@@ -135,44 +135,54 @@ The outdoor space is equally enchanting—a heated pool surrounded by lavender a
     slug: 'athena-apartment',
     name: 'Athena Apartment',
     type: 'apartment',
-    tagline: 'Chic coastal living in the heart of the Riviera',
-    location: 'Beaulieu-sur-Mer, French Riviera',
+    tagline: 'Contemporary elegance on the prestigious Pointe Croisette',
+    location: 'Pointe Croisette, Cannes',
+    exactAddress: 'Residence Athena, 8 rue Eugene Brieux, Pointe Croisette, 06400 Cannes, France',
     price: 220,
-    capacity: 2,
+    capacity: 4,
     bedrooms: 1,
     bathrooms: 1,
+    size: 50,
     hasPool: false,
     hasParking: true,
     hasSeaView: true,
-    shortDescription: 'Perfect for couples seeking an intimate Riviera experience. This thoughtfully designed one-bedroom apartment offers a private balcony with sea views, walkable access to beaches and cafés, and all the charm of coastal French living.',
-    fullDescription: `Athena Apartment is your charming pied-à-terre on the French Riviera. Designed for couples, this one-bedroom retreat combines boutique hotel style with the freedom of your own space.
+    hasBalcony: true,
+    shortDescription: 'Discover refined coastal living in this beautifully appointed 50m² apartment at Residence Athena. Situated on the exclusive Pointe Croisette, this entire place offers sophisticated comfort with free on-site parking, a private balcony, and captivating views—just moments from Cannes\' legendary beaches and world-class dining.',
+    fullDescription: `Welcome to Athena Apartment, your private sanctuary in one of the French Riviera's most coveted addresses. Located within the prestigious Residence Athena on Pointe Croisette, this thoughtfully designed 50m² residence embodies the essence of modern Mediterranean living.
 
-Located in the elegant coastal town of Beaulieu-sur-Mer, you're steps from waterfront restaurants, morning markets, and some of the Riviera's most beautiful beaches. The apartment itself is a study in thoughtful design—high ceilings, soft linens, a well-equipped kitchen, and a balcony where morning coffee and evening aperitifs become daily rituals.
+Step inside to discover a harmonious blend of contemporary design and coastal elegance. The apartment welcomes you with an open, light-filled layout where every detail has been curated for your comfort. Floor-to-ceiling windows bathe the space in natural light, while the refined interior palette of soft neutrals and natural textures creates an atmosphere of serene sophistication.
 
-This is the ideal base for couples who want to explore the Côte d'Azur by day and return to a peaceful, stylish sanctuary by night. Wake to the sound of waves, wander to the beach, discover hidden cafés, and live like a local in one of the Riviera's most enchanting towns.`,
+The residence places you at the heart of Cannes' glamorous coastline, where the Mediterranean's azure waters meet golden sands just steps from your door. From your private balcony, savor morning espresso as sailboats glide across the bay, or unwind with evening aperitifs while the sun sets over the Lérins Islands.
+
+This is more than accommodation—it's your gateway to the authentic Riviera lifestyle. Stroll to pristine beaches in minutes, explore Cannes' renowned restaurants and boutiques, or simply retreat to your beautifully appointed space where every modern amenity awaits. Whether you're seeking a romantic escape, a family retreat, or an extended stay on the Côte d'Azur, Athena Apartment offers the perfect balance of location, luxury, and genuine Mediterranean charm.`,
     amenities: {
-      comfort: ['Air conditioning', 'Heating', 'Quality linens', 'Blackout blinds'],
-      entertainment: ['Smart TV', 'High-speed WiFi', 'Bluetooth speaker'],
-      kitchen: ['Modern kitchenette', 'Nespresso machine', 'Refrigerator', 'Cooking basics'],
-      outdoor: ['Private balcony with sea view', 'Outdoor seating'],
-      services: ['Weekly cleaning', 'Welcome essentials'],
-      parking: ['Dedicated parking space']
+      property: ['Entire place to yourself', '50m² living space', 'Private entrance', 'Non-smoking throughout'],
+      comfort: ['Free WiFi high-speed', 'Air conditioning', 'Premium linens & towels', 'Family-friendly amenities', 'Private bathroom with premium fixtures'],
+      entertainment: ['Smart TV', 'Streaming services available', 'Complimentary WiFi'],
+      kitchen: ['Fully equipped modern kitchen', 'Coffee maker', 'Refrigerator & freezer', 'Cookware & dining essentials', 'Dishware & cutlery'],
+      outdoor: ['Private balcony with seating', 'Panoramic sea views', 'Outdoor furniture', 'Al fresco dining option'],
+      services: ['Professional cleaning', 'Fresh towels & linens', 'Welcome assistance'],
+      parking: ['Free on-site parking', 'Secure parking area', 'Convenient access']
     },
     houseRules: {
-      checkIn: '4:00 PM',
-      checkOut: '10:00 AM',
+      checkIn: '3:00 PM onwards',
+      checkOut: '11:00 AM',
       minStay: '3 nights',
-      smoking: 'Balcony only',
-      pets: 'Not permitted',
-      events: 'No',
+      smoking: 'Non-smoking property',
+      pets: 'Pet-friendly - please inquire',
+      events: 'Contact for approval',
       quietHours: '10:00 PM - 8:00 AM'
     },
-    perfectFor: ['Romantic getaways', 'Couples retreats', 'Solo travelers', 'Extended stays'],
+    perfectFor: ['Romantic getaways', 'Family vacations', 'Beach lovers', 'Extended stays', 'Cannes Film Festival visits', 'Couples retreats'],
     nearbyAttractions: [
-      { name: 'Beach', distance: '2 min walk' },
-      { name: 'Town center', distance: '5 min walk' },
-      { name: 'Monaco', distance: '10 min' },
-      { name: 'Nice', distance: '15 min' }
+      { name: 'Plage de la Croisette', distance: '3 min walk' },
+      { name: 'La Croisette Boulevard', distance: '5 min walk' },
+      { name: 'Palais des Festivals', distance: '12 min walk' },
+      { name: 'Old Port of Cannes', distance: '15 min walk' },
+      { name: 'Le Suquet (Old Town)', distance: '15 min' },
+      { name: 'Cannes City Center', distance: '10 min' },
+      { name: 'Nice Airport', distance: '30 min' },
+      { name: 'Monaco', distance: '40 min' }
     ],
     images: [
       Athena01,
