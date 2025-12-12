@@ -91,6 +91,38 @@ Your mornings begin on the breakfast terrace with fresh croissants and coffee, a
           lat: 43.6970,
           lng: 7.2755,
           distance: '15 min drive'
+        },
+        { 
+          name: 'L\'Aromate', 
+          type: 'Modern French',
+          address: '3 Rue Dalpozzo',
+          lat: 43.6955,
+          lng: 7.2680,
+          distance: '12 min drive'
+        },
+        { 
+          name: 'Bistrot d\'Antoine', 
+          type: 'Traditional Bistro',
+          address: '27 Rue de la Préfecture',
+          lat: 43.6960,
+          lng: 7.2745,
+          distance: '14 min drive'
+        },
+        { 
+          name: 'La Merenda', 
+          type: 'Niçoise Cuisine',
+          address: '4 Rue Raoul Bosio',
+          lat: 43.6968,
+          lng: 7.2748,
+          distance: '15 min drive'
+        },
+        { 
+          name: 'Olive et Artichaut', 
+          type: 'Mediterranean',
+          address: '6 Rue Sainte-Réparate',
+          lat: 43.6972,
+          lng: 7.2752,
+          distance: '15 min drive'
         }
       ],
       attractions: [
@@ -117,6 +149,70 @@ Your mornings begin on the breakfast terrace with fresh croissants and coffee, a
           lat: 43.6965,
           lng: 7.2760,
           distance: '15 min drive'
+        },
+        { 
+          name: 'Cours Saleya Market', 
+          type: 'Market',
+          description: 'Famous flower and food market',
+          lat: 43.6960,
+          lng: 7.2750,
+          distance: '15 min drive'
+        },
+        { 
+          name: 'Musée Matisse', 
+          type: 'Museum',
+          description: 'Collection of Matisse artworks',
+          lat: 43.7190,
+          lng: 7.2780,
+          distance: '18 min drive'
+        },
+        { 
+          name: 'Marc Chagall Museum', 
+          type: 'Museum',
+          description: 'Biblical message artworks',
+          lat: 43.7088,
+          lng: 7.2700,
+          distance: '16 min drive'
+        },
+        { 
+          name: 'Russian Orthodox Cathedral', 
+          type: 'Cultural Site',
+          description: 'Beautiful cathedral architecture',
+          lat: 43.7020,
+          lng: 7.2650,
+          distance: '12 min drive'
+        },
+        { 
+          name: 'Place Masséna', 
+          type: 'Public Square',
+          description: 'Main square with modern art',
+          lat: 43.6975,
+          lng: 7.2700,
+          distance: '13 min drive'
+        },
+        { 
+          name: 'Baie des Anges Beach', 
+          type: 'Beach',
+          description: 'Beautiful pebble beach',
+          lat: 43.6945,
+          lng: 7.2600,
+          distance: '10 min drive'
+        },
+        { 
+          name: 'Phoenix Park', 
+          type: 'Park',
+          description: 'Botanical garden and greenhouses',
+          lat: 43.6820,
+          lng: 7.2160,
+          distance: '14 min drive'
+        },
+        { 
+          name: 'Port Lympia', 
+          type: 'Marina',
+          description: 'Historic port and harbor',
+          lat: 43.6950,
+          lng: 7.2865,
+          distance: '16 min drive'
         }
       ]
     },
@@ -200,6 +296,30 @@ The outdoor space is equally enchanting—a heated pool surrounded by lavender a
           lat: 43.7270,
           lng: 7.3610,
           distance: '5 min drive'
+        },
+        { 
+          name: 'La Chaumière', 
+          type: 'Mediterranean',
+          address: 'Avenue de la Liberté',
+          lat: 43.7250,
+          lng: 7.3590,
+          distance: '6 min drive'
+        },
+        { 
+          name: 'Le Bistrot du Cap', 
+          type: 'French Bistro',
+          address: 'Boulevard de la Mer',
+          lat: 43.7180,
+          lng: 7.3560,
+          distance: '7 min drive'
+        },
+        { 
+          name: 'Les Remparts', 
+          type: 'Provençal',
+          address: 'Rue du Barri',
+          lat: 43.7273,
+          lng: 7.3617,
+          distance: '5 min drive'
         }
       ],
       attractions: [
@@ -234,6 +354,70 @@ The outdoor space is equally enchanting—a heated pool surrounded by lavender a
           lat: 43.7190,
           lng: 7.3570,
           distance: '8 min drive'
+        },
+        { 
+          name: 'Cap-d\'Ail Beach', 
+          type: 'Beach',
+          description: 'Beautiful coastal beach',
+          lat: 43.7210,
+          lng: 7.3950,
+          distance: '9 min drive'
+        },
+        { 
+          name: 'Monaco Casino', 
+          type: 'Entertainment',
+          description: 'Iconic Monte Carlo Casino',
+          lat: 43.7395,
+          lng: 7.4285,
+          distance: '11 min drive'
+        },
+        { 
+          name: 'Oceanographic Museum', 
+          type: 'Museum',
+          description: 'Marine science museum in Monaco',
+          lat: 43.7306,
+          lng: 7.4254,
+          distance: '10 min drive'
+        },
+        { 
+          name: 'Monaco Grand Prix Circuit', 
+          type: 'Landmark',
+          description: 'Famous F1 street circuit',
+          lat: 43.7347,
+          lng: 7.4206,
+          distance: '11 min drive'
+        },
+        { 
+          name: 'Villa Kerylos', 
+          type: 'Historic Site',
+          description: 'Ancient Greek-style villa',
+          lat: 43.7075,
+          lng: 7.3302,
+          distance: '8 min drive'
+        },
+        { 
+          name: 'Sentier Littoral Trail', 
+          type: 'Hiking',
+          description: 'Scenic coastal walking path',
+          lat: 43.7200,
+          lng: 7.3750,
+          distance: '7 min drive'
+        },
+        { 
+          name: 'Beaulieu-sur-Mer', 
+          type: 'Town',
+          description: 'Charming seaside town',
+          lat: 43.7070,
+          lng: 7.3300,
+          distance: '7 min drive'
+        },
+        { 
+          name: 'Fragonard Perfumery Èze', 
+          type: 'Shopping',
+          description: 'Historic perfume factory',
+          lat: 43.7278,
+          lng: 7.3618,
+          distance: '5 min drive'
         }
       ]
     },
@@ -347,6 +531,46 @@ This is more than accommodation—it's your gateway to the authentic Riviera lif
           lat: 43.5488,
           lng: 7.0175,
           distance: '12 min walk'
+        },
+        { 
+          name: 'Astoux et Brun', 
+          type: 'Seafood',
+          address: '27 Rue Félix Faure',
+          lat: 43.5502,
+          lng: 7.0182,
+          distance: '10 min walk'
+        },
+        { 
+          name: 'Le Maschou', 
+          type: 'Provençal',
+          address: '15 Rue Saint-Antoine',
+          lat: 43.5490,
+          lng: 7.0177,
+          distance: '11 min walk'
+        },
+        { 
+          name: 'L\'Affable', 
+          type: 'Modern French',
+          address: '5 Rue La Fontaine',
+          lat: 43.5515,
+          lng: 7.0158,
+          distance: '13 min walk'
+        },
+        { 
+          name: 'Aux Bons Enfants', 
+          type: 'Traditional Niçoise',
+          address: '80 Rue Meynadier',
+          lat: 43.5508,
+          lng: 7.0170,
+          distance: '12 min walk'
+        },
+        { 
+          name: 'Sea Sens', 
+          type: 'Contemporary',
+          address: '5 Promenade de la Croisette',
+          lat: 43.5492,
+          lng: 7.0215,
+          distance: '7 min walk'
         }
       ],
       attractions: [
@@ -389,6 +613,102 @@ This is more than accommodation—it's your gateway to the authentic Riviera lif
           lat: 43.5200,
           lng: 7.0500,
           distance: '15 min by ferry'
+        },
+        { 
+          name: 'La Croisette Boulevard', 
+          type: 'Shopping',
+          description: 'Luxury shopping promenade',
+          lat: 43.5497,
+          lng: 7.0225,
+          distance: '5 min walk'
+        },
+        { 
+          name: 'Carlton Beach Club', 
+          type: 'Beach Club',
+          description: 'Exclusive beach club experience',
+          lat: 43.5493,
+          lng: 7.0230,
+          distance: '5 min walk'
+        },
+        { 
+          name: 'Old Port (Vieux Port)', 
+          type: 'Marina',
+          description: 'Charming harbor with yachts',
+          lat: 43.5505,
+          lng: 7.0155,
+          distance: '12 min walk'
+        },
+        { 
+          name: 'Rue d\'Antibes', 
+          type: 'Shopping',
+          description: 'Premier shopping street',
+          lat: 43.5503,
+          lng: 7.0185,
+          distance: '10 min walk'
+        },
+        { 
+          name: 'Musée de la Castre', 
+          type: 'Museum',
+          description: 'Art and antiquities in medieval castle',
+          lat: 43.5532,
+          lng: 7.0152,
+          distance: '16 min walk'
+        },
+        { 
+          name: 'Notre-Dame d\'Espérance', 
+          type: 'Church',
+          description: 'Historic church in Le Suquet',
+          lat: 43.5533,
+          lng: 7.0153,
+          distance: '16 min walk'
+        },
+        { 
+          name: 'Plage du Midi', 
+          type: 'Beach',
+          description: 'Less crowded public beach',
+          lat: 43.5470,
+          lng: 7.0110,
+          distance: '18 min walk'
+        },
+        { 
+          name: 'La Malmaison', 
+          type: 'Art Gallery',
+          description: 'Contemporary art exhibitions',
+          lat: 43.5508,
+          lng: 7.0190,
+          distance: '10 min walk'
+        },
+        { 
+          name: 'Casino Barrière', 
+          type: 'Entertainment',
+          description: 'Casino and entertainment venue',
+          lat: 43.5512,
+          lng: 7.0178,
+          distance: '11 min walk'
+        },
+        { 
+          name: 'Sainte-Marguerite Island', 
+          type: 'Nature',
+          description: 'Island with Fort Royal and beaches',
+          lat: 43.5180,
+          lng: 7.0480,
+          distance: '15 min by ferry'
+        },
+        { 
+          name: 'Saint-Honorat Island', 
+          type: 'Cultural Site',
+          description: 'Island monastery and vineyards',
+          lat: 43.5070,
+          lng: 7.0500,
+          distance: '20 min by ferry'
+        },
+        { 
+          name: 'Cannes Marina', 
+          type: 'Marina',
+          description: 'Modern yacht harbor',
+          lat: 43.5362,
+          lng: 6.9580,
+          distance: '20 min drive'
         }
       ]
     },
