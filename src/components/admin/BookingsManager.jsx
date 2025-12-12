@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useKV } from '@github/spark/hooks'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -10,8 +10,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea'
 import { properties } from '@/data/properties'
 import { format } from 'date-fns'
-import { Plus, User, Bed, CalendarBlank, MapPin, Envelope, Phone, Trash, Eye } from '@phosphor-icons/react'
+import { Plus, User, Bed, CalendarBlank, MapPin, Envelope, Phone, Trash, Eye, PaperPlaneRight } from '@phosphor-icons/react'
 import { toast } from 'sonner'
+import { sendBookingNotification, getEmailSettings } from '@/lib/emailNotifications'
 
 function BookingsManager() {
   const [bookings, setBookings] = useKV('admin-bookings', [])
@@ -19,6 +20,7 @@ function BookingsManager() {
   const [selectedBooking, setSelectedBooking] = useState(null)
   const [filterStatus, setFilterStatus] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
+  const [emailNotificationsEnabled, setEmailNotificationsEnabled] = useState(false)
 
   const [formData, setFormData] = useState({
     propertyId: '',
@@ -31,6 +33,14 @@ function BookingsManager() {
     status: 'confirmed',
     notes: ''
   })
+
+  useEffect(() => {
+    const checkEmailSettings = async () => {
+      const settings = await getEmailSettings()
+      setEmailNotificationsEnabled(settings.enabled && settings.recipientEmail)
+    }
+    checkEmailSettings()
+  }, [])
 
   const filteredBookings = useMemo(() => {
     let filtered = bookings || []
@@ -61,7 +71,7 @@ function BookingsManager() {
     }
   }, [bookings])
 
-  const handleAddBooking = () => {
+  const handleAddBooking = async () => {
     if (!formData.propertyId || !formData.guestName || !formData.guestEmail || !formData.checkIn || !formData.checkOut) {
       toast.error('Please fill in all required fields')
       return
@@ -107,6 +117,11 @@ function BookingsManager() {
     
     setIsAddDialogOpen(false)
     toast.success('Booking added successfully')
+
+    const emailSettings = await getEmailSettings()
+    if (emailSettings.enabled && emailSettings.notifyOnNew) {
+      await sendBookingNotification(newBooking, 'new')
+    }
   }
 
   const handleDeleteBooking = (id) => {
@@ -114,11 +129,29 @@ function BookingsManager() {
     toast.success('Booking deleted')
   }
 
-  const handleUpdateStatus = (id, status) => {
+  const handleUpdateStatus = async (id, newStatus) => {
+    const booking = bookings.find(b => b.id === id)
+    if (!booking) return
+
+    const oldStatus = booking.status
+    
     setBookings(current => 
-      (current || []).map(b => b.id === id ? { ...b, status } : b)
+      (current || []).map(b => b.id === id ? { ...b, status: newStatus } : b)
     )
     toast.success('Booking status updated')
+
+    const emailSettings = await getEmailSettings()
+    if (!emailSettings.enabled) return
+
+    const updatedBooking = { ...booking, status: newStatus }
+    
+    if (newStatus === 'confirmed' && oldStatus !== 'confirmed' && emailSettings.notifyOnConfirmed) {
+      await sendBookingNotification(updatedBooking, 'confirmed')
+    } else if (newStatus === 'cancelled' && oldStatus !== 'cancelled' && emailSettings.notifyOnCancelled) {
+      await sendBookingNotification(updatedBooking, 'cancelled')
+    } else if (emailSettings.notifyOnUpdated) {
+      await sendBookingNotification(updatedBooking, 'updated')
+    }
   }
 
   const getStatusColor = (status) => {
@@ -167,7 +200,15 @@ function BookingsManager() {
           <div className="flex items-center justify-between">
             <div>
               <CardTitle>All Bookings</CardTitle>
-              <CardDescription>Manage guest reservations across all properties</CardDescription>
+              <CardDescription>
+                Manage guest reservations across all properties
+                {emailNotificationsEnabled && (
+                  <span className="inline-flex items-center gap-1 ml-2 text-green-600">
+                    <PaperPlaneRight size={14} />
+                    Email notifications active
+                  </span>
+                )}
+              </CardDescription>
             </div>
             <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
               <DialogTrigger asChild>

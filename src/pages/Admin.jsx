@@ -7,7 +7,8 @@ import PropertyManager from '@/components/admin/PropertyManager'
 import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard'
 import GuestCommunications from '@/components/admin/GuestCommunications'
 import ReportsExport from '@/components/admin/ReportsExport'
-import { Lock, ChartLine, CalendarBlank, Bed, Chat, House, FileText } from '@phosphor-icons/react'
+import EmailNotificationSettings from '@/components/admin/EmailNotificationSettings'
+import { Lock, ChartLine, CalendarBlank, Bed, Chat, House, FileText, Envelope } from '@phosphor-icons/react'
 import { Button } from '@/components/ui/button'
 
 function Admin() {
@@ -97,6 +98,10 @@ function Admin() {
               <Chat size={18} />
               Guests
             </TabsTrigger>
+            <TabsTrigger value="notifications" className="gap-2">
+              <Envelope size={18} />
+              Notifications
+            </TabsTrigger>
             <TabsTrigger value="reports" className="gap-2">
               <FileText size={18} />
               Reports
@@ -121,6 +126,10 @@ function Admin() {
 
           <TabsContent value="guests">
             <GuestCommunications />
+          </TabsContent>
+
+          <TabsContent value="notifications">
+            <EmailNotificationSettings />
           </TabsContent>
 
           <TabsContent value="reports">
