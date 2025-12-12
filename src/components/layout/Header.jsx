@@ -3,11 +3,14 @@ import { Link, useLocation } from 'react-router-dom'
 import { List, X } from '@phosphor-icons/react'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import LanguageSwitcher from '@/components/shared/LanguageSwitcher'
+import { useTranslation } from '@/hooks/useTranslation'
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const location = useLocation()
+  const { t } = useTranslation()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,12 +21,12 @@ export default function Header() {
   }, [])
 
   const navLinks = [
-    { path: '/stays', label: 'Stays' },
-    { path: '/experiences', label: 'Experiences' },
-    { path: '/the-riviera', label: 'The Riviera' },
-    { path: '/reviews', label: 'Reviews' },
-    { path: '/how-to-book', label: 'How to Book' },
-    { path: '/our-story', label: 'Our Story' }
+    { path: '/stays', label: t('nav.stays') },
+    { path: '/experiences', label: t('nav.experiences') },
+    { path: '/the-riviera', label: t('nav.theRiviera') },
+    { path: '/reviews', label: t('nav.reviews') },
+    { path: '/how-to-book', label: t('nav.howToBook') },
+    { path: '/our-story', label: t('nav.ourStory') }
   ]
 
   const isActivePath = (path) => {
@@ -67,17 +70,19 @@ export default function Header() {
           </nav>
 
           <div className="hidden lg:flex items-center space-x-4">
+            <LanguageSwitcher />
             <Button asChild variant="ghost" size="sm">
-              <Link to="/contact">Contact</Link>
+              <Link to="/contact">{t('nav.contact')}</Link>
             </Button>
             <Button asChild size="sm">
-              <Link to="/contact">Book Now</Link>
+              <Link to="/contact">{t('nav.book')}</Link>
             </Button>
           </div>
 
           <div className="flex lg:hidden items-center space-x-3">
+            <LanguageSwitcher />
             <Button asChild size="sm">
-              <Link to="/contact">Book</Link>
+              <Link to="/contact">{t('nav.book')}</Link>
             </Button>
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
@@ -112,7 +117,7 @@ export default function Header() {
                       onClick={() => setIsMobileMenuOpen(false)}
                       className="text-lg font-medium text-foreground"
                     >
-                      Contact
+                      {t('nav.contact')}
                     </Link>
                   </nav>
                 </div>

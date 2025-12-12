@@ -4,9 +4,11 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 import { toast } from 'sonner'
+import { useTranslation } from '@/hooks/useTranslation'
 
 export default function Footer() {
   const [email, setEmail] = useState('')
+  const { t } = useTranslation()
 
   const handleNewsletterSubmit = (e) => {
     e.preventDefault()
@@ -23,8 +25,7 @@ export default function Footer() {
           <div>
             <h3 className="text-2xl font-heading font-bold mb-4">The VIF</h3>
             <p className="text-muted-foreground text-sm mb-4">
-              Your French Riviera retreat. Curated villas and apartments for unforgettable
-              Mediterranean escapes.
+              {t('footer.tagline')}
             </p>
             <div className="flex space-x-3">
               <a
@@ -53,57 +54,57 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-medium mb-4">Explore</h4>
+            <h4 className="font-medium mb-4">{t('footer.quickLinks')}</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link to="/stays" className="text-muted-foreground hover:text-primary transition-colors">
-                  Our Stays
+                  {t('nav.stays')}
                 </Link>
               </li>
               <li>
                 <Link to="/experiences" className="text-muted-foreground hover:text-primary transition-colors">
-                  Experiences
+                  {t('nav.experiences')}
                 </Link>
               </li>
               <li>
                 <Link to="/the-riviera" className="text-muted-foreground hover:text-primary transition-colors">
-                  The Riviera
+                  {t('nav.theRiviera')}
                 </Link>
               </li>
               <li>
                 <Link to="/reviews" className="text-muted-foreground hover:text-primary transition-colors">
-                  Guest Reviews
+                  {t('nav.reviews')}
                 </Link>
               </li>
               <li>
                 <Link to="/how-to-book" className="text-muted-foreground hover:text-primary transition-colors">
-                  How to Book
+                  {t('nav.howToBook')}
                 </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-medium mb-4">About</h4>
+            <h4 className="font-medium mb-4">{t('nav.ourStory')}</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link to="/our-story" className="text-muted-foreground hover:text-primary transition-colors">
-                  Our Story
+                  {t('nav.ourStory')}
                 </Link>
               </li>
               <li>
                 <Link to="/contact" className="text-muted-foreground hover:text-primary transition-colors">
-                  Contact Us
+                  {t('nav.contact')}
                 </Link>
               </li>
               <li>
                 <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                  Privacy Policy
+                  {t('footer.privacy')}
                 </a>
               </li>
               <li>
                 <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                  Terms of Service
+                  {t('footer.terms')}
                 </a>
               </li>
             </ul>
@@ -117,7 +118,7 @@ export default function Footer() {
             <form onSubmit={handleNewsletterSubmit} className="flex flex-col space-y-2">
               <Input
                 type="email"
-                placeholder="Your email"
+                placeholder={t('contact.email')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -131,7 +132,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-12 pt-8 border-t border-border text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} The VIF. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} The VIF. {t('footer.allRightsReserved')}</p>
         </div>
       </div>
     </footer>

@@ -71,6 +71,13 @@ Your French Riviera retreat awaits. A premium vacation rental platform showcasin
 - **Progression**: Click image/button → Lightbox opens full-screen → View current image → Swipe/arrow to next/previous → Zoom in to inspect details → Pan around zoomed image → Click thumbnails to jump to specific image → Press ESC or close to exit
 - **Success criteria**: Smooth 60fps animations; touch gestures work intuitively on mobile; zoom functionality allows detailed inspection; keyboard shortcuts work (arrows, +/-, ESC); no lag or janky transitions
 
+### Multilingual Support
+- **Functionality**: Complete internationalization system with 5 languages (English, French, Italian, German, Spanish); language switcher in header; automatic browser language detection; persistent language preference
+- **Purpose**: Serve international guests from across Europe and beyond; remove language barriers to booking; demonstrate international professionalism; improve conversion for non-English speakers
+- **Trigger**: User visits site → Language auto-detected from browser → User can manually switch via language dropdown in header → Selection persists across sessions
+- **Progression**: Visit site → See content in auto-detected/previously selected language → Click language switcher (globe icon) → Select preferred language from dropdown → All UI and content updates instantly → Preference saved for future visits
+- **Success criteria**: All navigation, property details, forms, and UI elements translated; language selection persists via useKV; smooth instant updates when switching languages; no page reload required; flag icons and language names clearly visible in dropdown
+
 ## Edge Case Handling
 
 - **No Properties Available for Dates** – Show alternative date suggestions or waitlist signup option
