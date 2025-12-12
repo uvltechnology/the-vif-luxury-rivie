@@ -183,19 +183,19 @@ This is not merely a vacation rental. Villa Lumière is your invitation to exper
       parking: ['Free on-site parking for 2 vehicles', 'Secure covered parking area', 'Electric vehicle charging station available']
     },
     houseRules: {
-      checkIn: 'From 2:00 PM to 8:00 PM - Please notify the property in advance of your expected arrival time',
-      checkOut: 'From 8:00 AM to 11:00 AM',
+      checkIn: 'From 12:00 PM to 8:00 PM - You need to let the property know what time you\'ll be arriving in advance.',
+      checkOut: 'From 10:00 AM to 2:00 PM',
       minStay: '7 nights (July-August), 5 nights (June & September), 3 nights (October-May)',
-      smoking: 'Smoking is not allowed inside. Outdoor terraces only.',
-      pets: 'Not permitted',
-      events: 'Small gatherings and celebrations permitted with advance approval',
-      quietHours: 'Guests are asked to be respectful of neighbors between 10:00 PM and 8:00 AM',
-      ageRestriction: 'No age requirement for check-in',
-      children: 'Children of all ages are warmly welcomed. Please add the number and ages of children to your booking for accurate pricing and amenities.',
-      cribs: 'Baby cribs and high chairs available upon request (free of charge, subject to availability)',
-      cancellation: 'Cancellation and prepayment policies vary according to accommodation type and season. Please check conditions at time of booking.',
-      damageDeposit: '€600 damage deposit required on arrival (collected by credit card). Refunded within 7 days of check-out subject to property inspection.',
-      payment: 'Payment handled securely through booking platform. Please have cash available for any extras or local experiences during your stay.'
+      smoking: 'Smoking is not allowed',
+      pets: 'Pets are allowed on request. Charges may apply.',
+      events: 'Parties/events are not allowed',
+      quietHours: 'Guests need to be quiet between 10:00 PM and 8:00 AM',
+      ageRestriction: 'There\'s no age requirement for check-in',
+      children: 'Children of all ages are welcome. To see correct prices and occupancy info, add the number and ages of children in your group to your search.',
+      cribs: 'Cribs and extra beds aren\'t available at this property',
+      cancellation: 'Cancellation and prepayment policies vary according to accommodation type. Enter your stay dates and check the conditions of your selected option.',
+      damageDeposit: 'A damage deposit of €2,000 is required. The property charges this 7 days before arrival. That\'s about S$3,016. You should be reimbursed within 7 days of check-out.',
+      payment: 'Booking.com takes your payment for this stay on behalf of the property, but make sure you have cash for any extras once you get there.'
     },
     perfectFor: ['Multi-generational family gatherings', 'Milestone celebrations and special occasions', 'Romantic escapes with extraordinary views', 'Friends retreating together', 'Peaceful writing or creative retreats', 'Photography enthusiasts', 'History and culture lovers', 'Remote work with inspiring surroundings'],
     nearbyAttractions: [
