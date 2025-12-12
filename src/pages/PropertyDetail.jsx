@@ -3,12 +3,12 @@ import { Bed, Bathtub, Users, WifiHigh, Car, Waves, Check, Ruler } from '@phosph
 import Section from '@/components/shared/Section'
 import AnimatedSection from '@/components/shared/AnimatedSection'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { properties } from '@/data/properties'
 import PropertyTestimonials from '@/components/stays/PropertyTestimonials'
 import PropertyGallery from '@/components/stays/PropertyGallery'
 import PropertyMap from '@/components/stays/PropertyMap'
+import BookingCalendar from '@/components/stays/BookingCalendar'
 import { 
   Accordion,
   AccordionContent,
@@ -294,26 +294,7 @@ export default function PropertyDetail() {
           </div>
 
           <div className="lg:col-span-1">
-            <Card className="sticky top-24">
-              <CardContent className="p-6">
-                <div className="mb-6">
-                  <p className="text-sm text-muted-foreground mb-1">From</p>
-                  <p className="text-4xl font-bold text-primary">€{property.price}</p>
-                  <p className="text-sm text-muted-foreground">per night</p>
-                </div>
-
-                <Button asChild className="w-full mb-4" size="lg">
-                  <Link to="/contact">Check Availability</Link>
-                </Button>
-
-                <div className="border-t pt-4 space-y-2 text-sm text-muted-foreground">
-                  <p>• Free cancellation up to 60 days</p>
-                  <p>• 30% deposit required</p>
-                  <p>• Weekly cleaning included</p>
-                  <p>• Welcome concierge service</p>
-                </div>
-              </CardContent>
-            </Card>
+            <BookingCalendar property={property} />
           </div>
         </div>
       </div>
