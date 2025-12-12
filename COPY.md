@@ -15,12 +15,12 @@ Escape to the French Riviera with The VIF. We curate a select collection of vill
 
 ---
 
-## Generic Villa Introduction (Villa Lumière)
-Villa Lumière embodies the essence of French Riviera living. This stunning four-bedroom residence sits elevated above the coastline, offering uninterrupted views across the azure Mediterranean.
+## Villa Lumière Introduction
+Villa Lumière—aptly named "Light"—embodies the luminous quality that bathes this exceptional La Turbie residence. This stunning four-bedroom villa sits at 205 Chemin de Giram, elevated 450 meters above the Mediterranean, where ancient Roman heritage meets contemporary Riviera luxury.
 
-The villa's architecture pays homage to classic Provençal design while incorporating modern amenities for today's discerning traveler. Sun-drenched interiors flow seamlessly to multiple outdoor terraces, creating an effortless indoor-outdoor lifestyle.
+From this privileged vantage point, sweeping 180-degree panoramas unfold from Monaco's glittering harbor to the distant Italian coastline. The villa's architecture pays homage to classic Provençal design while incorporating every modern comfort—sun-drenched interiors flow seamlessly through French doors to multiple terraces, creating the effortless indoor-outdoor lifestyle that defines Mediterranean living.
 
-Your mornings begin on the breakfast terrace with fresh croissants and coffee, afternoons by the infinity pool, and evenings watching the sun paint the sky in shades of rose and gold. This is more than accommodation—it's an experience of the Riviera at its finest.
+Your mornings begin with espresso on the breakfast terrace beneath the shadow of the ancient Trophée des Alpes, afternoons by the pool with three depths for all ages, and evenings watching sunset paint the sea in rose and gold. Here, in the same landscape that captivated Roman emperors, you'll discover why La Turbie remains one of the Riviera's most spectacular and historically significant addresses. This is more than accommodation—it's an invitation to live elevated, illuminated, and utterly immersed in the timeless beauty of the Côte d'Azur.
 
 ---
 

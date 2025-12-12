@@ -134,8 +134,9 @@ export const properties = [
     slug: 'villa-lumiere',
     name: 'Villa Lumière',
     type: 'villa',
-    tagline: 'Mediterranean elegance with panoramic sea views',
-    location: 'Nice, French Riviera',
+    tagline: 'Where light embraces the Mediterranean at La Turbie\'s most enchanting address',
+    location: 'La Turbie, French Riviera',
+    exactAddress: '205 Chemin de Giram, 06320 La Turbie, France',
     price: 450,
     capacity: 8,
     bedrooms: 4,
@@ -143,183 +144,316 @@ export const properties = [
     hasPool: true,
     hasParking: true,
     hasSeaView: true,
-    shortDescription: 'Perched on the hillside overlooking the Mediterranean, Villa Lumière combines classic Riviera architecture with contemporary comfort. Four spacious bedrooms, an infinity pool, and terraces that capture the sunset make this your perfect French escape.',
-    fullDescription: `Villa Lumière embodies the essence of French Riviera living. This stunning four-bedroom residence sits elevated above the coastline, offering uninterrupted views across the azure Mediterranean.
+    shortDescription: 'Discover Villa Lumière—aptly named "Light"—where La Turbie\'s golden sunshine meets sweeping Mediterranean panoramas. This four-bedroom sanctuary at 205 Chemin de Giram captures the very soul of elevated Riviera living, where ancient Roman heritage, breathtaking vistas, and contemporary luxury converge beneath the watchful gaze of the Trophée des Alpes.',
+    fullDescription: `Villa Lumière—named for the luminous quality of light that bathes this exceptional residence—stands as a beacon of refined living in La Turbie, one of the French Riviera's most spectacular and historically significant hilltop villages. Positioned at 205 Chemin de Giram at 450 meters above sea level, this magnificent four-bedroom villa offers more than breathtaking views; it offers a rare opportunity to inhabit the same dramatic landscape that has captivated Romans, artists, and aristocrats for over two millennia.
 
-The villa's architecture pays homage to classic Provençal design while incorporating modern amenities for today's discerning traveler. Sun-drenched interiors flow seamlessly to multiple outdoor terraces, creating an effortless indoor-outdoor lifestyle.
+From the moment you arrive, Villa Lumière reveals its magic. The villa's elevated position commands a sweeping 180-degree panorama that stretches from the glittering principality of Monaco to the distant Italian coastline, with the endless azure expanse of the Mediterranean unfolding like a sapphire canvas below. This is the view that inspired emperors—the same coastline that Roman legions admired from the nearby Trophée des Alpes, the ancient monument that still crowns La Turbie's summit.
 
-Your mornings begin on the breakfast terrace with fresh croissants and coffee, afternoons by the infinity pool, and evenings watching the sun paint the sky in shades of rose and gold. This is more than accommodation—it's an experience of the Riviera at its finest.`,
+The architecture of Villa Lumière pays elegant homage to classic Provençal design while embracing every modern comfort. Sun-drenched interiors—flooded with that distinctive Mediterranean light for which the villa is named—flow effortlessly through French doors onto multiple terraces, creating the seamless indoor-outdoor lifestyle that defines Riviera living at its finest. Natural stone, warm terracotta, and carefully curated furnishings create spaces that feel both timeless and utterly contemporary.
+
+Inside, four generously proportioned bedrooms provide sanctuary for up to eight guests. The master suite upstairs features a luxurious en-suite bathroom and private terrace where morning espresso becomes a ritual against the backdrop of sunrise over the sea. Two additional bedrooms offer independent Italian showers and captivating garden or sea views, while a versatile fourth room adapts to your needs—be it additional sleeping quarters, a peaceful home office, or a children's playroom.
+
+The heart of the villa is its expansive 60m² living and dining area, where a fully equipped modern kitchen invites culinary adventures with local market finds—ripe tomatoes from Menton, fresh herbs from the village, and wines from nearby Bellet vineyards. A traditional Provençal fireplace adds warmth and atmosphere for cooler evenings, creating the perfect gathering space for conversation and celebration.
+
+Yet it is outdoors where Villa Lumière truly reveals its soul. The swimming pool, designed with three varying depths, accommodates everyone from splashing children to adults seeking a refreshing swim after a day exploring coastal villages. Mature Mediterranean gardens—fragrant with lavender, rosemary, and century-old olive trees—provide shaded sanctuaries for afternoon reading or intimate conversations. The covered dining terrace, equipped with a premium gas BBQ and summer lounge furniture, becomes the stage for unforgettable meals where local wines taste richer and laughter carries on the breeze.
+
+An adorable independent guest house with its own kitchenette can accommodate an additional four people, making Villa Lumière ideal for extended families or groups of friends seeking both togetherness and privacy.
+
+La Turbie itself enriches every moment of your stay. This medieval village sits majestically above Monaco along the spectacular Grand Corniche—the legendary cliff-edge road that ranks among the world's most scenic drives. The village center, just minutes by foot, offers authentic Provençal living: a bakery where fresh croissants emerge at dawn, a fromagerie with aged Comté and local chèvre, a weekly market bursting with regional produce, and family-run restaurants serving genuine Mediterranean cuisine.
+
+The crowning jewel is the Trophée des Alpes, the monumental Roman trophy erected by Emperor Augustus in 6 BC to commemorate his conquest of the Alpine tribes. This 2,000-year-old monument towers above the village, a daily reminder that you're living in a landscape where history and natural beauty have intertwined for millennia.
+
+From this privileged vantage point, the entire Côte d'Azur becomes your playground. Monaco's glamour lies just 10 minutes below. The medieval village of Èze, perched impossibly on its clifftop, is eight minutes away. Nice's vibrant markets, museums, and beaches await 20 minutes down the coast. The Italian border beckons 15 minutes to the east. And yet, after a day of exploration, returning to Villa Lumière feels like coming home—to peace, to beauty, to light itself.
+
+This is not merely a vacation rental. Villa Lumière is your invitation to experience the French Riviera from its most spectacular perspective—elevated, illuminated, and utterly unforgettable. Here, beneath the eternal Mediterranean sun, in a villa named for light itself, you'll discover why this coastline has captivated dreamers and wanderers for over two thousand years.`,
     amenities: {
-      comfort: ['Air conditioning throughout', 'Underfloor heating', 'Premium linens & towels', 'Blackout curtains', 'Safe'],
-      entertainment: ['Smart TV in living room', 'Sonos sound system', 'High-speed WiFi 100Mbps', 'Board games & books'],
-      kitchen: ['Fully equipped modern kitchen', 'Nespresso coffee machine', 'Dishwasher', 'Wine fridge', 'BBQ grill'],
-      outdoor: ['Infinity pool (heated)', 'Multiple terraces', 'Outdoor dining for 8', 'Sun loungers', 'Poolside shower'],
-      services: ['Welcome concierge', 'Mid-stay cleaning included', 'Pool maintenance', 'Garden upkeep'],
-      parking: ['2 private parking spaces', 'Electric vehicle charging']
+      property: ['The entire villa is yours - 250 m² of private luxury', 'Spectacular panoramic Mediterranean views', 'Breathtaking Monaco and Italian coastline vistas', 'Multiple private terraces and outdoor spaces', 'Family-friendly configuration with versatile rooms'],
+      comfort: ['Air conditioning throughout all rooms', 'Central heating system', 'Premium Italian bed linens and plush towels', 'Luxury bathrobes and slippers', 'Professional hairdryers in all bathrooms', 'In-room safes for valuables'],
+      entertainment: ['Smart 4K TVs with international satellite channels', 'Premium Bluetooth sound system', 'Free ultra-high-speed WiFi 150Mbps', 'Curated library of art, history & travel books', 'Board games, playing cards, and children\'s activities'],
+      kitchen: ['Fully equipped gourmet kitchen with modern appliances', 'Professional Nespresso coffee machine', 'Premium cookware, bakeware & utensils', 'Wine refrigerator for proper storage', 'Full-size dishwasher', 'Premium outdoor Weber gas BBQ grill'],
+      outdoor: ['Swimming pool with three depths for all ages', 'Lush mature Mediterranean gardens with olive trees', 'Multiple shaded terraces with comfortable lounge areas', 'Covered outdoor dining for 8 with ambient lighting', 'Premium sun loungers and parasols', 'Outdoor shower and pool amenities', 'Pool safety fence available for young children'],
+      services: ['Personalized welcome and property orientation', 'Weekly professional cleaning included', 'Daily pool and garden maintenance', 'Concierge recommendations and local guidance', 'Complimentary welcome provisions basket', 'Guest house available for additional booking (sleeps 4)'],
+      parking: ['Free private on-site parking for 2 vehicles', 'Secure covered parking area', 'Electric vehicle charging station available']
     },
     houseRules: {
-      checkIn: '4:00 PM',
-      checkOut: '10:00 AM',
-      minStay: '7 nights (peak season), 3 nights (off-season)',
-      smoking: 'Outdoor areas only',
+      checkIn: 'From 2:00 PM to 8:00 PM - Please notify the property in advance of your expected arrival time',
+      checkOut: 'From 8:00 AM to 11:00 AM',
+      minStay: '7 nights (July-August), 5 nights (June & September), 3 nights (October-May)',
+      smoking: 'Smoking is not allowed inside. Outdoor terraces only.',
       pets: 'Not permitted',
-      events: 'Contact for approval',
-      quietHours: '10:00 PM - 8:00 AM'
+      events: 'Small gatherings and celebrations permitted with advance approval',
+      quietHours: 'Guests are asked to be respectful of neighbors between 10:00 PM and 8:00 AM',
+      ageRestriction: 'No age requirement for check-in',
+      children: 'Children of all ages are warmly welcomed. Please add the number and ages of children to your booking for accurate pricing and amenities.',
+      cribs: 'Baby cribs and high chairs available upon request (free of charge, subject to availability)',
+      cancellation: 'Cancellation and prepayment policies vary according to accommodation type and season. Please check conditions at time of booking.',
+      damageDeposit: '€600 damage deposit required on arrival (collected by credit card). Refunded within 7 days of check-out subject to property inspection.',
+      payment: 'Payment handled securely through booking platform. Please have cash available for any extras or local experiences during your stay.'
     },
-    perfectFor: ['Family holidays', 'Special celebrations', 'Romantic getaways', 'Remote work retreats'],
+    perfectFor: ['Multi-generational family gatherings', 'Milestone celebrations and special occasions', 'Romantic escapes with extraordinary views', 'Friends retreating together', 'Peaceful writing or creative retreats', 'Photography enthusiasts', 'History and culture lovers', 'Remote work with inspiring surroundings'],
     nearbyAttractions: [
-      { name: 'Nice Old Town', distance: '15 min' },
-      { name: 'Monaco', distance: '20 min' },
-      { name: 'Beach access', distance: '5 min' },
-      { name: 'Grocery store', distance: '3 min' }
+      { name: 'Trophée des Alpes (Roman Monument)', distance: '5 min walk' },
+      { name: 'Medieval La Turbie Village Center', distance: '2 min walk' },
+      { name: 'Monaco Monte-Carlo', distance: '10 min drive' },
+      { name: 'Èze Village & Exotic Gardens', distance: '8 min drive' },
+      { name: 'Nice City Center & Old Town', distance: '20 min drive' },
+      { name: 'Beaches (Monaco & Cap-d\'Ail)', distance: '12 min drive' },
+      { name: 'Nice Côte d\'Azur Airport', distance: '30 min drive' },
+      { name: 'Italian Border (Menton)', distance: '15 min drive' },
+      { name: 'Grand Corniche Scenic Drive', distance: 'On property doorstep' },
+      { name: 'Fort de la Revère Nature Park', distance: '6 min drive' }
     ],
     mapMarkers: {
       restaurants: [
         { 
-          name: 'Le Chantecler', 
+          name: 'Hostellerie Jérôme', 
+          type: 'Michelin Star',
+          address: '20 Rue Comte de Cessole, La Turbie',
+          lat: 43.7450,
+          lng: 7.4010,
+          distance: '3 min walk'
+        },
+        { 
+          name: 'Le Café de la Fontaine', 
+          type: 'Traditional Provençal',
+          address: 'Place Neuve, La Turbie',
+          lat: 43.7455,
+          lng: 7.4015,
+          distance: '4 min walk'
+        },
+        { 
+          name: 'Château de la Chèvre d\'Or', 
+          type: 'Two Michelin Stars',
+          address: 'Rue du Barri, Èze Village',
+          lat: 43.7275,
+          lng: 7.3615,
+          distance: '8 min drive'
+        },
+        { 
+          name: 'La Table de Patrick Raingeard', 
+          type: 'Gourmet French',
+          address: 'Avenue des Diables Bleus, Èze',
+          lat: 43.7200,
+          lng: 7.3580,
+          distance: '10 min drive'
+        },
+        { 
+          name: 'Le Louis XV - Alain Ducasse', 
+          type: 'Three Michelin Stars',
+          address: 'Hôtel de Paris, Monaco',
+          lat: 43.7395,
+          lng: 7.4285,
+          distance: '12 min drive'
+        },
+        { 
+          name: 'Elsa', 
+          type: 'Organic Michelin Star',
+          address: 'Monte-Carlo Beach Hotel, Monaco',
+          lat: 43.7380,
+          lng: 7.4400,
+          distance: '15 min drive'
+        },
+        { 
+          name: 'Blue Bay', 
+          type: 'Caribbean Michelin Star',
+          address: 'Monte-Carlo Bay Hotel, Monaco',
+          lat: 43.7425,
+          lng: 7.4310,
+          distance: '13 min drive'
+        },
+        { 
+          name: 'Le Grill', 
           type: 'Fine Dining',
-          address: '37 Promenade des Anglais',
-          lat: 43.6950,
-          lng: 7.2620,
+          address: 'Hôtel de Paris, Monaco',
+          lat: 43.7395,
+          lng: 7.4285,
           distance: '12 min drive'
         },
         { 
-          name: 'La Petite Maison', 
-          type: 'Mediterranean',
-          address: '11 Rue Saint-François de Paule',
-          lat: 43.6965,
-          lng: 7.2750,
-          distance: '15 min drive'
+          name: 'Château Eza', 
+          type: 'Romantic Gastronomic',
+          address: 'Rue de la Pise, Èze Village',
+          lat: 43.7270,
+          lng: 7.3610,
+          distance: '8 min drive'
         },
         { 
-          name: 'Jan', 
-          type: 'Contemporary',
-          address: '12 Rue Lascaris',
-          lat: 43.6970,
-          lng: 7.2755,
-          distance: '15 min drive'
-        },
-        { 
-          name: 'L\'Aromate', 
-          type: 'Modern French',
-          address: '3 Rue Dalpozzo',
-          lat: 43.6955,
-          lng: 7.2680,
-          distance: '12 min drive'
-        },
-        { 
-          name: 'Bistrot d\'Antoine', 
-          type: 'Traditional Bistro',
-          address: '27 Rue de la Préfecture',
-          lat: 43.6960,
-          lng: 7.2745,
-          distance: '14 min drive'
-        },
-        { 
-          name: 'La Merenda', 
-          type: 'Niçoise Cuisine',
-          address: '4 Rue Raoul Bosio',
-          lat: 43.6968,
-          lng: 7.2748,
-          distance: '15 min drive'
-        },
-        { 
-          name: 'Olive et Artichaut', 
-          type: 'Mediterranean',
-          address: '6 Rue Sainte-Réparate',
-          lat: 43.6972,
-          lng: 7.2752,
-          distance: '15 min drive'
+          name: 'La Chaumière', 
+          type: 'Mediterranean Terrace',
+          address: 'Avenue de la Liberté, Èze',
+          lat: 43.7250,
+          lng: 7.3590,
+          distance: '9 min drive'
         }
       ],
       attractions: [
         { 
-          name: 'Promenade des Anglais', 
-          type: 'Seafront',
-          description: 'Iconic Mediterranean promenade',
-          lat: 43.6950,
-          lng: 7.2650,
+          name: 'Trophée des Alpes', 
+          type: 'Ancient Monument',
+          description: 'Majestic Roman trophy built in 6 BC by Emperor Augustus',
+          lat: 43.7458,
+          lng: 7.4012,
+          distance: '5 min walk'
+        },
+        { 
+          name: 'La Turbie Medieval Village', 
+          type: 'Historic Village',
+          description: 'Charming cobblestone streets with artisan shops and local markets',
+          lat: 43.7455,
+          lng: 7.4015,
+          distance: '2 min walk'
+        },
+        { 
+          name: 'Monaco Monte-Carlo', 
+          type: 'Principality',
+          description: 'Glamorous city-state with legendary casino and harbor',
+          lat: 43.7384,
+          lng: 7.4246,
           distance: '10 min drive'
         },
         { 
-          name: 'Castle Hill', 
-          type: 'Viewpoint',
-          description: 'Panoramic views of Nice',
-          lat: 43.6955,
-          lng: 7.2800,
-          distance: '15 min drive'
+          name: 'Èze Village', 
+          type: 'Medieval Perched Village',
+          description: 'Stunning clifftop village with artisan boutiques and galleries',
+          lat: 43.7275,
+          lng: 7.3615,
+          distance: '8 min drive'
         },
         { 
-          name: 'Nice Old Town', 
-          type: 'Historic District',
-          description: 'Charming streets and markets',
-          lat: 43.6965,
-          lng: 7.2760,
-          distance: '15 min drive'
+          name: 'Jardin Exotique d\'Èze', 
+          type: 'Botanical Garden',
+          description: 'Exotic garden perched 429m above the Mediterranean',
+          lat: 43.7280,
+          lng: 7.3620,
+          distance: '8 min drive'
         },
         { 
-          name: 'Cours Saleya Market', 
-          type: 'Market',
-          description: 'Famous flower and food market',
-          lat: 43.6960,
-          lng: 7.2750,
-          distance: '15 min drive'
-        },
-        { 
-          name: 'Musée Matisse', 
-          type: 'Museum',
-          description: 'Collection of Matisse artworks',
-          lat: 43.7190,
-          lng: 7.2780,
-          distance: '18 min drive'
-        },
-        { 
-          name: 'Marc Chagall Museum', 
-          type: 'Museum',
-          description: 'Biblical message artworks',
-          lat: 43.7088,
-          lng: 7.2700,
-          distance: '16 min drive'
-        },
-        { 
-          name: 'Russian Orthodox Cathedral', 
-          type: 'Cultural Site',
-          description: 'Beautiful cathedral architecture',
-          lat: 43.7020,
-          lng: 7.2650,
+          name: 'Monaco Casino de Monte-Carlo', 
+          type: 'Historic Casino',
+          description: 'Iconic Belle Époque architectural masterpiece',
+          lat: 43.7395,
+          lng: 7.4285,
           distance: '12 min drive'
         },
         { 
-          name: 'Place Masséna', 
-          type: 'Public Square',
-          description: 'Main square with modern art',
-          lat: 43.6975,
-          lng: 7.2700,
-          distance: '13 min drive'
+          name: 'Plage Mala', 
+          type: 'Secluded Beach',
+          description: 'Hidden cove with crystal-clear turquoise waters',
+          lat: 43.7190,
+          lng: 7.3570,
+          distance: '12 min drive'
         },
         { 
-          name: 'Baie des Anges Beach', 
-          type: 'Beach',
-          description: 'Beautiful pebble beach',
-          lat: 43.6945,
-          lng: 7.2600,
+          name: 'Cap-d\'Ail Beaches', 
+          type: 'Coastal Beaches',
+          description: 'Beautiful Mediterranean beaches with clear waters',
+          lat: 43.7210,
+          lng: 7.3950,
           distance: '10 min drive'
         },
         { 
-          name: 'Phoenix Park', 
-          type: 'Park',
-          description: 'Botanical garden and greenhouses',
-          lat: 43.6820,
-          lng: 7.2160,
+          name: 'Oceanographic Museum Monaco', 
+          type: 'Marine Museum',
+          description: 'Jacques Cousteau\'s legendary marine science institute',
+          lat: 43.7306,
+          lng: 7.4254,
+          distance: '12 min drive'
+        },
+        { 
+          name: 'Prince\'s Palace of Monaco', 
+          type: 'Royal Palace',
+          description: 'Official residence of the Prince of Monaco with changing of the guard',
+          lat: 43.7312,
+          lng: 7.4197,
+          distance: '11 min drive'
+        },
+        { 
+          name: 'Sentier du Littoral', 
+          type: 'Coastal Hiking',
+          description: 'Spectacular cliff-edge walking path with panoramic views',
+          lat: 43.7200,
+          lng: 7.3750,
+          distance: '10 min drive'
+        },
+        { 
+          name: 'Monaco Grand Prix Circuit', 
+          type: 'F1 Circuit',
+          description: 'World-famous Formula 1 street circuit through Monaco',
+          lat: 43.7347,
+          lng: 7.4206,
+          distance: '12 min drive'
+        },
+        { 
+          name: 'Villa Kerylos', 
+          type: 'Historic Villa',
+          description: 'Faithfully reconstructed ancient Greek villa in Beaulieu-sur-Mer',
+          lat: 43.7075,
+          lng: 7.3302,
+          distance: '15 min drive'
+        },
+        { 
+          name: 'Larvotto Beach Monaco', 
+          type: 'Urban Beach',
+          description: 'Monaco\'s main public beach with restaurants',
+          lat: 43.7425,
+          lng: 7.4380,
           distance: '14 min drive'
         },
         { 
-          name: 'Port Lympia', 
-          type: 'Marina',
-          description: 'Historic port and harbor',
+          name: 'Japanese Garden Monaco', 
+          type: 'Zen Garden',
+          description: 'Tranquil authentic Japanese garden designed by landscape architect Yasuo Beppu',
+          lat: 43.7385,
+          lng: 7.4330,
+          distance: '13 min drive'
+        },
+        { 
+          name: 'Fort de la Revère', 
+          type: 'Historic Fort & Nature Park',
+          description: 'Panoramic viewpoint over the entire Riviera with hiking trails',
+          lat: 43.7520,
+          lng: 7.3950,
+          distance: '6 min drive'
+        },
+        { 
+          name: 'Beaulieu-sur-Mer', 
+          type: 'Coastal Town',
+          description: 'Elegant Belle Époque resort town with charming harbor',
+          lat: 43.7070,
+          lng: 7.3300,
+          distance: '12 min drive'
+        },
+        { 
+          name: 'Nice Promenade des Anglais', 
+          type: 'Seafront Promenade',
+          description: 'Iconic 7km Mediterranean walkway with beach access',
           lat: 43.6950,
-          lng: 7.2865,
-          distance: '16 min drive'
+          lng: 7.2650,
+          distance: '20 min drive'
+        },
+        { 
+          name: 'Fragonard Perfumery Èze', 
+          type: 'Perfume Factory',
+          description: 'Historic perfume house with free tours and workshops',
+          lat: 43.7278,
+          lng: 7.3618,
+          distance: '8 min drive'
+        },
+        { 
+          name: 'Exotic Garden of Monaco', 
+          type: 'Botanical Garden',
+          description: 'Dramatic cliffside succulent garden with prehistoric cave',
+          lat: 43.7305,
+          lng: 7.4145,
+          distance: '13 min drive'
+        },
+        { 
+          name: 'Nice Old Town (Vieux Nice)', 
+          type: 'Historic District',
+          description: 'Vibrant old quarter with Cours Saleya market and colorful architecture',
+          lat: 43.6965,
+          lng: 7.2760,
+          distance: '22 min drive'
         }
       ]
     },
