@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Section from '@/components/shared/Section'
 import AnimatedSection from '@/components/shared/AnimatedSection'
+import { OptimizedBackgroundImage } from '@/components/shared/OptimizedImage'
 import { Card, CardContent } from '@/components/ui/card'
 import { useParallax } from '@/hooks/use-parallax'
 
@@ -35,12 +36,19 @@ export default function AreaGuide() {
     <div className="pt-20">
       <div className="relative h-96 flex items-center justify-center overflow-hidden mb-12">
         <motion.div
-          className="absolute inset-0 bg-cover bg-center"
+          className="absolute inset-0"
           style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/api/placeholder/1920/800')`,
             y: backgroundY,
           }}
-        />
+        >
+          <OptimizedBackgroundImage
+            src="/api/placeholder/1920/800"
+            className="w-full h-full"
+            priority={true}
+            overlay={true}
+            overlayOpacity={0.4}
+          />
+        </motion.div>
         <motion.div
           className="relative z-10 text-center text-white px-6"
           style={{

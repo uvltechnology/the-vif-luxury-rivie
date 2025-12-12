@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from '@phosphor-icons/react'
 import { useParallax } from '@/hooks/use-parallax'
+import { OptimizedBackgroundImage } from '@/components/shared/OptimizedImage'
 
 export default function HomeHero() {
   const { scrollY } = useScroll()
@@ -14,13 +15,20 @@ export default function HomeHero() {
   return (
     <div className="relative h-screen flex items-center justify-center overflow-hidden">
       <motion.div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0"
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)), url('/api/placeholder/1920/1080')`,
           y: backgroundY,
           scale,
         }}
-      />
+      >
+        <OptimizedBackgroundImage
+          src="/api/placeholder/1920/1080"
+          className="w-full h-full"
+          priority={true}
+          overlay={true}
+          overlayOpacity={0.35}
+        />
+      </motion.div>
       
       <motion.div
         className="relative z-10 text-center text-white px-6 max-w-4xl mx-auto"

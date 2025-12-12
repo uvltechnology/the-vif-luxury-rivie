@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import Section from '@/components/shared/Section'
 import AnimatedSection from '@/components/shared/AnimatedSection'
 import ExperienceCardSkeleton from '@/components/shared/ExperienceCardSkeleton'
+import { OptimizedImage } from '@/components/shared/OptimizedImage'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { experiences } from '@/data/experiences'
@@ -72,12 +73,14 @@ export default function Experiences() {
               >
                 <Card className="overflow-hidden hover:shadow-lg transition-shadow h-full">
                   <div className="h-48 bg-muted relative">
-                    <img
+                    <OptimizedImage
                       src="/api/placeholder/800/400"
                       alt={exp.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full"
+                      objectFit="cover"
+                      sizes="(max-width: 768px) 100vw, 50vw"
                     />
-                    <div className="absolute top-4 right-4 bg-card px-4 py-2 rounded-full">
+                    <div className="absolute top-4 right-4 bg-card px-4 py-2 rounded-full z-10">
                       <p className="text-sm font-semibold">From €{exp.price}</p>
                       <p className="text-xs text-muted-foreground">{exp.priceUnit}</p>
                     </div>

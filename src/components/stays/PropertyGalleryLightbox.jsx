@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { X, ArrowLeft, ArrowRight, MagnifyingGlassPlus, MagnifyingGlassMinus } from '@phosphor-icons/react'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
+import { OptimizedImage } from '@/components/shared/OptimizedImage'
 import { cn } from '@/lib/utils'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -305,10 +306,12 @@ export default function PropertyGalleryLightbox({ images, isOpen, onClose, initi
                     : "border-transparent"
                 )}
               >
-                <img
+                <OptimizedImage
                   src={img}
                   alt={`Thumbnail ${index + 1}`}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full"
+                  objectFit="cover"
+                  sizes="64px"
                 />
               </motion.button>
             ))}

@@ -3,19 +3,22 @@ import { Bed, Bathtub, Users, Waves } from '@phosphor-icons/react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { OptimizedImage } from '@/components/shared/OptimizedImage'
 
 export default function PropertyCard({ property }) {
   return (
     <Card className="overflow-hidden group cursor-pointer hover:shadow-xl transition-all duration-400 border border-border">
       <Link to={`/stays/${property.slug}`}>
         <div className="relative h-64 overflow-hidden bg-muted">
-          <img
+          <OptimizedImage
             src={property.images[0]}
             alt={property.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-full group-hover:scale-105 transition-transform duration-500"
+            objectFit="cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           {property.hasSeaView && (
-            <Badge className="absolute top-4 right-4 bg-accent text-accent-foreground">
+            <Badge className="absolute top-4 right-4 bg-accent text-accent-foreground z-10">
               Sea View
             </Badge>
           )}

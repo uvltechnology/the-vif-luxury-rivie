@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Images as ImagesIcon } from '@phosphor-icons/react'
 import { Button } from '@/components/ui/button'
 import PropertyGalleryLightbox from './PropertyGalleryLightbox'
+import { OptimizedImage } from '@/components/shared/OptimizedImage'
 import { cn } from '@/lib/utils'
 import { motion } from 'framer-motion'
 
@@ -31,13 +32,20 @@ export default function PropertyGallery({ images, propertyName }) {
           onClick={() => openLightbox(0)}
           className="lg:col-span-3 relative h-96 lg:h-[500px] rounded-lg overflow-hidden cursor-pointer"
         >
-          <motion.img
+          <motion.div
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.5 }}
-            src={images[0]}
-            alt={`${propertyName} - Main view`}
-            className="w-full h-full object-cover"
-          />
+            className="w-full h-full"
+          >
+            <OptimizedImage
+              src={images[0]}
+              alt={`${propertyName} - Main view`}
+              className="w-full h-full"
+              objectFit="cover"
+              priority={true}
+              sizes="(max-width: 1024px) 100vw, 75vw"
+            />
+          </motion.div>
           <motion.div 
             className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center"
             initial={{ opacity: 0 }}
@@ -67,13 +75,19 @@ export default function PropertyGallery({ images, propertyName }) {
                 index === 3 && images.length > 5 && "after:absolute after:inset-0 after:bg-black/60 after:flex after:items-center after:justify-center"
               )}
             >
-              <motion.img
+              <motion.div
                 whileHover={{ scale: 1.1 }}
                 transition={{ duration: 0.5 }}
-                src={img}
-                alt={`${propertyName} - View ${index + 2}`}
-                className="w-full h-full object-cover"
-              />
+                className="w-full h-full"
+              >
+                <OptimizedImage
+                  src={img}
+                  alt={`${propertyName} - View ${index + 2}`}
+                  className="w-full h-full"
+                  objectFit="cover"
+                  sizes="(max-width: 1024px) 50vw, 25vw"
+                />
+              </motion.div>
               {index === 3 && images.length > 5 && (
                 <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-10">
                   <div className="text-white text-center">
