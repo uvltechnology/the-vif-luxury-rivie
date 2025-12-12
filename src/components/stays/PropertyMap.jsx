@@ -12,27 +12,7 @@ export default function PropertyMap({ address, location, mapMarkers }) {
   const restaurants = mapMarkers?.restaurants || []
   const attractions = mapMarkers?.attractions || []
   
-  const createMarkersParam = () => {
-    if (!mapMarkers) return ''
-    
-    const markers = []
-    
-    if (restaurants.length > 0) {
-      restaurants.forEach(restaurant => {
-        markers.push(`markers=color:red%7Clabel:R%7C${restaurant.lat},${restaurant.lng}`)
-      })
-    }
-    
-    if (attractions.length > 0) {
-      attractions.forEach(attraction => {
-        markers.push(`markers=color:blue%7Clabel:A%7C${attraction.lat},${attraction.lng}`)
-      })
-    }
-    
-    return markers.length > 0 ? '&' + markers.join('&') : ''
-  }
-  
-  const mapUrl = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodedAddress}&zoom=14${createMarkersParam()}`
+  const mapUrl = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodedAddress}&zoom=14`
   
   const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}`
 
