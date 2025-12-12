@@ -902,9 +902,9 @@ This is not merely a vacation rental. Villa Bellevue is your invitation to live 
     ]
   },
   {
-    id: 'athena-apartment',
-    slug: 'athena-apartment',
-    name: 'Athena Apartment',
+    id: 'palm-beach-apartment',
+    slug: 'palm-beach-apartment',
+    name: 'Palm Beach Apartment',
     type: 'apartment',
     tagline: 'Contemporary elegance on the prestigious Pointe Croisette',
     location: 'Pointe Croisette, Cannes',
@@ -919,13 +919,13 @@ This is not merely a vacation rental. Villa Bellevue is your invitation to live 
     hasSeaView: true,
     hasBalcony: true,
     shortDescription: 'Discover refined coastal living in this beautifully appointed 50m² apartment at Residence Athena. Situated on the exclusive Pointe Croisette, this entire place offers sophisticated comfort with free on-site parking, a private balcony, and captivating views—just moments from Cannes\' legendary beaches and world-class dining.',
-    fullDescription: `Welcome to Athena Apartment, your private sanctuary in one of the French Riviera's most coveted addresses. Located within the prestigious Residence Athena on Pointe Croisette, this thoughtfully designed 50m² residence embodies the essence of modern Mediterranean living.
+    fullDescription: `Welcome to Palm Beach Apartment, your private sanctuary in one of the French Riviera's most coveted addresses. Located within the prestigious Residence Athena on Pointe Croisette, this thoughtfully designed 50m² residence embodies the essence of modern Mediterranean living.
 
 Step inside to discover a harmonious blend of contemporary design and coastal elegance. The apartment welcomes you with an open, light-filled layout where every detail has been curated for your comfort. Floor-to-ceiling windows bathe the space in natural light, while the refined interior palette of soft neutrals and natural textures creates an atmosphere of serene sophistication.
 
 The residence places you at the heart of Cannes' glamorous coastline, where the Mediterranean's azure waters meet golden sands just steps from your door. From your private balcony, savor morning espresso as sailboats glide across the bay, or unwind with evening aperitifs while the sun sets over the Lérins Islands.
 
-This is more than accommodation—it's your gateway to the authentic Riviera lifestyle. Stroll to pristine beaches in minutes, explore Cannes' renowned restaurants and boutiques, or simply retreat to your beautifully appointed space where every modern amenity awaits. Whether you're seeking a romantic escape, a family retreat, or an extended stay on the Côte d'Azur, Athena Apartment offers the perfect balance of location, luxury, and genuine Mediterranean charm.`,
+This is more than accommodation—it's your gateway to the authentic Riviera lifestyle. Stroll to pristine beaches in minutes, explore Cannes' renowned restaurants and boutiques, or simply retreat to your beautifully appointed space where every modern amenity awaits. Whether you're seeking a romantic escape, a family retreat, or an extended stay on the Côte d'Azur, Palm Beach Apartment offers the perfect balance of location, luxury, and genuine Mediterranean charm.`,
     amenities: {
       property: ['Entire place to yourself', '50m² living space', 'Private entrance', 'Non-smoking throughout'],
       comfort: ['Free WiFi high-speed', 'Air conditioning', 'Premium linens & towels', 'Family-friendly amenities', 'Private bathroom with premium fixtures'],

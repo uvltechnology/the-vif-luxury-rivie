@@ -33,8 +33,8 @@ The outdoor space is equally enchanting—a heated pool surrounded by lavender a
 
 ---
 
-## Generic Apartment Introduction (Athena Apartment)
-Athena Apartment is your charming pied-à-terre on the French Riviera. Designed for couples, this one-bedroom retreat combines boutique hotel style with the freedom of your own space.
+## Generic Apartment Introduction (Palm Beach Apartment)
+Palm Beach Apartment is your charming pied-à-terre on the French Riviera. Designed for couples, this one-bedroom retreat combines boutique hotel style with the freedom of your own space.
 
 Located in the elegant coastal town of Beaulieu-sur-Mer, you're steps from waterfront restaurants, morning markets, and some of the Riviera's most beautiful beaches. The apartment itself is a study in thoughtful design—high ceilings, soft linens, a well-equipped kitchen, and a balcony where morning coffee and evening aperitifs become daily rituals.
 

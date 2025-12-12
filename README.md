@@ -10,7 +10,7 @@ A modern, elegant website for luxury villa and apartment rentals on the French R
 
 ### Key Features
 
-- ✨ **3 Curated Properties** - Villa Lumière, Villa Azure, and Athena Apartment
+- ✨ **3 Curated Properties** - Villa Rocsea, Villa Bellevue, and Palm Beach Apartment
 - 🎯 **6 Premium Experiences** - Private chef, wine tours, yacht excursions, transfers, cultural tours, wellness
 - 🗺️ **Comprehensive Area Guide** - Nearby towns, beaches, dining, and activities
 - 🔒 **Admin Dashboard** - Property owner portal for managing bookings and availability
