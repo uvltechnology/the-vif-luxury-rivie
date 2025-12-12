@@ -899,6 +899,7 @@ This is more than accommodation—it's your gateway to the authentic Riviera lif
       ]
     },
     images: [
+      Athena10,
       Athena01,
       Athena02,
       Athena03,
@@ -908,7 +909,6 @@ This is more than accommodation—it's your gateway to the authentic Riviera lif
       Athena07,
       Athena08,
       Athena09,
-      Athena10,
       Athena11,
       Athena12,
       Athena13,
