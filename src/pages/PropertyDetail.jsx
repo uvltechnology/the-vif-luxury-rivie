@@ -171,32 +171,121 @@ export default function PropertyDetail() {
               <AnimatedSection>
                 <h2 className="text-2xl font-heading font-semibold mb-4">House Rules & Policies</h2>
               </AnimatedSection>
+              {property.slug === 'athena-apartment' && (
+                <AnimatedSection delay={0.1}>
+                  <div className="mb-4 p-4 bg-accent/20 border border-accent/30 rounded-lg">
+                    <p className="text-sm font-medium text-foreground">
+                      {property.name} takes special requests – add in the next step!
+                    </p>
+                  </div>
+                </AnimatedSection>
+              )}
               <AnimatedSection delay={0.2}>
-                <Accordion type="single" collapsible>
+                <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="check-in">
                     <AccordionTrigger>Check-in & Check-out</AccordionTrigger>
                     <AccordionContent>
-                      <p><strong>Check-in:</strong> {property.houseRules.checkIn}</p>
-                      <p><strong>Check-out:</strong> {property.houseRules.checkOut}</p>
+                      <div className="space-y-3 text-sm">
+                        <div>
+                          <p className="font-semibold text-foreground mb-1">Check-in</p>
+                          <p className="text-muted-foreground">{property.houseRules.checkIn}</p>
+                        </div>
+                        <div>
+                          <p className="font-semibold text-foreground mb-1">Check-out</p>
+                          <p className="text-muted-foreground">{property.houseRules.checkOut}</p>
+                        </div>
+                      </div>
                     </AccordionContent>
                   </AccordionItem>
-                  <AccordionItem value="stay">
-                    <AccordionTrigger>Minimum Stay</AccordionTrigger>
-                    <AccordionContent>
-                      <p>{property.houseRules.minStay}</p>
-                    </AccordionContent>
-                  </AccordionItem>
+
+                  {property.houseRules.cancellation && (
+                    <AccordionItem value="cancellation">
+                      <AccordionTrigger>Cancellation & Prepayment</AccordionTrigger>
+                      <AccordionContent>
+                        <p className="text-sm text-muted-foreground">{property.houseRules.cancellation}</p>
+                      </AccordionContent>
+                    </AccordionItem>
+                  )}
+
+                  {property.houseRules.damageDeposit && (
+                    <AccordionItem value="deposit">
+                      <AccordionTrigger>Damage Deposit</AccordionTrigger>
+                      <AccordionContent>
+                        <p className="text-sm text-muted-foreground">{property.houseRules.damageDeposit}</p>
+                      </AccordionContent>
+                    </AccordionItem>
+                  )}
+
+                  {(property.houseRules.children || property.houseRules.cribs || property.houseRules.ageRestriction) && (
+                    <AccordionItem value="children">
+                      <AccordionTrigger>Children & Beds</AccordionTrigger>
+                      <AccordionContent>
+                        <div className="space-y-3 text-sm">
+                          {property.houseRules.children && (
+                            <div>
+                              <p className="font-semibold text-foreground mb-1">Child Policies</p>
+                              <p className="text-muted-foreground">{property.houseRules.children}</p>
+                              <p className="text-muted-foreground mt-2 text-xs">To see correct prices and occupancy info, add the number and ages of children in your group to your search.</p>
+                            </div>
+                          )}
+                          {property.houseRules.cribs && (
+                            <div>
+                              <p className="font-semibold text-foreground mb-1">Crib and Extra Bed Policies</p>
+                              <p className="text-muted-foreground">{property.houseRules.cribs}</p>
+                            </div>
+                          )}
+                          {property.houseRules.ageRestriction && (
+                            <div>
+                              <p className="font-semibold text-foreground mb-1">Age Restriction</p>
+                              <p className="text-muted-foreground">{property.houseRules.ageRestriction}</p>
+                            </div>
+                          )}
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  )}
+
+                  {property.houseRules.payment && (
+                    <AccordionItem value="payment">
+                      <AccordionTrigger>Payment</AccordionTrigger>
+                      <AccordionContent>
+                        <p className="text-sm text-muted-foreground">{property.houseRules.payment}</p>
+                      </AccordionContent>
+                    </AccordionItem>
+                  )}
+
                   <AccordionItem value="rules">
                     <AccordionTrigger>Property Rules</AccordionTrigger>
                     <AccordionContent>
-                      <ul className="space-y-2">
-                        <li><strong>Smoking:</strong> {property.houseRules.smoking}</li>
-                        <li><strong>Pets:</strong> {property.houseRules.pets}</li>
-                        <li><strong>Events:</strong> {property.houseRules.events}</li>
-                        <li><strong>Quiet hours:</strong> {property.houseRules.quietHours}</li>
-                      </ul>
+                      <div className="space-y-3 text-sm">
+                        <div className="flex justify-between items-start">
+                          <span className="font-semibold text-foreground">Smoking</span>
+                          <span className="text-muted-foreground text-right ml-4">{property.houseRules.smoking}</span>
+                        </div>
+                        <div className="flex justify-between items-start">
+                          <span className="font-semibold text-foreground">Parties/Events</span>
+                          <span className="text-muted-foreground text-right ml-4">{property.houseRules.events}</span>
+                        </div>
+                        <div className="flex justify-between items-start">
+                          <span className="font-semibold text-foreground">Quiet Hours</span>
+                          <span className="text-muted-foreground text-right ml-4">{property.houseRules.quietHours}</span>
+                        </div>
+                        <div className="flex justify-between items-start">
+                          <span className="font-semibold text-foreground">Pets</span>
+                          <span className="text-muted-foreground text-right ml-4">{property.houseRules.pets}</span>
+                        </div>
+                      </div>
                     </AccordionContent>
                   </AccordionItem>
+
+                  {property.houseRules.minStay && (
+                    <AccordionItem value="stay">
+                      <AccordionTrigger>Minimum Stay</AccordionTrigger>
+                      <AccordionContent>
+                        <p className="text-sm text-muted-foreground">{property.houseRules.minStay}</p>
+                      </AccordionContent>
+                    </AccordionItem>
+                  )}
                 </Accordion>
               </AnimatedSection>
             </div>

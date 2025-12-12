@@ -281,13 +281,19 @@ This is more than accommodation—it's your gateway to the authentic Riviera lif
       parking: ['Free on-site parking', 'Secure parking area', 'Convenient access']
     },
     houseRules: {
-      checkIn: '3:00 PM onwards',
-      checkOut: '11:00 AM',
-      minStay: '3 nights',
-      smoking: 'Non-smoking property',
-      pets: 'Pet-friendly - please inquire',
-      events: 'Contact for approval',
-      quietHours: '10:00 PM - 8:00 AM'
+      checkIn: 'From 2:00 PM to 8:00 PM (please notify property in advance of arrival time)',
+      checkOut: 'From 9:00 AM to 1:00 PM',
+      minStay: 'Varies by season - please inquire',
+      smoking: 'Smoking is not allowed anywhere in the property',
+      pets: 'Pets are allowed on request. Charges may apply.',
+      events: 'Parties and events are not allowed',
+      quietHours: '10:00 PM - 8:00 AM',
+      ageRestriction: 'No age restriction for check-in',
+      children: 'Children of all ages are welcome',
+      cancellation: 'Cancellation and prepayment policies vary according to accommodation type. Please check conditions at time of booking.',
+      damageDeposit: '€600 damage deposit required on arrival (collected by credit card). Refunded within 7 days of check-out subject to property inspection.',
+      cribs: 'Cribs and extra beds are not available at this property',
+      payment: 'Payment handled by Booking.com on behalf of property. Please have cash for any extras on-site.'
     },
     perfectFor: ['Romantic getaways', 'Family vacations', 'Beach lovers', 'Extended stays', 'Cannes Film Festival visits', 'Couples retreats'],
     nearbyAttractions: [
