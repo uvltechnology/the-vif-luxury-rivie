@@ -57,6 +57,13 @@ Your French Riviera retreat awaits. A premium vacation rental platform showcasin
 - **Progression**: View testimonials section → Read featured reviews → Click "Read More Reviews" or "View All" → Filter by property or sort by date/rating → Read detailed reviews → Feel confident about booking
 - **Success criteria**: Reviews appear on key pages; filters work smoothly; users spend time reading reviews; contributes to booking confidence
 
+### Admin Dashboard (Owner Access Only)
+- **Functionality**: Secure admin interface for property owners to manage bookings and availability across all properties; includes booking management, calendar-based availability blocking, real-time statistics, and comprehensive search/filtering
+- **Purpose**: Centralize property management; prevent double bookings; provide operational visibility; streamline owner workflow
+- **Trigger**: Owner navigates to /admin URL; authentication check using spark.user() API validates isOwner status
+- **Progression**: Access admin URL → Authentication check → View dashboard → Switch between Bookings/Availability tabs → (Bookings) View stats cards → Search/filter bookings → Add new booking → Update booking status → Delete booking OR (Availability) Select property → View calendar with booked/blocked/available dates → Navigate months → Block date ranges with reason → Remove blocks → Review upcoming blocked periods
+- **Success criteria**: Only property owners can access; smooth tab navigation; calendar accurately reflects booking data; blocking dates prevents user bookings; all CRUD operations persist via useKV; mobile responsive; intuitive UI for non-technical users
+
 ### Photo Gallery Lightbox
 - **Functionality**: Full-screen, immersive photo gallery with zoom (up to 3x), pan, and swipe/keyboard navigation for all property images
 - **Purpose**: Allow guests to thoroughly inspect properties; build confidence through detailed visual exploration; create engaging, premium browsing experience

@@ -13,6 +13,8 @@ A modern, elegant website for luxury villa and apartment rentals on the French R
 - ✨ **3 Curated Properties** - Villa Lumière, Villa Azure, and Athena Apartment
 - 🎯 **6 Premium Experiences** - Private chef, wine tours, yacht excursions, transfers, cultural tours, wellness
 - 🗺️ **Comprehensive Area Guide** - Nearby towns, beaches, dining, and activities
+- 🔒 **Admin Dashboard** - Property owner portal for managing bookings and availability
+- 📅 **Booking Calendar** - Real-time availability with seasonal pricing
 - 📱 **Fully Responsive** - Mobile-first design with progressive enhancement
 - 🎨 **Mediterranean Design System** - OKLCH colors, elegant typography, generous spacing
 - 📧 **Contact Form** - With persistent storage using Spark KV
@@ -40,24 +42,26 @@ The design evokes a **warm September afternoon on a Mediterranean terrace**—el
 ```
 src/
 ├── components/
-│   ├── layout/           # Header, Footer, Layout wrapper
-│   ├── home/             # Home page sections (Hero, WhyVIF, etc.)
-│   ├── stays/            # Property-related components
-│   ├── shared/           # Reusable components (Section wrapper)
-│   └── ui/               # 40+ shadcn components
+│   ├── admin/             # Admin dashboard components
+│   ├── layout/            # Header, Footer, Layout wrapper
+│   ├── home/              # Home page sections (Hero, WhyVIF, etc.)
+│   ├── stays/             # Property-related components
+│   ├── shared/            # Reusable components (Section wrapper)
+│   └── ui/                # 40+ shadcn components
 ├── pages/
-│   ├── Home.jsx          # Landing page
-│   ├── Stays.jsx         # All properties with filtering
+│   ├── Home.jsx           # Landing page
+│   ├── Stays.jsx          # All properties with filtering
 │   ├── PropertyDetail.jsx # Individual property pages
-│   ├── Experiences.jsx   # Curated experiences
-│   ├── AreaGuide.jsx     # French Riviera area guide
-│   ├── HowToBook.jsx     # Booking process and FAQs
-│   ├── OurStory.jsx      # About page
-│   └── Contact.jsx       # Contact form
+│   ├── Experiences.jsx    # Curated experiences
+│   ├── AreaGuide.jsx      # French Riviera area guide
+│   ├── HowToBook.jsx      # Booking process and FAQs
+│   ├── OurStory.jsx       # About page
+│   ├── Contact.jsx        # Contact form
+│   └── Admin.tsx          # Admin dashboard (owner only)
 ├── data/
-│   ├── properties.js     # 3 property definitions
-│   └── experiences.js    # 6 experience definitions
-└── App.tsx               # Router configuration
+│   ├── properties.js      # 3 property definitions
+│   └── experiences.js     # 6 experience definitions
+└── App.tsx                # Router configuration
 ```
 
 ## 🛠️ Tech Stack
@@ -115,6 +119,25 @@ npm run preview
 | `/how-to-book` | Booking Info | Process, policies, FAQs |
 | `/our-story` | About | Brand story and values |
 | `/contact` | Contact | Inquiry form |
+| `/admin` | Admin Dashboard | Bookings & availability (owner only) |
+
+## 🔒 Admin Dashboard
+
+Property owners can access the admin dashboard at `/admin` to manage bookings and availability.
+
+**Features:**
+- **Bookings Management**: View, create, update, and delete bookings
+- **Real-time Statistics**: Track confirmed, pending, and cancelled reservations
+- **Availability Calendar**: Block dates for maintenance or personal use
+- **Search & Filter**: Find bookings quickly by guest or property
+- **Mobile Responsive**: Full functionality on all devices
+
+**Access Control:**
+- Only users with `isOwner` status can access the dashboard
+- Authentication verified via Spark's `spark.user()` API
+- Unauthorized users see an access denied message
+
+📖 See [ADMIN_README.md](./ADMIN_README.md) for detailed documentation.
 
 ## 🎯 Key Components
 
@@ -147,8 +170,9 @@ import Section from '@/components/shared/Section'
 
 ## 💾 Data Persistence
 
-Contact form inquiries are stored using Spark KV:
+The app uses Spark KV for persistent storage across multiple features:
 
+### Contact Inquiries
 ```jsx
 import { useKV } from '@github/spark/hooks'
 
@@ -157,6 +181,17 @@ const [inquiries, setInquiries] = useKV('contact-inquiries', [])
 // Use functional updates to avoid stale state
 setInquiries((current) => [newInquiry, ...current])
 ```
+
+### Admin Bookings
+Bookings created in the admin dashboard are stored in:
+- `admin-bookings` - All booking records
+- `bookings-{propertyId}` - Property-specific booked dates (ISO strings)
+- `admin-blocked-dates` - Admin-blocked date ranges
+
+### Best Practices
+- Always use functional updates with `setters` to avoid stale state bugs
+- Data persists between sessions automatically
+- No external database or API required
 
 **Seed Data**: 3 sample contact inquiries are pre-loaded to demonstrate functionality.
 
@@ -208,6 +243,7 @@ Edit `/src/index.css`:
 ## 📚 Documentation
 
 - **PRD.md** - Product Requirements Document with full planning framework
+- **ADMIN_README.md** - Admin dashboard user guide and technical documentation
 - **COPY.md** - Original brand copy, taglines, and voice guidelines
 - **IMPLEMENTATION.md** - Detailed technical implementation guide
 

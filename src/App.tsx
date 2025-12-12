@@ -11,6 +11,7 @@ import OurStory from '@/pages/OurStory'
 import Contact from '@/pages/Contact'
 import Testimonials from '@/pages/Testimonials'
 import NotFound from '@/pages/NotFound'
+import Admin from '@/pages/Admin'
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
                     <Route path="contact" element={<Contact />} />
                     <Route path="*" element={<NotFound />} />
                 </Route>
+                <Route path="/admin" element={<Admin />} />
             </Routes>
             <Toaster position="top-right" />
         </BrowserRouter>
