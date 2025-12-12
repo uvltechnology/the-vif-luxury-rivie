@@ -273,12 +273,19 @@ Your mornings begin on the breakfast terrace with fresh croissants and coffee, a
     location: 'La Turbie, French Riviera',
     exactAddress: '205 Chemin de Giram, 06320 La Turbie, France',
     price: 380,
+    size: '200 m²',
     capacity: 6,
     bedrooms: 3,
     bathrooms: 2,
     hasPool: true,
     hasParking: true,
     hasSeaView: true,
+    hasBalcony: true,
+    hasFreeWifi: true,
+    petFriendly: true,
+    hasView: true,
+    hasFamilyRooms: true,
+    entirePlace: true,
     shortDescription: 'Discover exceptional privacy and breathtaking panoramas at Villa Azure. Perched in the historic village of La Turbie, this three-bedroom sanctuary offers commanding views across Monaco, the Mediterranean, and the Italian coastline—where ancient Roman heritage meets contemporary Riviera luxury.',
     fullDescription: `Villa Azure stands as a masterpiece of location and design, nestled at 205 Chemin de Giram in the medieval hilltop village of La Turbie. This exceptional three-bedroom villa captures the very essence of elevated Riviera living, where sweeping vistas meet sophisticated comfort in one of the French Côte d'Azur's most prestigious addresses.
 
@@ -294,12 +301,13 @@ La Turbie itself adds layers of enchantment to your stay. This remarkably preser
 
 This is not merely a vacation rental. Villa Azure is your invitation to live as the Romans, artists, and aristocrats have for millennia—elevated above the everyday, immersed in beauty, and surrounded by the timeless allure of the French Riviera's most spectacular coastline.`,
     amenities: {
+      property: ['The entire place is yours - 200 m² of private luxury', 'Panoramic sea views across the Mediterranean', 'Spectacular vistas of Monaco and Italian coastline', 'Private balcony with outdoor seating', 'Family-friendly configuration with spacious rooms'],
       comfort: ['Air conditioning throughout', 'Central heating system', 'Premium Italian linens', 'Luxury bathrobes & slippers', 'Professional hairdryers in all bathrooms'],
-      entertainment: ['Smart 4K TVs with satellite', 'Premium Bluetooth sound system', 'Ultra-high-speed WiFi 150Mbps', 'Curated library of art & travel books', 'Board games & playing cards'],
+      entertainment: ['Smart 4K TVs with satellite', 'Premium Bluetooth sound system', 'Free ultra-high-speed WiFi 150Mbps', 'Curated library of art & travel books', 'Board games & playing cards'],
       kitchen: ['Fully equipped gourmet kitchen', 'Professional Nespresso machine', 'Premium cookware & utensils', 'Wine refrigerator', 'Dishwasher', 'Premium outdoor Weber BBQ grill'],
-      outdoor: ['Heated infinity pool with panoramic views', 'Mature Mediterranean gardens', 'Multiple shaded terraces', 'Covered outdoor dining for 8', 'Luxury sun loungers', 'Outdoor shower', 'Pool safety fence available'],
-      services: ['Personalized welcome & property orientation', 'Weekly professional cleaning included', 'Daily pool & garden maintenance', 'Concierge recommendations', 'Complimentary welcome provisions'],
-      parking: ['Private secure parking for 2 vehicles', 'Electric vehicle charging available']
+      outdoor: ['Outdoor swimming pool with panoramic views', 'Mature Mediterranean gardens', 'Multiple shaded terraces', 'Covered outdoor dining for 8', 'Luxury sun loungers', 'Outdoor shower', 'Pool safety fence available'],
+      services: ['Personalized welcome & property orientation', 'Weekly professional cleaning included', 'Daily pool & garden maintenance', 'Concierge recommendations', 'Complimentary welcome provisions', 'Pet-friendly accommodation (small well-behaved dogs welcome)'],
+      parking: ['Free on-site parking for 2 vehicles', 'Private secure parking area', 'Electric vehicle charging available']
     },
     houseRules: {
       checkIn: '4:00 PM onwards',
