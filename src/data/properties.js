@@ -578,6 +578,7 @@ This is not merely a vacation rental. Villa Azure is your invitation to live as 
       ]
     },
     images: [
+      Villa128,
       Villa101,
       Villa102,
       Villa103,
@@ -605,7 +606,6 @@ This is not merely a vacation rental. Villa Azure is your invitation to live as 
       Villa125,
       Villa126,
       Villa127,
-      Villa128,
       Villa129,
       Villa130,
       Villa131,
