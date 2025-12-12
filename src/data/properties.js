@@ -57,6 +57,7 @@ import Villa133 from '@/assets/images/Villa_133.jpg'
 import Villa134 from '@/assets/images/Villa_134.jpg'
 import Villa135 from '@/assets/images/Villa_135.jpg'
 import Villa136 from '@/assets/images/Villa_136.jpg'
+import ElenaImg from '@/assets/images/elena.jpg'
 
 export const properties = [
   {
@@ -286,18 +287,29 @@ Your mornings begin on the breakfast terrace with fresh croissants and coffee, a
     hasView: true,
     hasFamilyRooms: true,
     entirePlace: true,
+    host: {
+      name: 'Elena',
+      image: ElenaImg,
+      rating: 9.8,
+      languages: ['English', 'French', 'Italian', 'Russian'],
+      description: 'I speak French, English, Italian and Russian and it\'s my pleasure to offer you an unforgettable stay in my beautiful country. There are so many things to do and to see here! I\'ll try to be as helpful as possible during your stay. Looking forward to hosting you at any moment of the year!'
+    },
     shortDescription: 'Discover exceptional privacy and breathtaking panoramas at Villa Azure. Perched in the historic village of La Turbie, this three-bedroom sanctuary offers commanding views across Monaco, the Mediterranean, and the Italian coastline—where ancient Roman heritage meets contemporary Riviera luxury.',
     fullDescription: `Villa Azure stands as a masterpiece of location and design, nestled at 205 Chemin de Giram in the medieval hilltop village of La Turbie. This exceptional three-bedroom villa captures the very essence of elevated Riviera living, where sweeping vistas meet sophisticated comfort in one of the French Côte d'Azur's most prestigious addresses.
 
 Positioned at 450 meters above sea level, the villa commands a breathtaking 180-degree panorama that stretches from the glittering principality of Monaco to the distant shores of Italy. Here, beneath the shadow of the ancient Roman monument Trophée des Alpes, you'll experience the Riviera from a perspective few discover—where eagles soar and the Mediterranean unfolds like a sapphire tapestry below.
 
-Step through the villa's entrance and immediately sense the harmony between architecture and landscape. Light-filled interiors flow seamlessly through French doors onto expansive terraces, where every vantage point frames nature's artistry. The thoughtfully appointed living spaces blend contemporary elegance with warm Mediterranean character—vaulted ceilings, natural stone accents, and curated furnishings that speak to both comfort and refined taste.
+Located in a private and wooded domain, this magnificent villa has been recently renovated with meticulous attention to detail. Step through the villa's entrance and immediately sense the harmony between architecture and landscape. Light-filled interiors flow seamlessly through French doors onto expansive terraces, where every vantage point frames nature's artistry. The thoughtfully appointed living spaces blend contemporary elegance with warm Mediterranean character—vaulted ceilings, natural stone accents, and curated furnishings that speak to both comfort and refined taste.
 
-The three bedrooms serve as private retreats, each designed to maximize the extraordinary views while ensuring complete tranquility. Wake to sunrise illuminating the distant Italian Alps, sip morning coffee as Monaco awakens below, and retire each evening to the symphony of cicadas and the twinkling lights of the coastline.
+The master suite upstairs features a luxurious bathtub and private terrace offering stunning sea views—your personal sanctuary above the clouds. Two additional bedrooms each include independent Italian showers and garden or sea views, ensuring every guest enjoys privacy and comfort. A versatile TV room with shower can be converted into a fourth bedroom on request, making this villa perfect for larger gatherings.
 
-Outside, the villa truly reveals its magic. The heated infinity pool appears to merge with the horizon, offering an unparalleled swimming experience suspended between earth and sky. Manicured Mediterranean gardens—fragrant with lavender, rosemary, and century-old olive trees—provide shaded sanctuaries for afternoon reading or intimate conversations. The covered dining terrace becomes the stage for memorable meals, where local wines taste richer and conversations linger longer under the Provençal sun.
+The spacious 60m² living and dining area welcomes you with an all-equipped modern kitchen and charming fireplace, creating an inviting space for gathering and celebration. Outside, the villa truly reveals its magic. The large swimming pool features three different depths to accommodate all ages, from children splashing joyfully to adults swimming leisurely. Mature Mediterranean gardens—fragrant with lavender, rosemary, and century-old olive trees—provide shaded sanctuaries for afternoon reading or intimate conversations. The gas BBQ, summer lounge, and covered dining terrace become the stage for memorable meals, where local wines taste richer and conversations linger longer under the Provençal sun.
 
-La Turbie itself adds layers of enchantment to your stay. This remarkably preserved medieval village, crowned by the majestic Trophée des Alpes built by Emperor Augustus in 6 BC, offers cobblestone streets, authentic bistros, and a palpable sense of history. Yet modern conveniences remain wonderfully accessible—Monaco's glamour is just ten minutes down the winding corniche, while Nice's international airport lies thirty minutes away.
+An adorable guest house with a small kitchen for 4 people can be booked additionally with the main property, perfect for extended families or friends seeking both togetherness and privacy.
+
+La Turbie itself adds layers of enchantment to your stay. This small town is situated above the Monaco principality on the French Riviera, along the spectacular Grand Corniche road that runs from Nice to Monaco—one of the great scenic highlights of this region. The medieval village is beautifully preserved, and the great Roman monument, the Trophée des Alpes, dominates from its commanding position. For everyday life, you'll find everything you need in the village: restaurants, pharmacy, bakery, cheese, meat and grocery stores, hairdresser, and tourism office.
+
+There are too many highlights in the region to list here, from magnificent scenery and traditional Provençal hilltop villages such as Èze to the glitzy resorts of the French Riviera like Roquebrune Cap Martin, Beaulieu sur Mer, Saint Jean Cap Ferrat and the wealthy principality of Monaco. Nice airport and Italy are also within a quarter hour drive from La Turbie. There is something close to La Turbie for everyone!
 
 This is not merely a vacation rental. Villa Azure is your invitation to live as the Romans, artists, and aristocrats have for millennia—elevated above the everyday, immersed in beauty, and surrounded by the timeless allure of the French Riviera's most spectacular coastline.`,
     amenities: {

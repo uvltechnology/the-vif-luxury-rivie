@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom'
-import { Bed, Bathtub, Users, WifiHigh, Car, Waves, Check, Ruler } from '@phosphor-icons/react'
+import { Bed, Bathtub, Users, WifiHigh, Car, Waves, Check, Ruler, Star } from '@phosphor-icons/react'
 import Section from '@/components/shared/Section'
 import AnimatedSection from '@/components/shared/AnimatedSection'
 import { Button } from '@/components/ui/button'
@@ -90,6 +90,47 @@ export default function PropertyDetail() {
               <h2 className="text-2xl font-heading font-semibold mb-4">About This {property.type === 'villa' ? 'Villa' : 'Apartment'}</h2>
               <p className="text-muted-foreground mb-4 whitespace-pre-line">{property.fullDescription}</p>
             </div>
+
+            {property.host && (
+              <div className="mb-8">
+                <AnimatedSection>
+                  <h2 className="text-2xl font-heading font-semibold mb-6">Hosted by {property.host.name}</h2>
+                </AnimatedSection>
+                <AnimatedSection delay={0.2}>
+                  <div className="flex flex-col md:flex-row gap-6 p-6 bg-accent/10 rounded-lg border border-accent/20">
+                    <div className="flex-shrink-0">
+                      <img 
+                        src={property.host.image} 
+                        alt={property.host.name}
+                        className="w-24 h-24 rounded-full object-cover border-4 border-background shadow-lg"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2">
+                        <h3 className="text-xl font-heading font-semibold">{property.host.name}</h3>
+                        <div className="flex items-center gap-1 px-3 py-1 bg-primary/10 rounded-full">
+                          <Star weight="fill" className="text-primary" size={16} />
+                          <span className="text-sm font-semibold text-primary">{property.host.rating}</span>
+                        </div>
+                      </div>
+                      <div className="mb-3">
+                        <p className="text-sm text-muted-foreground mb-1">Languages spoken:</p>
+                        <div className="flex flex-wrap gap-2">
+                          {property.host.languages.map((lang, index) => (
+                            <Badge key={index} variant="secondary" className="text-xs">
+                              {lang}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                      <p className="text-muted-foreground text-sm leading-relaxed">
+                        {property.host.description}
+                      </p>
+                    </div>
+                  </div>
+                </AnimatedSection>
+              </div>
+            )}
 
             <div className="mb-8">
               <h2 className="text-2xl font-heading font-semibold mb-6">Amenities & Features</h2>
