@@ -1,18 +1,36 @@
 import { toast } from 'sonner'
 import { format, differenceInDays, addDays, isBefore, isAfter, startOfDay } from 'date-fns'
 
+// Helper functions to work with localStorage
+function getFromStorage(key, defaultValue = null) {
+  try {
+    const item = localStorage.getItem(key)
+    return item ? JSON.parse(item) : defaultValue
+  } catch {
+    return defaultValue
+  }
+}
+
+function setToStorage(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value))
+  } catch (error) {
+    console.error('Error saving to localStorage:', error)
+  }
+}
+
 export async function sendCheckInReminder(booking, daysUntilCheckIn) {
   try {
-    const reminderSettings = await getReminderSettings()
+    const reminderSettings = getReminderSettings()
     
     if (!reminderSettings.enabled) {
       console.log('Check-in reminders are disabled')
       return { success: true, skipped: true }
     }
 
-    const emailData = await generateReminderEmail(booking, daysUntilCheckIn, reminderSettings)
+    const emailData = generateReminderEmail(booking, daysUntilCheckIn, reminderSettings)
     
-    await logReminderNotification({
+    logReminderNotification({
       bookingId: booking.id,
       daysUntilCheckIn,
       guestEmail: booking.guestEmail,
@@ -29,7 +47,7 @@ export async function sendCheckInReminder(booking, daysUntilCheckIn) {
   } catch (error) {
     console.error('Failed to send check-in reminder:', error)
     
-    await logReminderNotification({
+    logReminderNotification({
       bookingId: booking.id,
       daysUntilCheckIn,
       guestEmail: booking.guestEmail,
@@ -44,13 +62,12 @@ export async function sendCheckInReminder(booking, daysUntilCheckIn) {
   }
 }
 
-async function generateReminderEmail(booking, daysUntilCheckIn, settings) {
+function generateReminderEmail(booking, daysUntilCheckIn, settings) {
   const checkInDate = new Date(booking.checkIn)
   const checkOutDate = new Date(booking.checkOut)
   
   const checkInFormatted = format(checkInDate, 'EEEE, MMMM d, yyyy')
   const checkOutFormatted = format(checkOutDate, 'EEEE, MMMM d, yyyy')
-  const checkInTime = format(checkInDate, 'h:mm a')
   
   const nights = Math.ceil(
     (checkOutDate - checkInDate) / (1000 * 60 * 60 * 24)
@@ -71,73 +88,82 @@ async function generateReminderEmail(booking, daysUntilCheckIn, settings) {
 
   const subject = `Your stay at ${booking.propertyName} is ${timeframeText}!`
 
-  const prompt = window.spark.llmPrompt`Generate a warm, welcoming check-in reminder email for a guest staying at a luxury vacation rental property in the French Riviera.
+  // Generate email without LLM
+  const body = `
+Dear ${booking.guestName},
 
-Context: The VIF (The Vacation in France) is sending a check-in reminder to a confirmed guest.
+We are delighted to remind you that your stay at ${booking.propertyName} is ${timeframeText}!
 
 Booking Details:
-- Property: ${booking.propertyName}
-- Guest Name: ${booking.guestName}
-- Check-in: ${checkInFormatted}
-- Check-out: ${checkOutFormatted}
-- Duration: ${nights} night${nights !== 1 ? 's' : ''}
-- Number of Guests: ${booking.guests}
-- Days Until Check-in: ${daysUntilCheckIn}
-- Timeframe: ${timeframeText}
+----------------
+Property: ${booking.propertyName}
+Check-in: ${checkInFormatted} (2:00 PM - 8:00 PM)
+Check-out: ${checkOutFormatted}
+Duration: ${nights} night${nights !== 1 ? 's' : ''}
+Guests: ${booking.guests}
 
-The email should:
-1. Start with a warm, personalized greeting using their name
-2. Express excitement about their upcoming arrival
-3. Confirm key details: property name, check-in date and time (2:00 PM - 8:00 PM), check-out date
-4. Include essential pre-arrival information:
-   - Check-in time window: 2:00 PM - 8:00 PM
-   - Remind them to notify the property of their estimated arrival time
-   - Mention bringing a valid ID and credit card for check-in
-   ${booking.propertyId === 'athena-apartment' ? '- Security deposit: €600 (credit card)' : ''}
-   ${booking.propertyId === 'villa-bellevue' ? '- Security deposit: €500 (cash)' : ''}
-   ${booking.propertyId === 'villa-rocsea' ? '- Security deposit: €2,000 (credit card, collected 7 days before arrival)' : ''}
-5. Provide helpful tips for arrival:
-   - Address will be provided 24-48 hours before check-in
-   - Contact information for questions
-   - WiFi and amenities will be ready upon arrival
-6. ${daysUntilCheckIn <= 1 ? 'Include last-minute reminders (weather check, parking, etc.)' : 'Mention looking forward to welcoming them'}
-7. End with a friendly closing that emphasizes The VIF's commitment to an exceptional stay
-8. Keep the tone luxurious yet approachable - elegant but not stuffy
+Pre-Arrival Information:
+------------------------
+• Check-in time window: 2:00 PM - 8:00 PM
+• Please notify us of your estimated arrival time
+• Please bring a valid ID and credit card for check-in
+• Property address and access details will be provided 24-48 hours before check-in
 
-Format: Plain text email with proper spacing and line breaks for readability.
-Do not include subject line - only the email body.`
+What to Expect:
+---------------
+• High-speed WiFi ready upon arrival
+• All amenities freshly prepared for your stay
+• Welcome orientation available upon request
+• 24/7 concierge support for any needs
 
-  const body = await window.spark.llm(prompt, 'gpt-4o')
+${daysUntilCheckIn <= 1 ? `
+Last-Minute Reminders:
+----------------------
+• Check the local weather forecast for packing
+• Parking is available at the property
+• Don't hesitate to contact us if you have any questions
+` : ''}
+
+We look forward to welcoming you to the French Riviera!
+
+Warm regards,
+The VIF Guest Services Team
+
+---
+The VIF - Luxury Vacation Rentals
+French Riviera
+concierge@thevif.com
+`.trim()
 
   return {
     subject,
-    body: body.trim(),
+    body,
     to: booking.guestEmail,
     guestName: booking.guestName,
     from: 'The VIF Guest Services <concierge@thevif.com>'
   }
 }
 
-async function logReminderNotification(log) {
-  const logs = await window.spark.kv.get('check-in-reminder-logs') || []
+function logReminderNotification(log) {
+  const logs = getFromStorage('check-in-reminder-logs', [])
   logs.unshift(log)
   
   if (logs.length > 200) {
     logs.splice(200)
   }
   
-  await window.spark.kv.set('check-in-reminder-logs', logs)
+  setToStorage('check-in-reminder-logs', logs)
 }
 
-export async function getReminderLogs() {
-  return await window.spark.kv.get('check-in-reminder-logs') || []
+export function getReminderLogs() {
+  return getFromStorage('check-in-reminder-logs', [])
 }
 
-export async function clearReminderLogs() {
-  await window.spark.kv.set('check-in-reminder-logs', [])
+export function clearReminderLogs() {
+  setToStorage('check-in-reminder-logs', [])
 }
 
-export async function getReminderSettings() {
+export function getReminderSettings() {
   const defaultSettings = {
     enabled: true,
     sendAt7Days: true,
@@ -148,17 +174,17 @@ export async function getReminderSettings() {
     lastAutoCheckTime: null
   }
   
-  const settings = await window.spark.kv.get('check-in-reminder-settings')
+  const settings = getFromStorage('check-in-reminder-settings')
   return settings || defaultSettings
 }
 
-export async function saveReminderSettings(settings) {
-  await window.spark.kv.set('check-in-reminder-settings', settings)
+export function saveReminderSettings(settings) {
+  setToStorage('check-in-reminder-settings', settings)
   toast.success('Check-in reminder settings saved')
 }
 
-export async function getUpcomingCheckIns() {
-  const bookings = await window.spark.kv.get('admin-bookings') || []
+export function getUpcomingCheckIns() {
+  const bookings = getFromStorage('admin-bookings', [])
   const now = startOfDay(new Date())
   const thirtyDaysFromNow = addDays(now, 30)
   
@@ -185,15 +211,15 @@ export async function getUpcomingCheckIns() {
 }
 
 export async function checkAndSendAutomaticReminders() {
-  const settings = await getReminderSettings()
+  const settings = getReminderSettings()
   
   if (!settings.enabled || !settings.autoSendEnabled) {
     console.log('Automatic reminders are disabled')
     return { sent: 0, skipped: true }
   }
 
-  const upcomingCheckIns = await getUpcomingCheckIns()
-  const sentReminders = await getSentRemindersIndex()
+  const upcomingCheckIns = getUpcomingCheckIns()
+  const sentReminders = getSentRemindersIndex()
   
   let sentCount = 0
   const results = []
@@ -222,7 +248,7 @@ export async function checkAndSendAutomaticReminders() {
       const result = await sendCheckInReminder(booking, daysUntilCheckIn)
       
       if (result.success && !result.skipped) {
-        await markReminderAsSent(reminderKey)
+        markReminderAsSent(reminderKey)
         sentCount++
         results.push({
           bookingId: booking.id,
@@ -242,7 +268,7 @@ export async function checkAndSendAutomaticReminders() {
     }
   }
 
-  await saveReminderSettings({
+  saveReminderSettings({
     ...settings,
     lastAutoCheckTime: new Date().toISOString()
   })
@@ -254,31 +280,31 @@ export async function checkAndSendAutomaticReminders() {
   }
 }
 
-async function getSentRemindersIndex() {
-  return await window.spark.kv.get('sent-reminders-index') || {}
+function getSentRemindersIndex() {
+  return getFromStorage('sent-reminders-index', {})
 }
 
-async function markReminderAsSent(reminderKey) {
-  const index = await getSentRemindersIndex()
+function markReminderAsSent(reminderKey) {
+  const index = getSentRemindersIndex()
   index[reminderKey] = {
     sentAt: new Date().toISOString()
   }
-  await window.spark.kv.set('sent-reminders-index', index)
+  setToStorage('sent-reminders-index', index)
 }
 
-export async function resetSentRemindersForBooking(bookingId) {
-  const index = await getSentRemindersIndex()
+export function resetSentRemindersForBooking(bookingId) {
+  const index = getSentRemindersIndex()
   const keysToRemove = Object.keys(index).filter(key => key.startsWith(`${bookingId}-`))
   
   keysToRemove.forEach(key => {
     delete index[key]
   })
   
-  await window.spark.kv.set('sent-reminders-index', index)
+  setToStorage('sent-reminders-index', index)
   toast.success('Reminder history reset for this booking')
 }
 
-export async function clearAllSentReminders() {
-  await window.spark.kv.set('sent-reminders-index', {})
+export function clearAllSentReminders() {
+  setToStorage('sent-reminders-index', {})
   toast.success('All reminder history cleared')
 }

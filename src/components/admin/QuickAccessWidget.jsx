@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { useKV } from '@github/spark/hooks'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -8,8 +8,8 @@ import { format, isToday, isTomorrow, parseISO, isPast } from 'date-fns'
 import { CalendarCheck, BellRinging, EnvelopeSimple, Clock } from '@phosphor-icons/react'
 
 function QuickAccessWidget() {
-  const [bookings] = useKV('admin-bookings', [])
-  const [messages] = useKV('admin-messages', [])
+  const [bookings] = useLocalStorage('admin-bookings', [])
+  const [messages] = useLocalStorage('admin-messages', [])
 
   const todayCheckIns = useMemo(() => {
     return (bookings || []).filter(b => {

@@ -23,6 +23,11 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const location = useLocation()
   const { t } = useTranslation()
+  
+  // Check if we're on the home page (has video background)
+  const isHomePage = location.pathname === '/'
+  // Use transparent/white nav only on home page when not scrolled
+  const useTransparentNav = isHomePage && !isScrolled
 
   useEffect(() => {
     const handleScroll = () => {
@@ -51,13 +56,20 @@ export default function Header() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-card/95 backdrop-blur-md shadow-sm' : 'bg-transparent'
+        useTransparentNav 
+          ? 'bg-transparent' 
+          : 'bg-card/95 backdrop-blur-md shadow-sm'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           <Link to="/" className="flex items-center space-x-2">
-            <span className="text-2xl font-heading font-bold tracking-tight text-foreground">
+            <span 
+              className={`text-2xl font-heading font-bold tracking-tight transition-colors duration-300 ${
+                useTransparentNav ? 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]' : 'text-foreground'
+              }`}
+              style={{ textShadow: useTransparentNav ? '0 2px 4px rgba(0,0,0,0.4)' : 'none' }}
+            >
               The VIF
             </span>
           </Link>
@@ -68,22 +80,39 @@ export default function Header() {
                 key={link.path}
                 to={link.path}
                 className={`text-sm font-medium tracking-wide transition-colors relative ${
-                  isActivePath(link.path)
-                    ? 'text-primary'
-                    : 'text-foreground hover:text-primary'
+                  useTransparentNav
+                    ? isActivePath(link.path)
+                      ? 'text-white'
+                      : 'text-white/90 hover:text-white'
+                    : isActivePath(link.path)
+                      ? 'text-primary'
+                      : 'text-foreground hover:text-primary'
                 }`}
+                style={{ textShadow: useTransparentNav ? '0 1px 3px rgba(0,0,0,0.4)' : 'none' }}
               >
                 {link.label}
                 {isActivePath(link.path) && (
-                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary" />
+                  <span className={`absolute -bottom-1 left-0 right-0 h-0.5 ${
+                    useTransparentNav ? 'bg-white' : 'bg-primary'
+                  }`} />
                 )}
               </Link>
             ))}
           </nav>
 
           <div className="hidden lg:flex items-center space-x-4">
-            <LanguageSwitcher />
-            <Button asChild variant="ghost" size="sm">
+            <LanguageSwitcher useWhiteText={useTransparentNav} />
+            <Button 
+              asChild 
+              variant="ghost" 
+              size="sm"
+              className={`transition-colors duration-300 ${
+                useTransparentNav 
+                  ? 'text-white hover:text-white hover:bg-white/20' 
+                  : ''
+              }`}
+              style={{ textShadow: useTransparentNav ? '0 1px 3px rgba(0,0,0,0.4)' : 'none' }}
+            >
               <Link to="/contact">{t('nav.contact')}</Link>
             </Button>
             <Button asChild size="sm">
@@ -92,13 +121,19 @@ export default function Header() {
           </div>
 
           <div className="flex lg:hidden items-center space-x-3">
-            <LanguageSwitcher />
+            <LanguageSwitcher useWhiteText={useTransparentNav} />
             <Button asChild size="sm">
               <Link to="/contact">{t('nav.book')}</Link>
             </Button>
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
+                <Button 
+                  variant="ghost" 
+                  size="icon"
+                  className={`transition-colors duration-300 ${
+                    useTransparentNav ? 'text-white hover:text-white hover:bg-white/20' : ''
+                  }`}
+                >
                   <List className="h-6 w-6" />
                 </Button>
               </SheetTrigger>

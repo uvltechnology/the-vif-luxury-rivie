@@ -1,0 +1,437 @@
+// Prisma Schema for The VIF Luxury Riviera
+// This schema defines all database models for the vacation rental platform
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ==================== ENUMS ====================
+
+enum UserRole {
+  GUEST
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+  NO_SHOW
+}
+
+enum InquiryStatus {
+  NEW
+  IN_PROGRESS
+  RESPONDED
+  CLOSED
+}
+
+enum PropertyType {
+  VILLA
+  APARTMENT
+}
+
+enum BlockedDateType {
+  MAINTENANCE
+  OWNER_BLOCK
+  SEASONAL_CLOSURE
+  OTHER
+}
+
+// ==================== MODELS ====================
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  password      String
+  firstName     String
+  lastName      String
+  phone         String?
+  role          UserRole  @default(GUEST)
+  isActive      Boolean   @default(true)
+  emailVerified Boolean   @default(false)
+  avatar        String?
+  
+  // Relations
+  bookings      Booking[]
+  inquiries     Inquiry[]
+  reviews       Review[]
+  
+  // Timestamps
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastLoginAt   DateTime?
+  
+  @@map("users")
+}
+
+model Property {
+  id              String       @id @default(uuid())
+  slug            String       @unique
+  name            String
+  tagline         String?
+  type            PropertyType
+  description     String       @db.Text
+  shortDescription String?
+  
+  // Location
+  address         String
+  city            String
+  region          String       @default("French Riviera")
+  country         String       @default("France")
+  latitude        Float?
+  longitude       Float?
+  
+  // Capacity & Features
+  bedrooms        Int
+  bathrooms       Float
+  maxGuests       Int
+  squareMeters    Int?
+  
+  // Pricing
+  pricePerNight   Float
+  cleaningFee     Float        @default(0)
+  securityDeposit Float        @default(0)
+  currency        String       @default("EUR")
+  
+  // Policies
+  checkInTime     String       @default("15:00")
+  checkOutTime    String       @default("11:00")
+  minNights       Int          @default(3)
+  maxNights       Int          @default(30)
+  cancellationPolicy String?   @db.Text
+  houseRules      String?      @db.Text
+  
+  // Status
+  isActive        Boolean      @default(true)
+  isFeatured      Boolean      @default(false)
+  
+  // Relations
+  images          PropertyImage[]
+  amenities       PropertyAmenity[]
+  bookings        Booking[]
+  blockedDates    BlockedDate[]
+  reviews         Review[]
+  inquiries       Inquiry[]
+  
+  // Timestamps
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  
+  @@map("properties")
+}
+
+model PropertyImage {
+  id          String   @id @default(uuid())
+  propertyId  String
+  url         String
+  alt         String?
+  caption     String?
+  order       Int      @default(0)
+  isPrimary   Boolean  @default(false)
+  
+  // Relations
+  property    Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime @default(now())
+  
+  @@map("property_images")
+}
+
+model Amenity {
+  id          String            @id @default(uuid())
+  name        String            @unique
+  icon        String?
+  category    String            @default("General")
+  
+  // Relations
+  properties  PropertyAmenity[]
+  
+  @@map("amenities")
+}
+
+model PropertyAmenity {
+  propertyId  String
+  amenityId   String
+  
+  // Relations
+  property    Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  amenity     Amenity  @relation(fields: [amenityId], references: [id], onDelete: Cascade)
+  
+  @@id([propertyId, amenityId])
+  @@map("property_amenities")
+}
+
+model Booking {
+  id              String        @id @default(uuid())
+  bookingRef      String        @unique // Human-readable reference like "VIF-2024-001"
+  
+  // Property & Guest
+  propertyId      String
+  userId          String?       // Optional: for registered users
+  
+  // Guest Info (for non-registered or additional info)
+  guestName       String
+  guestEmail      String
+  guestPhone      String?
+  guestCountry    String?
+  
+  // Dates & Guests
+  checkIn         DateTime
+  checkOut        DateTime
+  numGuests       Int
+  numAdults       Int           @default(1)
+  numChildren     Int           @default(0)
+  
+  // Pricing
+  pricePerNight   Float
+  numNights       Int
+  subtotal        Float
+  cleaningFee     Float         @default(0)
+  serviceFee      Float         @default(0)
+  taxes           Float         @default(0)
+  discount        Float         @default(0)
+  totalPrice      Float
+  currency        String        @default("EUR")
+  
+  // Status & Notes
+  status          BookingStatus @default(PENDING)
+  notes           String?       @db.Text
+  internalNotes   String?       @db.Text
+  specialRequests String?       @db.Text
+  
+  // Payment (optional integration)
+  paymentIntentId String?
+  paidAt          DateTime?
+  
+  // Relations
+  property        Property      @relation(fields: [propertyId], references: [id])
+  user            User?         @relation(fields: [userId], references: [id])
+  experiences     BookingExperience[]
+  
+  // Timestamps
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  confirmedAt     DateTime?
+  cancelledAt     DateTime?
+  
+  @@index([propertyId])
+  @@index([checkIn, checkOut])
+  @@index([status])
+  @@map("bookings")
+}
+
+model BlockedDate {
+  id          String          @id @default(uuid())
+  propertyId  String
+  startDate   DateTime
+  endDate     DateTime
+  type        BlockedDateType @default(OWNER_BLOCK)
+  reason      String?
+  
+  // Relations
+  property    Property        @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime        @default(now())
+  
+  @@index([propertyId, startDate, endDate])
+  @@map("blocked_dates")
+}
+
+model Experience {
+  id              String   @id @default(uuid())
+  slug            String   @unique
+  name            String
+  tagline         String?
+  icon            String?
+  
+  // Content
+  shortDescription String?
+  fullDescription  String?  @db.Text
+  
+  // Pricing
+  basePrice       Float
+  priceUnit       String   @default("per person")
+  currency        String   @default("EUR")
+  
+  // Details
+  duration        String?  // e.g., "4 hours", "Full day"
+  includes        Json?    // Array of included items stored as JSON
+  
+  // Status
+  isActive        Boolean  @default(true)
+  isFeatured      Boolean  @default(false)
+  
+  // Relations
+  priceOptions    ExperiencePriceOption[]
+  bookings        BookingExperience[]
+  
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@map("experiences")
+}
+
+model ExperiencePriceOption {
+  id            String     @id @default(uuid())
+  experienceId  String
+  name          String     // e.g., "Half-day tour", "Full-day tour"
+  price         Float
+  description   String?
+  
+  // Relations
+  experience    Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
+  
+  @@map("experience_price_options")
+}
+
+model BookingExperience {
+  id            String     @id @default(uuid())
+  bookingId     String
+  experienceId  String
+  date          DateTime
+  numGuests     Int
+  priceOption   String?
+  totalPrice    Float
+  notes         String?
+  
+  // Relations
+  booking       Booking    @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  experience    Experience @relation(fields: [experienceId], references: [id])
+  
+  createdAt     DateTime   @default(now())
+  
+  @@map("booking_experiences")
+}
+
+model Review {
+  id          String   @id @default(uuid())
+  propertyId  String
+  userId      String?
+  
+  // Reviewer Info (for non-registered users)
+  guestName   String
+  guestEmail  String?
+  
+  // Review Content
+  rating      Int      // 1-5
+  title       String?
+  content     String   @db.Text
+  
+  // Sub-ratings (optional)
+  cleanlinessRating  Int?
+  locationRating     Int?
+  valueRating        Int?
+  communicationRating Int?
+  
+  // Status
+  isVerified  Boolean  @default(false) // Verified guest
+  isPublished Boolean  @default(true)
+  
+  // Admin Response
+  response    String?  @db.Text
+  respondedAt DateTime?
+  
+  // Relations
+  property    Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  user        User?    @relation(fields: [userId], references: [id])
+  
+  // Timestamps
+  stayDate    DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([propertyId])
+  @@index([rating])
+  @@map("reviews")
+}
+
+model Inquiry {
+  id          String       @id @default(uuid())
+  
+  // Contact Info
+  name        String
+  email       String
+  phone       String?
+  
+  // Inquiry Details
+  propertyId  String?
+  userId      String?
+  subject     String?
+  message     String       @db.Text
+  
+  // Dates (if property inquiry)
+  checkIn     DateTime?
+  checkOut    DateTime?
+  numGuests   Int?
+  
+  // Status
+  status      InquiryStatus @default(NEW)
+  
+  // Response
+  response    String?       @db.Text
+  respondedBy String?
+  respondedAt DateTime?
+  
+  // Relations
+  property    Property?     @relation(fields: [propertyId], references: [id])
+  user        User?         @relation(fields: [userId], references: [id])
+  
+  // Timestamps
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  
+  @@index([status])
+  @@map("inquiries")
+}
+
+model Newsletter {
+  id          String   @id @default(uuid())
+  email       String   @unique
+  firstName   String?
+  lastName    String?
+  isActive    Boolean  @default(true)
+  source      String?  // Where they signed up
+  
+  createdAt   DateTime @default(now())
+  unsubscribedAt DateTime?
+  
+  @@map("newsletter_subscribers")
+}
+
+model Settings {
+  id          String   @id @default(uuid())
+  key         String   @unique
+  value       String   @db.Text
+  description String?
+  
+  updatedAt   DateTime @updatedAt
+  
+  @@map("settings")
+}
+
+model AuditLog {
+  id          String   @id @default(uuid())
+  userId      String?
+  action      String
+  entity      String
+  entityId    String?
+  oldValue    String?  @db.Text
+  newValue    String?  @db.Text
+  ipAddress   String?
+  userAgent   String?
+  
+  createdAt   DateTime @default(now())
+  
+  @@index([entity, entityId])
+  @@index([userId])
+  @@map("audit_logs")
+}

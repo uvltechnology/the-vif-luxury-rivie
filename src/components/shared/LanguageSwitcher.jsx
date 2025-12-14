@@ -9,7 +9,7 @@ import {
 import { useLanguage, SUPPORTED_LANGUAGES } from '@/contexts/LanguageContext'
 import { useTranslation } from '@/hooks/useTranslation'
 
-export default function LanguageSwitcher() {
+export default function LanguageSwitcher({ useWhiteText = false }) {
   const { currentLanguage, changeLanguage } = useLanguage()
   const { t } = useTranslation()
   
@@ -21,7 +21,12 @@ export default function LanguageSwitcher() {
         <Button 
           variant="ghost" 
           size="sm"
-          className="gap-2 text-foreground hover:text-primary"
+          className={`gap-2 transition-colors duration-300 ${
+            useWhiteText 
+              ? 'text-white hover:text-white hover:bg-white/20' 
+              : 'text-foreground hover:text-primary'
+          }`}
+          style={{ textShadow: useWhiteText ? '0 1px 3px rgba(0,0,0,0.4)' : 'none' }}
         >
           <Globe size={20} weight="duotone" />
           <span className="hidden md:inline">{currentLang?.flag} {currentLang?.name}</span>

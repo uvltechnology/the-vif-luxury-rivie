@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { useKV } from '@github/spark/hooks'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -30,7 +30,7 @@ interface Booking {
 }
 
 function BookingsManager() {
-  const [bookings, setBookings] = useKV<Booking[]>('admin-bookings', [])
+  const [bookings, setBookings] = useLocalStorage<Booking[]>('admin-bookings', [])
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null)
   const [filterStatus, setFilterStatus] = useState<string>('all')

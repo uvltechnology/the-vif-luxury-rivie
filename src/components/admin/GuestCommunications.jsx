@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { useKV } from '@github/spark/hooks'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -14,8 +14,8 @@ import { Envelope, EnvelopeOpen, PaperPlaneRight, User, Clock, Trash, Check, X }
 import { toast } from 'sonner'
 
 function GuestCommunications() {
-  const [messages, setMessages] = useKV('admin-messages', [])
-  const [bookings] = useKV('admin-bookings', [])
+  const [messages, setMessages] = useLocalStorage('admin-messages', [])
+  const [bookings] = useLocalStorage('admin-bookings', [])
   const [selectedMessage, setSelectedMessage] = useState(null)
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false)
   const [filterStatus, setFilterStatus] = useState('all')

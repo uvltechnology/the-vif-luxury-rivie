@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { useKV } from '@github/spark/hooks'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 
 const LanguageContext = createContext()
 
@@ -12,7 +12,7 @@ export const SUPPORTED_LANGUAGES = [
 ]
 
 export function LanguageProvider({ children }) {
-  const [currentLanguage, setCurrentLanguage] = useKV('user-language', 'en')
+  const [currentLanguage, setCurrentLanguage] = useLocalStorage('user-language', 'en')
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {

@@ -1,31 +1,78 @@
-import { useState, useMemo } from 'react'
-import { useKV } from '@github/spark/hooks'
+import { useState, useMemo, useEffect } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
-import { properties } from '@/data/properties'
-import { format, addMonths, subMonths, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isToday, isBefore, startOfDay, parseISO } from 'date-fns'
-import { Plus, CaretLeft, CaretRight, CalendarBlank, Trash, Info } from '@phosphor-icons/react'
+import { adminPropertyApi, bookingApi } from '@/services/api'
+import { format, addMonths, subMonths, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isToday, isBefore, startOfDay, parseISO, addDays } from 'date-fns'
+import { Plus, CaretLeft, CaretRight, CalendarBlank, Trash, Info, CircleNotch } from '@phosphor-icons/react'
 import { toast } from 'sonner'
 
 function AvailabilityCalendar() {
-  const [blockedDates, setBlockedDates] = useKV('admin-blocked-dates', [])
-  const [bookings] = useKV('admin-bookings', [])
-  const [selectedProperty, setSelectedProperty] = useState(properties[0]?.id || '')
+  const [properties, setProperties] = useState([])
+  const [bookings, setBookings] = useState([])
+  const [blockedDates, setBlockedDates] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [selectedProperty, setSelectedProperty] = useState('')
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
   const [formData, setFormData] = useState({
     startDate: '',
     endDate: '',
-    reason: ''
+    reason: '',
+    type: 'MAINTENANCE'
   })
 
-  const [propertyBookedDates] = useKV(`bookings-${selectedProperty}`, [])
+  // Fetch properties
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        const response = await adminPropertyApi.getAll()
+        const props = response.data || []
+        setProperties(props)
+        if (props.length > 0 && !selectedProperty) {
+          setSelectedProperty(props[0].id)
+        }
+      } catch (error) {
+        console.error('Failed to fetch properties:', error)
+        toast.error('Failed to load properties')
+      }
+    }
+    fetchProperties()
+  }, [])
+
+  // Fetch availability data when property changes
+  useEffect(() => {
+    if (!selectedProperty) return
+    
+    const fetchAvailability = async () => {
+      setIsLoading(true)
+      try {
+        // Get 6 months of data
+        const startDate = format(subMonths(new Date(), 1), 'yyyy-MM-dd')
+        const endDate = format(addMonths(new Date(), 6), 'yyyy-MM-dd')
+        
+        const [availabilityRes, bookingsRes] = await Promise.all([
+          adminPropertyApi.getAvailability(selectedProperty, startDate, endDate),
+          bookingApi.getAll({ propertyId: selectedProperty })
+        ])
+        
+        setBlockedDates(availabilityRes.data?.blockedDates || [])
+        setBookings(bookingsRes.data || [])
+      } catch (error) {
+        console.error('Failed to fetch availability:', error)
+        toast.error('Failed to load availability data')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    
+    fetchAvailability()
+  }, [selectedProperty])
 
   const monthStart = startOfMonth(currentMonth)
   const monthEnd = endOfMonth(currentMonth)
@@ -39,35 +86,26 @@ function AvailabilityCalendar() {
   const propertyBookings = useMemo(() => {
     return (bookings || []).filter(b => 
       b.propertyId === selectedProperty && 
-      b.status !== 'cancelled'
+      b.status !== 'CANCELLED'
     )
   }, [bookings, selectedProperty])
-
-  const propertyBlocked = useMemo(() => {
-    return (blockedDates || []).filter(b => b.propertyId === selectedProperty)
-  }, [blockedDates, selectedProperty])
 
   const isDateBooked = (date) => {
     const dateStr = format(date, 'yyyy-MM-dd')
     
-    const bookedFromKV = (propertyBookedDates || []).some(bookedDateStr => {
-      const bookedDate = format(startOfDay(new Date(bookedDateStr)), 'yyyy-MM-dd')
-      return dateStr === bookedDate
-    })
-    
-    if (bookedFromKV) return true
-    
     return propertyBookings.some(booking => {
-      const checkIn = booking.checkIn
-      const checkOut = booking.checkOut
+      const checkIn = booking.checkIn?.split('T')[0]
+      const checkOut = booking.checkOut?.split('T')[0]
       return dateStr >= checkIn && dateStr < checkOut
     })
   }
 
   const isDateBlocked = (date) => {
     const dateStr = format(date, 'yyyy-MM-dd')
-    return propertyBlocked.some(blocked => {
-      return dateStr >= blocked.startDate && dateStr <= blocked.endDate
+    return blockedDates.some(blocked => {
+      const start = blocked.startDate?.split('T')[0]
+      const end = blocked.endDate?.split('T')[0]
+      return dateStr >= start && dateStr <= end
     })
   }
 
@@ -89,7 +127,7 @@ function AvailabilityCalendar() {
     return 'available'
   }
 
-  const handleAddBlock = () => {
+  const handleAddBlock = async () => {
     if (!formData.startDate || !formData.endDate) {
       toast.error('Please select start and end dates')
       return
@@ -103,30 +141,43 @@ function AvailabilityCalendar() {
       return
     }
 
-    const newBlock = {
-      id: `BLK-${Date.now()}`,
-      propertyId: selectedProperty,
-      startDate: formData.startDate,
-      endDate: formData.endDate,
-      reason: formData.reason,
-      createdAt: new Date().toISOString()
+    setIsSaving(true)
+    try {
+      const response = await adminPropertyApi.blockDates(selectedProperty, {
+        startDate: formData.startDate,
+        endDate: formData.endDate,
+        reason: formData.reason,
+        type: formData.type
+      })
+      
+      setBlockedDates(current => [...current, response.data])
+      
+      setFormData({
+        startDate: '',
+        endDate: '',
+        reason: '',
+        type: 'MAINTENANCE'
+      })
+      
+      setIsAddDialogOpen(false)
+      toast.success('Dates blocked successfully')
+    } catch (error) {
+      console.error('Failed to block dates:', error)
+      toast.error(error.message || 'Failed to block dates')
+    } finally {
+      setIsSaving(false)
     }
-
-    setBlockedDates((current) => [...(current || []), newBlock])
-    
-    setFormData({
-      startDate: '',
-      endDate: '',
-      reason: ''
-    })
-    
-    setIsAddDialogOpen(false)
-    toast.success('Dates blocked successfully')
   }
 
-  const handleRemoveBlock = (id) => {
-    setBlockedDates((current) => (current || []).filter(b => b.id !== id))
-    toast.success('Block removed')
+  const handleRemoveBlock = async (block) => {
+    try {
+      await adminPropertyApi.unblockDates(selectedProperty, block.id)
+      setBlockedDates(current => current.filter(b => b.id !== block.id))
+      toast.success('Block removed')
+    } catch (error) {
+      console.error('Failed to remove block:', error)
+      toast.error('Failed to remove block')
+    }
   }
 
   const getDayClasses = (status) => {
@@ -149,9 +200,29 @@ function AvailabilityCalendar() {
   const upcomingBlocks = useMemo(() => {
     const today = format(new Date(), 'yyyy-MM-dd')
     return (blockedDates || [])
-      .filter(b => b.propertyId === selectedProperty && b.endDate >= today)
-      .sort((a, b) => a.startDate.localeCompare(b.startDate))
-  }, [blockedDates, selectedProperty])
+      .filter(b => {
+        const endDate = b.endDate?.split('T')[0]
+        return endDate >= today
+      })
+      .sort((a, b) => {
+        const aStart = a.startDate?.split('T')[0]
+        const bStart = b.startDate?.split('T')[0]
+        return aStart.localeCompare(bStart)
+      })
+  }, [blockedDates])
+
+  const selectedPropertyName = properties.find(p => p.id === selectedProperty)?.name || ''
+
+  if (isLoading && properties.length === 0) {
+    return (
+      <Card>
+        <CardContent className="flex items-center justify-center py-12">
+          <CircleNotch size={32} className="animate-spin text-primary" />
+          <span className="ml-2">Loading calendar...</span>
+        </CardContent>
+      </Card>
+    )
+  }
 
   return (
     <div className="space-y-6">
@@ -160,7 +231,7 @@ function AvailabilityCalendar() {
           <Label>Property:</Label>
           <Select value={selectedProperty} onValueChange={setSelectedProperty}>
             <SelectTrigger className="w-[280px]">
-              <SelectValue />
+              <SelectValue placeholder="Select property" />
             </SelectTrigger>
             <SelectContent>
               {properties.map(property => (
@@ -174,7 +245,7 @@ function AvailabilityCalendar() {
 
         <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
           <DialogTrigger asChild>
-            <Button>
+            <Button disabled={!selectedProperty}>
               <Plus size={20} className="mr-2" />
               Block Dates
             </Button>
@@ -182,7 +253,9 @@ function AvailabilityCalendar() {
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Block Dates</DialogTitle>
-              <DialogDescription>Mark dates as unavailable for booking</DialogDescription>
+              <DialogDescription>
+                Mark dates as unavailable for booking at {selectedPropertyName}
+              </DialogDescription>
             </DialogHeader>
             
             <div className="grid gap-4 py-4">
@@ -192,6 +265,7 @@ function AvailabilityCalendar() {
                   id="startDate"
                   type="date"
                   value={formData.startDate}
+                  min={format(new Date(), 'yyyy-MM-dd')}
                   onChange={(e) => setFormData(prev => ({ ...prev, startDate: e.target.value }))}
                 />
               </div>
@@ -202,28 +276,54 @@ function AvailabilityCalendar() {
                   id="endDate"
                   type="date"
                   value={formData.endDate}
+                  min={formData.startDate || format(new Date(), 'yyyy-MM-dd')}
                   onChange={(e) => setFormData(prev => ({ ...prev, endDate: e.target.value }))}
                 />
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="reason">Reason (Optional)</Label>
+                <Label htmlFor="type">Reason Type</Label>
+                <Select 
+                  value={formData.type} 
+                  onValueChange={(value) => setFormData(prev => ({ ...prev, type: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="MAINTENANCE">Maintenance</SelectItem>
+                    <SelectItem value="OWNER_USE">Owner Use</SelectItem>
+                    <SelectItem value="SEASONAL">Seasonal Closure</SelectItem>
+                    <SelectItem value="OTHER">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="grid gap-2">
+                <Label htmlFor="reason">Notes (Optional)</Label>
                 <Textarea 
                   id="reason"
                   value={formData.reason}
                   onChange={(e) => setFormData(prev => ({ ...prev, reason: e.target.value }))}
-                  placeholder="Maintenance, personal use, etc."
+                  placeholder="Additional details..."
                   rows={3}
                 />
               </div>
             </div>
 
             <div className="flex justify-end gap-2">
-              <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
+              <Button variant="outline" onClick={() => setIsAddDialogOpen(false)} disabled={isSaving}>
                 Cancel
               </Button>
-              <Button onClick={handleAddBlock}>
-                Block Dates
+              <Button onClick={handleAddBlock} disabled={isSaving}>
+                {isSaving ? (
+                  <>
+                    <CircleNotch size={18} className="mr-2 animate-spin" />
+                    Saving...
+                  </>
+                ) : (
+                  'Block Dates'
+                )}
               </Button>
             </div>
           </DialogContent>
@@ -280,29 +380,36 @@ function AvailabilityCalendar() {
               </div>
             </div>
 
-            <div className="grid grid-cols-7 gap-2">
-              {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-                <div key={day} className="text-center text-sm font-semibold text-muted-foreground p-2">
-                  {day}
-                </div>
-              ))}
-              
-              {allDays.map((day, index) => {
-                const status = getDateStatus(day)
-                return (
-                  <div key={index} className={getDayClasses(status)}>
-                    {day ? (
-                      <>
-                        <span>{format(day, 'd')}</span>
-                        {isToday(day) && (
-                          <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary rounded-full" />
-                        )}
-                      </>
-                    ) : null}
+            {isLoading ? (
+              <div className="flex items-center justify-center py-12">
+                <CircleNotch size={24} className="animate-spin text-primary" />
+                <span className="ml-2">Loading...</span>
+              </div>
+            ) : (
+              <div className="grid grid-cols-7 gap-2">
+                {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+                  <div key={day} className="text-center text-sm font-semibold text-muted-foreground p-2">
+                    {day}
                   </div>
-                )
-              })}
-            </div>
+                ))}
+                
+                {allDays.map((day, index) => {
+                  const status = getDateStatus(day)
+                  return (
+                    <div key={index} className={getDayClasses(status)}>
+                      {day ? (
+                        <>
+                          <span>{format(day, 'd')}</span>
+                          {isToday(day) && (
+                            <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary rounded-full" />
+                          )}
+                        </>
+                      ) : null}
+                    </div>
+                  )
+                })}
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -329,6 +436,9 @@ function AvailabilityCalendar() {
                             {format(parseISO(block.startDate), 'MMM d')} - {format(parseISO(block.endDate), 'MMM d, yyyy')}
                           </p>
                         </div>
+                        <p className="text-xs text-muted-foreground capitalize">
+                          {block.type?.toLowerCase().replace('_', ' ')}
+                        </p>
                         {block.reason && (
                           <div className="flex items-start gap-2 mt-2">
                             <Info size={14} className="text-muted-foreground mt-0.5 flex-shrink-0" />
@@ -340,7 +450,7 @@ function AvailabilityCalendar() {
                         variant="ghost" 
                         size="icon"
                         className="h-8 w-8 flex-shrink-0"
-                        onClick={() => handleRemoveBlock(block.id)}
+                        onClick={() => handleRemoveBlock(block)}
                       >
                         <Trash size={16} />
                       </Button>

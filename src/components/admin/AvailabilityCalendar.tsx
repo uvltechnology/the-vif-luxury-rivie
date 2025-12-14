@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { useKV } from '@github/spark/hooks'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -31,8 +31,8 @@ interface Booking {
 }
 
 function AvailabilityCalendar() {
-  const [blockedDates, setBlockedDates] = useKV<BlockedDate[]>('admin-blocked-dates', [])
-  const [bookings] = useKV<Booking[]>('admin-bookings', [])
+  const [blockedDates, setBlockedDates] = useLocalStorage<BlockedDate[]>('admin-blocked-dates', [])
+  const [bookings] = useLocalStorage<Booking[]>('admin-bookings', [])
   const [selectedProperty, setSelectedProperty] = useState(properties[0]?.id || '')
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
@@ -42,7 +42,7 @@ function AvailabilityCalendar() {
     reason: ''
   })
 
-  const [propertyBookedDates] = useKV<string[]>(`bookings-${selectedProperty}`, [])
+  const [propertyBookedDates] = useLocalStorage<string[]>(`bookings-${selectedProperty}`, [])
 
   const monthStart = startOfMonth(currentMonth)
   const monthEnd = endOfMonth(currentMonth)

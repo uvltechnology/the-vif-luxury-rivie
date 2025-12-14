@@ -5,17 +5,51 @@ import { Button } from '@/components/ui/button'
 import Section from '@/components/shared/Section'
 import PropertyCard from '@/components/stays/PropertyCard'
 import PropertyCardSkeleton from '@/components/stays/PropertyCardSkeleton'
-import { properties } from '@/data/properties'
+import { propertyApi, getImageUrl } from '@/services/api'
 import { motion } from 'framer-motion'
 
+// Transform API response to frontend format
+const transformProperty = (apiProperty) => {
+  const amenityNames = apiProperty.amenities?.map(a => a.name?.toLowerCase() || '') || []
+  const hasPool = amenityNames.some(name => name.includes('pool'))
+  const hasSeaView = amenityNames.some(name => name.includes('sea view') || name.includes('sea-view'))
+  
+  return {
+    id: apiProperty.id,
+    slug: apiProperty.slug,
+    name: apiProperty.name,
+    tagline: apiProperty.tagline || apiProperty.shortDescription,
+    type: apiProperty.type?.toLowerCase() || 'villa',
+    location: `${apiProperty.city}, ${apiProperty.region || 'French Riviera'}`,
+    price: apiProperty.pricePerNight,
+    bedrooms: apiProperty.bedrooms,
+    bathrooms: apiProperty.bathrooms,
+    capacity: apiProperty.maxGuests,
+    hasPool,
+    hasSeaView,
+    shortDescription: apiProperty.shortDescription || apiProperty.description?.substring(0, 200),
+    images: apiProperty.images?.map(img => getImageUrl(img.url)) || [],
+  }
+}
+
 export default function FeaturedStays() {
+  const [properties, setProperties] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 1000)
-    return () => clearTimeout(timer)
+    const fetchProperties = async () => {
+      try {
+        const response = await propertyApi.getAll({ featured: true, limit: 3 })
+        const transformedProperties = (response.data || []).map(transformProperty)
+        setProperties(transformedProperties)
+      } catch (err) {
+        console.error('Failed to fetch featured properties:', err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    
+    fetchProperties()
   }, [])
   return (
     <Section>

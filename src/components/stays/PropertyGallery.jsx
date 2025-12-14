@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Images as ImagesIcon } from '@phosphor-icons/react'
-import { Button } from '@/components/ui/button'
 import PropertyGalleryLightbox from './PropertyGalleryLightbox'
 import { OptimizedImage } from '@/components/shared/OptimizedImage'
 import { cn } from '@/lib/utils'
@@ -99,15 +98,6 @@ export default function PropertyGallery({ images, propertyName }) {
             </motion.button>
           ))}
         </div>
-
-        <Button
-          onClick={() => openLightbox(0)}
-          variant="secondary"
-          className="lg:absolute lg:bottom-6 lg:right-6 lg:z-20 flex items-center gap-2"
-        >
-          <ImagesIcon size={20} weight="bold" />
-          View All {images.length} Photos
-        </Button>
       </div>
 
       <PropertyGalleryLightbox

@@ -6,19 +6,65 @@ import ExperienceCardSkeleton from '@/components/shared/ExperienceCardSkeleton'
 import { OptimizedImage } from '@/components/shared/OptimizedImage'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { experiences } from '@/data/experiences'
+import { experienceApi } from '@/services/api'
+
+// Transform API response to frontend format
+const transformExperience = (apiExp) => {
+  // Parse JSON fields that might be stored as strings
+  const parseJsonField = (field) => {
+    if (!field) return []
+    if (typeof field === 'string') {
+      try { return JSON.parse(field) } catch { return [] }
+    }
+    return Array.isArray(field) ? field : []
+  }
+  
+  // Find the lowest price from options
+  const priceOptions = parseJsonField(apiExp.priceOptions)
+  const lowestPrice = priceOptions.length > 0 
+    ? Math.min(...priceOptions.map(p => p.price || 0))
+    : apiExp.price || 0
+  const priceUnit = priceOptions.length > 0 ? priceOptions[0].unit : 'per person'
+  
+  return {
+    id: apiExp.id,
+    slug: apiExp.slug,
+    name: apiExp.name,
+    tagline: apiExp.tagline,
+    shortDescription: apiExp.shortDescription || apiExp.description?.substring(0, 200),
+    price: lowestPrice,
+    priceUnit,
+    priceOptions,
+    includes: parseJsonField(apiExp.includes),
+    image: apiExp.images?.[0]?.url || '/api/placeholder/800/400'
+  }
+}
 
 export default function Experiences() {
+  const [experiences, setExperiences] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
   const { scrollY } = useScroll()
   const headerY = useTransform(scrollY, [0, 200], [0, 50])
   const headerOpacity = useTransform(scrollY, [0, 200], [1, 0.3])
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false)
-    }, 800)
-    return () => clearTimeout(timer)
+    const fetchExperiences = async () => {
+      setLoading(true)
+      setError(null)
+      try {
+        const response = await experienceApi.getAll({ limit: 50 })
+        const transformedExperiences = (response.data || []).map(transformExperience)
+        setExperiences(transformedExperiences)
+      } catch (err) {
+        console.error('Failed to fetch experiences:', err)
+        setError('Failed to load experiences. Please try again later.')
+      } finally {
+        setLoading(false)
+      }
+    }
+    
+    fetchExperiences()
   }, [])
 
   return (
@@ -51,27 +97,35 @@ export default function Experiences() {
       </Section>
 
       <Section>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {loading ? (
-            <>
-              <ExperienceCardSkeleton />
-              <ExperienceCardSkeleton />
-              <ExperienceCardSkeleton />
-              <ExperienceCardSkeleton />
-            </>
-          ) : (
-            experiences.map((exp, index) => (
-              <motion.div
-                key={exp.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.5,
-                  delay: index * 0.1,
-                  ease: [0.25, 0.1, 0.25, 1]
-                }}
-              >
-                <Card className="overflow-hidden hover:shadow-lg transition-shadow h-full">
+        {error ? (
+          <div className="text-center py-12">
+            <p className="text-red-500 mb-4">{error}</p>
+            <Button variant="outline" onClick={() => window.location.reload()}>
+              Try Again
+            </Button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {loading ? (
+              <>
+                <ExperienceCardSkeleton />
+                <ExperienceCardSkeleton />
+                <ExperienceCardSkeleton />
+                <ExperienceCardSkeleton />
+              </>
+            ) : (
+              experiences.map((exp, index) => (
+                <motion.div
+                  key={exp.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: index * 0.1,
+                    ease: [0.25, 0.1, 0.25, 1]
+                  }}
+                >
+                  <Card className="overflow-hidden hover:shadow-lg transition-shadow h-full">
                   <div className="h-48 bg-muted relative">
                     <OptimizedImage
                       src="/api/placeholder/800/400"
@@ -106,8 +160,9 @@ export default function Experiences() {
                 </Card>
               </motion.div>
             ))
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </Section>
 
       <Section className="bg-muted/30">

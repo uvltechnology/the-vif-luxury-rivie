@@ -1,10 +1,18 @@
+import { useState, useEffect } from 'react'
 import { Star, Quotes, Seal } from '@phosphor-icons/react'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import Section from '@/components/shared/Section'
-import { testimonials, stats } from '@/data/testimonials'
-import { useState } from 'react'
+import { reviewApi } from '@/services/api'
 import { motion, AnimatePresence } from 'framer-motion'
+
+// Default stats for when API is unavailable
+const defaultStats = {
+  averageRating: 4.9,
+  totalGuests: 500,
+  repeatGuestRate: 45,
+  yearsHosting: 5
+}
 
 function TestimonialCard({ testimonial, index }) {
   return (
@@ -62,7 +70,7 @@ function TestimonialCard({ testimonial, index }) {
   )
 }
 
-function StatsBar() {
+function StatsBar({ stats }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -108,7 +116,50 @@ function StatsBar() {
 }
 
 export default function Testimonials() {
+  const [testimonials, setTestimonials] = useState([])
+  const [stats, setStats] = useState(defaultStats)
   const [showAll, setShowAll] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      try {
+        const response = await reviewApi.getAll({ limit: 10 })
+        const reviews = response.data || []
+        
+        // Transform API reviews to testimonials format
+        const transformedTestimonials = reviews.map(review => ({
+          id: review.id,
+          name: review.guestName || 'Guest',
+          location: review.guestCountry || 'International',
+          rating: review.rating || 5,
+          review: review.comment || '',
+          highlight: review.highlight,
+          propertyStayed: review.property?.name || 'VIF Property',
+          date: new Date(review.stayDate || review.createdAt).toLocaleDateString('en-US', { 
+            month: 'long', 
+            year: 'numeric' 
+          }),
+          verified: true
+        }))
+        
+        setTestimonials(transformedTestimonials)
+        
+        // Calculate stats from reviews
+        if (reviews.length > 0) {
+          const avgRating = reviews.reduce((sum, r) => sum + (r.rating || 5), 0) / reviews.length
+          setStats(prev => ({ ...prev, averageRating: avgRating.toFixed(1) }))
+        }
+      } catch (err) {
+        console.error('Failed to fetch testimonials:', err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    
+    fetchTestimonials()
+  }, [])
+  
   const displayedTestimonials = showAll ? testimonials : testimonials.slice(0, 3)
 
   return (
@@ -128,7 +179,7 @@ export default function Testimonials() {
         </p>
       </motion.div>
 
-      <StatsBar />
+      <StatsBar stats={stats} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
         <AnimatePresence mode="sync">

@@ -1,17 +1,35 @@
 import { toast } from 'sonner'
 
+// Helper functions to work with localStorage
+function getFromStorage(key, defaultValue = null) {
+  try {
+    const item = localStorage.getItem(key)
+    return item ? JSON.parse(item) : defaultValue
+  } catch {
+    return defaultValue
+  }
+}
+
+function setToStorage(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value))
+  } catch (error) {
+    console.error('Error saving to localStorage:', error)
+  }
+}
+
 export async function sendBookingNotification(booking, type = 'new') {
   try {
-    const emailSettings = await window.spark.kv.get('email-notification-settings')
+    const emailSettings = getFromStorage('email-notification-settings')
     
     if (!emailSettings?.enabled) {
       console.log('Email notifications are disabled')
       return { success: true, skipped: true }
     }
 
-    const emailData = await generateBookingEmail(booking, type, emailSettings)
+    const emailData = generateBookingEmail(booking, type, emailSettings)
     
-    await logEmailNotification({
+    logEmailNotification({
       bookingId: booking.id,
       type,
       recipient: emailSettings.recipientEmail,
@@ -27,7 +45,7 @@ export async function sendBookingNotification(booking, type = 'new') {
   } catch (error) {
     console.error('Failed to send booking notification:', error)
     
-    await logEmailNotification({
+    logEmailNotification({
       bookingId: booking.id,
       type,
       error: error.message,
@@ -40,7 +58,7 @@ export async function sendBookingNotification(booking, type = 'new') {
   }
 }
 
-async function generateBookingEmail(booking, type, settings) {
+function generateBookingEmail(booking, type, settings) {
   const templates = {
     new: {
       subject: `New Booking: ${booking.propertyName} - ${booking.guestName}`,
@@ -80,63 +98,63 @@ async function generateBookingEmail(booking, type, settings) {
     (new Date(booking.checkOut) - new Date(booking.checkIn)) / (1000 * 60 * 60 * 24)
   )
 
-  const prompt = window.spark.llmPrompt`Generate a professional, friendly email notification for a vacation rental property manager. The email should be well-formatted with proper spacing and structure.
-
-Context: ${template.action} for The VIF (The Vacation in France), a luxury vacation rental company in the French Riviera.
+  // Generate a simple email body without LLM
+  const body = `
+${template.action.toUpperCase()}
 
 Booking Details:
-- Booking ID: ${booking.id}
-- Property: ${booking.propertyName}
-- Guest Name: ${booking.guestName}
-- Guest Email: ${booking.guestEmail}
-- Guest Phone: ${booking.guestPhone || 'Not provided'}
-- Check-in: ${checkIn}
-- Check-out: ${checkOut}
-- Duration: ${nights} night${nights !== 1 ? 's' : ''}
-- Number of Guests: ${booking.guests}
-- Total Price: €${booking.totalPrice?.toLocaleString() || 'TBD'}
-- Status: ${booking.status}
-${booking.notes ? `- Special Notes: ${booking.notes}` : ''}
+----------------
+Booking ID: ${booking.id}
+Property: ${booking.propertyName}
+Guest Name: ${booking.guestName}
+Guest Email: ${booking.guestEmail}
+Guest Phone: ${booking.guestPhone || 'Not provided'}
+Check-in: ${checkIn}
+Check-out: ${checkOut}
+Duration: ${nights} night${nights !== 1 ? 's' : ''}
+Number of Guests: ${booking.guests}
+Total Price: €${booking.totalPrice?.toLocaleString() || 'TBD'}
+Status: ${booking.status}
+${booking.notes ? `Special Notes: ${booking.notes}` : ''}
 
-Generate a concise, professional email body (plain text format) that:
-1. Clearly states the booking action at the top
-2. Lists all relevant booking details in a clean format
-3. Includes any special notes if provided
-4. Ends with a brief next steps reminder (e.g., check availability calendar, prepare property, etc.)
-5. Uses proper spacing and line breaks for readability
+Next Steps:
+- Please review and update the availability calendar
+- Prepare the property for the guest's arrival
+- Send a welcome message to the guest
 
-Do not include a subject line, greeting, or signature - only the body content.`
-
-  const body = await window.spark.llm(prompt, 'gpt-4o-mini')
+---
+The VIF - Luxury Vacation Rentals
+French Riviera
+`.trim()
 
   return {
     subject: template.subject,
-    body: body.trim(),
+    body: body,
     to: settings.recipientEmail,
     from: 'The VIF Bookings <noreply@thevif.com>'
   }
 }
 
-async function logEmailNotification(log) {
-  const logs = await window.spark.kv.get('email-notification-logs') || []
+function logEmailNotification(log) {
+  const logs = getFromStorage('email-notification-logs', [])
   logs.unshift(log)
   
   if (logs.length > 100) {
     logs.splice(100)
   }
   
-  await window.spark.kv.set('email-notification-logs', logs)
+  setToStorage('email-notification-logs', logs)
 }
 
-export async function getEmailNotificationLogs() {
-  return await window.spark.kv.get('email-notification-logs') || []
+export function getEmailNotificationLogs() {
+  return getFromStorage('email-notification-logs', [])
 }
 
-export async function clearEmailNotificationLogs() {
-  await window.spark.kv.set('email-notification-logs', [])
+export function clearEmailNotificationLogs() {
+  setToStorage('email-notification-logs', [])
 }
 
-export async function getEmailSettings() {
+export function getEmailSettings() {
   const defaultSettings = {
     enabled: true,
     recipientEmail: '',
@@ -146,11 +164,11 @@ export async function getEmailSettings() {
     notifyOnUpdated: false
   }
   
-  const settings = await window.spark.kv.get('email-notification-settings')
+  const settings = getFromStorage('email-notification-settings')
   return settings || defaultSettings
 }
 
-export async function saveEmailSettings(settings) {
-  await window.spark.kv.set('email-notification-settings', settings)
+export function saveEmailSettings(settings) {
+  setToStorage('email-notification-settings', settings)
   toast.success('Email notification settings saved')
 }

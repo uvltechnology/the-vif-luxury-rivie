@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useKV } from '@github/spark/hooks'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import QuickAccessWidget from '@/components/admin/QuickAccessWidget'
 import { properties } from '@/data/properties'
@@ -7,7 +7,7 @@ import { format, subDays, isWithinInterval, parseISO, differenceInDays, startOfM
 import { CalendarBlank, CurrencyEur, TrendUp, Users, Bed, Star, ChartLine } from '@phosphor-icons/react'
 
 function AnalyticsDashboard() {
-  const [bookings] = useKV('admin-bookings', [])
+  const [bookings] = useLocalStorage('admin-bookings', [])
 
   const stats = useMemo(() => {
     const allBookings = bookings || []

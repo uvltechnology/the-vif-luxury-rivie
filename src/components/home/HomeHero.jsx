@@ -3,7 +3,8 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from '@phosphor-icons/react'
 import { useParallax } from '@/hooks/use-parallax'
-import { OptimizedBackgroundImage } from '@/components/shared/OptimizedImage'
+import { useState, useEffect } from 'react'
+import heroVideo from '@/assets/videos/lv_0_20251213141115.mp4'
 
 export default function HomeHero() {
   const { scrollY } = useScroll()
@@ -11,9 +12,20 @@ export default function HomeHero() {
   const contentY = useTransform(scrollY, [0, 500], [0, 150])
   const opacity = useTransform(scrollY, [0, 300], [1, 0])
   const scale = useTransform(scrollY, [0, 300], [1, 1.1])
+  
+  // State for smooth zoom-in animation on load
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [videoReady, setVideoReady] = useState(false)
+
+  useEffect(() => {
+    // Trigger zoom animation after component mounts
+    const timer = setTimeout(() => setIsLoaded(true), 100)
+    return () => clearTimeout(timer)
+  }, [])
 
   return (
     <div className="relative h-screen flex items-center justify-center overflow-hidden">
+      {/* Video Background with Smooth Zoom Transition */}
       <motion.div
         className="absolute inset-0"
         style={{
@@ -21,24 +33,44 @@ export default function HomeHero() {
           scale,
         }}
       >
-        <OptimizedBackgroundImage
-          src="/api/placeholder/1920/1080"
-          className="w-full h-full"
-          priority={true}
-          overlay={true}
-          overlayOpacity={0.35}
-        />
+        <div 
+          className={`absolute inset-0 transition-all duration-[2500ms] ease-out ${
+            isLoaded && videoReady 
+              ? 'scale-100 opacity-100' 
+              : 'scale-110 opacity-0'
+          }`}
+        >
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            onCanPlayThrough={() => setVideoReady(true)}
+            onLoadedData={() => setVideoReady(true)}
+            className="absolute inset-0 w-full h-full object-cover"
+          >
+            <source src={heroVideo} type="video/mp4" />
+          </video>
+        </div>
+        {/* Dark overlay for text readability - stronger opacity */}
+        <div className="absolute inset-0 bg-black/50" />
+        {/* Additional gradient for depth */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/60" />
       </motion.div>
       
       <motion.div
-        className="relative z-10 text-center text-white px-6 max-w-4xl mx-auto"
+        className="relative z-10 text-center px-6 max-w-4xl mx-auto"
         style={{
           y: contentY,
           opacity,
         }}
       >
         <motion.h1
-          className="text-5xl md:text-7xl font-heading font-bold mb-6 drop-shadow-lg"
+          className="text-5xl md:text-7xl font-heading font-bold mb-6 text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]"
+          style={{ 
+            textShadow: '0 2px 4px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.3)',
+            color: '#ffffff'
+          }}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
@@ -46,7 +78,11 @@ export default function HomeHero() {
           Your French Riviera Retreat Awaits
         </motion.h1>
         <motion.p
-          className="text-xl md:text-2xl mb-8 font-light tracking-wide drop-shadow"
+          className="text-xl md:text-2xl mb-8 font-light tracking-wide text-white"
+          style={{ 
+            textShadow: '0 2px 4px rgba(0,0,0,0.6), 0 4px 8px rgba(0,0,0,0.4)',
+            color: '#ffffff'
+          }}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}

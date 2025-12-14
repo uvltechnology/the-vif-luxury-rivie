@@ -12,7 +12,8 @@ export default function PropertyMap({ address, location, mapMarkers }) {
   const restaurants = mapMarkers?.restaurants || []
   const attractions = mapMarkers?.attractions || []
   
-  const mapUrl = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodedAddress}&zoom=14`
+  const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'AIzaSyCXcjIFJk_IfKYP-U2odXlJ4d8ONW7EhSk'
+  const mapUrl = `https://www.google.com/maps/embed/v1/place?key=${googleMapsApiKey}&q=${encodedAddress}&zoom=14`
   
   const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}`
 

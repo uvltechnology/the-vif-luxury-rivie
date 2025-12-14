@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { useKV } from '@github/spark/hooks'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 import Section from '@/components/shared/Section'
 import AnimatedSection from '@/components/shared/AnimatedSection'
 import { Input } from '@/components/ui/input'
@@ -12,8 +12,8 @@ import { EnvelopeSimple, Phone, MapPin } from '@phosphor-icons/react'
 import { toast } from 'sonner'
 
 export default function Contact() {
-  const [inquiries, setInquiries] = useKV('contact-inquiries', [])
-  const [messages, setMessages] = useKV('admin-messages', [])
+  const [inquiries, setInquiries] = useLocalStorage('contact-inquiries', [])
+  const [messages, setMessages] = useLocalStorage('admin-messages', [])
   const { scrollY } = useScroll()
   const headerY = useTransform(scrollY, [0, 200], [0, 50])
   const headerOpacity = useTransform(scrollY, [0, 200], [1, 0.3])

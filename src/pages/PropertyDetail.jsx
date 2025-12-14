@@ -1,10 +1,11 @@
+import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { Bed, Bathtub, Users, WifiHigh, Car, Waves, Check, Ruler, Star } from '@phosphor-icons/react'
+import { Bed, Bathtub, Users, WifiHigh, Car, Waves, Check, Ruler, Star, CircleNotch } from '@phosphor-icons/react'
 import Section from '@/components/shared/Section'
 import AnimatedSection from '@/components/shared/AnimatedSection'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { properties } from '@/data/properties'
+import { propertyApi, getImageUrl } from '@/services/api'
 import PropertyTestimonials from '@/components/stays/PropertyTestimonials'
 import PropertyGallery from '@/components/stays/PropertyGallery'
 import PropertyMap from '@/components/stays/PropertyMap'
@@ -17,15 +18,128 @@ import {
 } from '@/components/ui/accordion'
 import { motion } from 'framer-motion'
 
+// Transform API response to frontend format
+const transformProperty = (apiProperty) => {
+  if (!apiProperty) return null
+  
+  // Parse JSON fields that might be stored as strings
+  const parseJsonField = (field) => {
+    if (!field) return null
+    if (typeof field === 'string') {
+      try { return JSON.parse(field) } catch { return field }
+    }
+    return field
+  }
+  
+  // Get amenities grouped by category
+  const amenityNames = apiProperty.amenities?.map(a => a.name?.toLowerCase() || '') || []
+  const hasPool = amenityNames.some(name => name.includes('pool'))
+  const hasSeaView = amenityNames.some(name => name.includes('sea view') || name.includes('sea-view'))
+  const hasBalcony = amenityNames.some(name => name.includes('balcony') || name.includes('terrace'))
+  const hasParking = amenityNames.some(name => name.includes('parking'))
+  
+  // Group amenities by category
+  const amenitiesByCategory = {}
+  apiProperty.amenities?.forEach(a => {
+    const category = a.category || 'General'
+    if (!amenitiesByCategory[category]) amenitiesByCategory[category] = []
+    amenitiesByCategory[category].push(a.name)
+  })
+  
+  // Parse house rules from API or use defaults
+  const houseRulesData = parseJsonField(apiProperty.houseRules) || {}
+  const houseRules = {
+    checkIn: apiProperty.checkInTime || '15:00',
+    checkOut: apiProperty.checkOutTime || '11:00',
+    smoking: houseRulesData.smoking || 'Smoking is not allowed',
+    events: houseRulesData.events || 'Parties and events are not allowed',
+    quietHours: houseRulesData.quietHours || '22:00 – 08:00',
+    pets: houseRulesData.pets || 'Pets are not allowed',
+    cancellation: apiProperty.cancellationPolicy || houseRulesData.cancellation,
+    damageDeposit: apiProperty.securityDeposit > 0 ? `€${apiProperty.securityDeposit} damage deposit required` : null,
+    minStay: apiProperty.minNights > 1 ? `Minimum stay: ${apiProperty.minNights} nights` : null,
+    children: houseRulesData.children,
+    cribs: houseRulesData.cribs,
+    ageRestriction: houseRulesData.ageRestriction,
+    payment: houseRulesData.payment
+  }
+  
+  return {
+    id: apiProperty.id,
+    slug: apiProperty.slug,
+    name: apiProperty.name,
+    tagline: apiProperty.tagline || apiProperty.shortDescription,
+    type: apiProperty.type?.toLowerCase() || 'villa',
+    location: `${apiProperty.city}, ${apiProperty.region || 'French Riviera'}`,
+    exactAddress: apiProperty.address,
+    price: apiProperty.pricePerNight,
+    bedrooms: apiProperty.bedrooms,
+    bathrooms: apiProperty.bathrooms,
+    capacity: apiProperty.maxGuests,
+    size: apiProperty.squareMeters,
+    hasPool,
+    hasSeaView,
+    hasBalcony,
+    hasParking,
+    shortDescription: apiProperty.shortDescription,
+    fullDescription: apiProperty.description,
+    images: apiProperty.images?.map(img => getImageUrl(img.url)) || [],
+    amenities: amenitiesByCategory,
+    houseRules,
+    perfectFor: parseJsonField(apiProperty.perfectFor) || ['Couples', 'Families', 'Groups'],
+    nearbyAttractions: parseJsonField(apiProperty.nearbyAttractions) || [],
+    host: parseJsonField(apiProperty.host),
+    mapMarkers: apiProperty.latitude && apiProperty.longitude ? {
+      lat: apiProperty.latitude,
+      lng: apiProperty.longitude
+    } : null,
+    averageRating: apiProperty.averageRating,
+    reviewCount: apiProperty._count?.reviews || 0
+  }
+}
+
 export default function PropertyDetail() {
   const { propertySlug } = useParams()
-  const property = properties.find((p) => p.slug === propertySlug)
+  const [property, setProperty] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
+  
+  useEffect(() => {
+    const fetchProperty = async () => {
+      setIsLoading(true)
+      setError(null)
+      try {
+        const response = await propertyApi.getById(propertySlug)
+        const transformedProperty = transformProperty(response.data)
+        setProperty(transformedProperty)
+      } catch (err) {
+        console.error('Failed to fetch property:', err)
+        setError('Property not found or failed to load.')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    
+    fetchProperty()
+  }, [propertySlug])
 
-  if (!property) {
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center pt-20">
+        <div className="text-center">
+          <CircleNotch size={48} className="animate-spin text-primary mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading property details...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error || !property) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-heading mb-4">Property Not Found</h1>
+          <p className="text-muted-foreground mb-4">{error}</p>
           <Button asChild>
             <Link to="/stays">View All Properties</Link>
           </Button>

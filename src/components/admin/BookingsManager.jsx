@@ -1,5 +1,4 @@
 import { useState, useMemo, useEffect } from 'react'
-import { useKV } from '@github/spark/hooks'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -8,19 +7,19 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
-import { properties } from '@/data/properties'
+import { propertyApi, bookingApi } from '@/services/api'
 import { format } from 'date-fns'
-import { Plus, User, Bed, CalendarBlank, MapPin, Envelope, Phone, Trash, Eye, PaperPlaneRight } from '@phosphor-icons/react'
+import { Plus, User, Bed, CalendarBlank, MapPin, Envelope, Phone, Trash, Eye, CircleNotch } from '@phosphor-icons/react'
 import { toast } from 'sonner'
-import { sendBookingNotification, getEmailSettings } from '@/lib/emailNotifications'
 
 function BookingsManager() {
-  const [bookings, setBookings] = useKV('admin-bookings', [])
+  const [bookings, setBookings] = useState([])
+  const [properties, setProperties] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const [selectedBooking, setSelectedBooking] = useState(null)
   const [filterStatus, setFilterStatus] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
-  const [emailNotificationsEnabled, setEmailNotificationsEnabled] = useState(false)
 
   const [formData, setFormData] = useState({
     propertyId: '',
@@ -30,31 +29,52 @@ function BookingsManager() {
     checkIn: '',
     checkOut: '',
     guests: 2,
-    status: 'confirmed',
+    status: 'CONFIRMED',
     notes: ''
   })
 
+  // Fetch bookings and properties from API
   useEffect(() => {
-    const checkEmailSettings = async () => {
-      const settings = await getEmailSettings()
-      setEmailNotificationsEnabled(settings.enabled && settings.recipientEmail)
+    const fetchData = async () => {
+      setIsLoading(true)
+      try {
+        const token = localStorage.getItem('vif_auth_token')
+        if (!token) {
+          toast.error('Please login to access bookings')
+          return
+        }
+
+        const [bookingsRes, propertiesRes] = await Promise.all([
+          bookingApi.getAll(),
+          propertyApi.getAll()
+        ])
+        
+        setBookings(bookingsRes.data || [])
+        setProperties(propertiesRes.data || [])
+      } catch (error) {
+        console.error('Failed to fetch data:', error)
+        toast.error('Failed to load data. Make sure you are logged in.')
+      } finally {
+        setIsLoading(false)
+      }
     }
-    checkEmailSettings()
+    
+    fetchData()
   }, [])
 
   const filteredBookings = useMemo(() => {
     let filtered = bookings || []
 
     if (filterStatus !== 'all') {
-      filtered = filtered.filter(b => b.status === filterStatus)
+      filtered = filtered.filter(b => b.status?.toLowerCase() === filterStatus.toLowerCase())
     }
 
     if (searchQuery) {
       const query = searchQuery.toLowerCase()
       filtered = filtered.filter(b => 
-        b.guestName.toLowerCase().includes(query) ||
-        b.guestEmail.toLowerCase().includes(query) ||
-        b.propertyName.toLowerCase().includes(query)
+        b.guestName?.toLowerCase().includes(query) ||
+        b.guestEmail?.toLowerCase().includes(query) ||
+        b.property?.name?.toLowerCase().includes(query)
       )
     }
 
@@ -65,9 +85,9 @@ function BookingsManager() {
     const allBookings = bookings || []
     return {
       total: allBookings.length,
-      confirmed: allBookings.filter(b => b.status === 'confirmed').length,
-      pending: allBookings.filter(b => b.status === 'pending').length,
-      cancelled: allBookings.filter(b => b.status === 'cancelled').length
+      confirmed: allBookings.filter(b => b.status === 'CONFIRMED').length,
+      pending: allBookings.filter(b => b.status === 'PENDING').length,
+      cancelled: allBookings.filter(b => b.status === 'CANCELLED').length
     }
   }, [bookings])
 
@@ -83,82 +103,86 @@ function BookingsManager() {
     const checkInDate = new Date(formData.checkIn)
     const checkOutDate = new Date(formData.checkOut)
     const nights = Math.ceil((checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 60 * 60 * 24))
-    const totalPrice = nights * property.price
+    const totalPrice = nights * (property.pricePerNight || property.price)
 
-    const newBooking = {
-      id: `BK-${Date.now()}`,
-      propertyId: formData.propertyId,
-      propertyName: property.name,
-      guestName: formData.guestName,
-      guestEmail: formData.guestEmail,
-      guestPhone: formData.guestPhone,
-      checkIn: formData.checkIn,
-      checkOut: formData.checkOut,
-      guests: formData.guests,
-      status: formData.status,
-      totalPrice,
-      notes: formData.notes,
-      createdAt: new Date().toISOString()
-    }
+    try {
+      const response = await bookingApi.create({
+        propertyId: formData.propertyId,
+        guestName: formData.guestName,
+        guestEmail: formData.guestEmail,
+        guestPhone: formData.guestPhone,
+        checkIn: formData.checkIn,
+        checkOut: formData.checkOut,
+        guests: formData.guests,
+        status: formData.status,
+        totalPrice,
+        notes: formData.notes
+      })
 
-    setBookings(current => [...(current || []), newBooking])
-    
-    setFormData({
-      propertyId: '',
-      guestName: '',
-      guestEmail: '',
-      guestPhone: '',
-      checkIn: '',
-      checkOut: '',
-      guests: 2,
-      status: 'confirmed',
-      notes: ''
-    })
-    
-    setIsAddDialogOpen(false)
-    toast.success('Booking added successfully')
-
-    const emailSettings = await getEmailSettings()
-    if (emailSettings.enabled && emailSettings.notifyOnNew) {
-      await sendBookingNotification(newBooking, 'new')
+      setBookings(current => [...current, response.data])
+      
+      setFormData({
+        propertyId: '',
+        guestName: '',
+        guestEmail: '',
+        guestPhone: '',
+        checkIn: '',
+        checkOut: '',
+        guests: 2,
+        status: 'CONFIRMED',
+        notes: ''
+      })
+      
+      setIsAddDialogOpen(false)
+      toast.success('Booking added successfully')
+    } catch (error) {
+      console.error('Failed to create booking:', error)
+      toast.error('Failed to create booking')
     }
   }
 
-  const handleDeleteBooking = (id) => {
-    setBookings(current => (current || []).filter(b => b.id !== id))
-    toast.success('Booking deleted')
+  const handleDeleteBooking = async (id) => {
+    try {
+      await bookingApi.delete(id)
+      setBookings(current => current.filter(b => b.id !== id))
+      toast.success('Booking deleted')
+    } catch (error) {
+      console.error('Failed to delete booking:', error)
+      toast.error('Failed to delete booking')
+    }
   }
 
   const handleUpdateStatus = async (id, newStatus) => {
-    const booking = bookings.find(b => b.id === id)
-    if (!booking) return
-
-    const oldStatus = booking.status
-    
-    setBookings(current => 
-      (current || []).map(b => b.id === id ? { ...b, status: newStatus } : b)
-    )
-    toast.success('Booking status updated')
-
-    const emailSettings = await getEmailSettings()
-    if (!emailSettings.enabled) return
-
-    const updatedBooking = { ...booking, status: newStatus }
-    
-    if (newStatus === 'confirmed' && oldStatus !== 'confirmed' && emailSettings.notifyOnConfirmed) {
-      await sendBookingNotification(updatedBooking, 'confirmed')
-    } else if (newStatus === 'cancelled' && oldStatus !== 'cancelled' && emailSettings.notifyOnCancelled) {
-      await sendBookingNotification(updatedBooking, 'cancelled')
-    } else if (emailSettings.notifyOnUpdated) {
-      await sendBookingNotification(updatedBooking, 'updated')
+    try {
+      await bookingApi.update(id, { status: newStatus })
+      setBookings(current => 
+        current.map(b => b.id === id ? { ...b, status: newStatus } : b)
+      )
+      toast.success('Booking status updated')
+    } catch (error) {
+      console.error('Failed to update booking:', error)
+      toast.error('Failed to update booking status')
     }
   }
 
+  if (isLoading) {
+    return (
+      <Card>
+        <CardContent className="flex items-center justify-center py-12">
+          <CircleNotch size={32} className="animate-spin text-primary" />
+          <span className="ml-2">Loading bookings...</span>
+        </CardContent>
+      </Card>
+    )
+  }
+
   const getStatusColor = (status) => {
-    switch (status) {
-      case 'confirmed': return 'bg-green-100 text-green-800 hover:bg-green-100'
-      case 'pending': return 'bg-yellow-100 text-yellow-800 hover:bg-yellow-100'
-      case 'cancelled': return 'bg-red-100 text-red-800 hover:bg-red-100'
+    const s = status?.toUpperCase()
+    switch (s) {
+      case 'CONFIRMED': return 'bg-green-100 text-green-800 hover:bg-green-100'
+      case 'PENDING': return 'bg-yellow-100 text-yellow-800 hover:bg-yellow-100'
+      case 'CANCELLED': return 'bg-red-100 text-red-800 hover:bg-red-100'
+      case 'COMPLETED': return 'bg-blue-100 text-blue-800 hover:bg-blue-100'
       default: return 'bg-gray-100 text-gray-800 hover:bg-gray-100'
     }
   }
@@ -202,12 +226,6 @@ function BookingsManager() {
               <CardTitle>All Bookings</CardTitle>
               <CardDescription>
                 Manage guest reservations across all properties
-                {emailNotificationsEnabled && (
-                  <span className="inline-flex items-center gap-1 ml-2 text-green-600">
-                    <PaperPlaneRight size={14} />
-                    Email notifications active
-                  </span>
-                )}
               </CardDescription>
             </div>
             <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
@@ -316,9 +334,9 @@ function BookingsManager() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="confirmed">Confirmed</SelectItem>
-                        <SelectItem value="pending">Pending</SelectItem>
-                        <SelectItem value="cancelled">Cancelled</SelectItem>
+                        <SelectItem value="CONFIRMED">Confirmed</SelectItem>
+                        <SelectItem value="PENDING">Pending</SelectItem>
+                        <SelectItem value="CANCELLED">Cancelled</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -363,9 +381,10 @@ function BookingsManager() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="confirmed">Confirmed</SelectItem>
-                <SelectItem value="pending">Pending</SelectItem>
-                <SelectItem value="cancelled">Cancelled</SelectItem>
+                <SelectItem value="CONFIRMED">Confirmed</SelectItem>
+                <SelectItem value="PENDING">Pending</SelectItem>
+                <SelectItem value="CANCELLED">Cancelled</SelectItem>
+                <SelectItem value="COMPLETED">Completed</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -402,7 +421,7 @@ function BookingsManager() {
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                           <div className="flex items-center gap-2 text-sm">
                             <Bed size={18} className="text-muted-foreground" />
-                            <span>{booking.propertyName}</span>
+                            <span>{booking.property?.name || booking.propertyName || 'Unknown Property'}</span>
                           </div>
                           
                           <div className="flex items-center gap-2 text-sm">
@@ -418,7 +437,7 @@ function BookingsManager() {
                           </div>
                           
                           <div className="flex items-center gap-2 text-sm font-semibold">
-                            €{booking.totalPrice.toLocaleString()}
+                            €{(booking.totalPrice || 0).toLocaleString()}
                           </div>
                         </div>
 
@@ -453,9 +472,10 @@ function BookingsManager() {
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="confirmed">Confirmed</SelectItem>
-                            <SelectItem value="pending">Pending</SelectItem>
-                            <SelectItem value="cancelled">Cancelled</SelectItem>
+                            <SelectItem value="CONFIRMED">Confirmed</SelectItem>
+                            <SelectItem value="PENDING">Pending</SelectItem>
+                            <SelectItem value="CANCELLED">Cancelled</SelectItem>
+                            <SelectItem value="COMPLETED">Completed</SelectItem>
                           </SelectContent>
                         </Select>
                         

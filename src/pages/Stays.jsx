@@ -3,22 +3,65 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import Section from '@/components/shared/Section'
 import PropertyCard from '@/components/stays/PropertyCard'
 import PropertyCardSkeleton from '@/components/stays/PropertyCardSkeleton'
-import { properties } from '@/data/properties'
+import { propertyApi, getImageUrl } from '@/services/api'
 import { Button } from '@/components/ui/button'
+
+// Transform API response to frontend format
+const transformProperty = (apiProperty) => {
+  // Check if property has pool or sea view from amenities
+  const amenityNames = apiProperty.amenities?.map(a => a.name?.toLowerCase() || '') || []
+  const hasPool = amenityNames.some(name => name.includes('pool'))
+  const hasSeaView = amenityNames.some(name => name.includes('sea view') || name.includes('sea-view'))
+  
+  return {
+    id: apiProperty.id,
+    slug: apiProperty.slug,
+    name: apiProperty.name,
+    tagline: apiProperty.tagline || apiProperty.shortDescription,
+    type: apiProperty.type?.toLowerCase() || 'villa',
+    location: `${apiProperty.city}, ${apiProperty.region || 'French Riviera'}`,
+    price: apiProperty.pricePerNight,
+    bedrooms: apiProperty.bedrooms,
+    bathrooms: apiProperty.bathrooms,
+    capacity: apiProperty.maxGuests,
+    hasPool,
+    hasSeaView,
+    shortDescription: apiProperty.shortDescription || apiProperty.description?.substring(0, 200),
+    images: apiProperty.images?.map(img => getImageUrl(img.url)) || [],
+    amenities: apiProperty.amenities?.map(a => a.name) || [],
+    averageRating: apiProperty.averageRating,
+    reviewCount: apiProperty._count?.reviews || 0
+  }
+}
 
 export default function Stays() {
   const [filter, setFilter] = useState('all')
+  const [properties, setProperties] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
   const { scrollY } = useScroll()
   const headerY = useTransform(scrollY, [0, 200], [0, 50])
   const headerOpacity = useTransform(scrollY, [0, 200], [1, 0.3])
 
+  // Fetch properties from API
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 1200)
-    return () => clearTimeout(timer)
-  }, [filter])
+    const fetchProperties = async () => {
+      setIsLoading(true)
+      setError(null)
+      try {
+        const response = await propertyApi.getAll({ limit: 50 })
+        const transformedProperties = (response.data || []).map(transformProperty)
+        setProperties(transformedProperties)
+      } catch (err) {
+        console.error('Failed to fetch properties:', err)
+        setError('Failed to load properties. Please try again later.')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    
+    fetchProperties()
+  }, [])
 
   const filters = [
     { id: 'all', label: 'All Properties' },
@@ -94,10 +137,7 @@ export default function Stays() {
               >
                 <Button
                   variant={filter === f.id ? 'default' : 'outline'}
-                  onClick={() => {
-                    setFilter(f.id)
-                    setIsLoading(true)
-                  }}
+                  onClick={() => setFilter(f.id)}
                   size="sm"
                   className="relative overflow-hidden"
                 >
@@ -110,45 +150,54 @@ export default function Stays() {
       </div>
 
       <Section>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {isLoading ? (
-            <>
-              {[...Array(3)].map((_, index) => (
-                <motion.div
-                  key={`skeleton-${index}`}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.4,
-                    delay: index * 0.1,
-                    ease: [0.25, 0.1, 0.25, 1]
-                  }}
-                >
-                  <PropertyCardSkeleton />
-                </motion.div>
-              ))}
-            </>
-          ) : (
-            <>
-              {filteredProperties.map((property, index) => (
-                <motion.div
-                  key={property.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.5,
-                    delay: index * 0.1,
-                    ease: [0.25, 0.1, 0.25, 1]
-                  }}
-                >
-                  <PropertyCard property={property} />
-                </motion.div>
-              ))}
-            </>
-          )}
-        </div>
+        {error ? (
+          <div className="text-center py-12">
+            <p className="text-red-500 mb-4">{error}</p>
+            <Button variant="outline" onClick={() => window.location.reload()}>
+              Try Again
+            </Button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {isLoading ? (
+              <>
+                {[...Array(3)].map((_, index) => (
+                  <motion.div
+                    key={`skeleton-${index}`}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.4,
+                      delay: index * 0.1,
+                      ease: [0.25, 0.1, 0.25, 1]
+                    }}
+                  >
+                    <PropertyCardSkeleton />
+                  </motion.div>
+                ))}
+              </>
+            ) : (
+              <>
+                {filteredProperties.map((property, index) => (
+                  <motion.div
+                    key={property.id}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.5,
+                      delay: index * 0.1,
+                      ease: [0.25, 0.1, 0.25, 1]
+                    }}
+                  >
+                    <PropertyCard property={property} />
+                  </motion.div>
+                ))}
+              </>
+            )}
+          </div>
+        )}
 
-        {!isLoading && filteredProperties.length === 0 && (
+        {!isLoading && !error && filteredProperties.length === 0 && (
           <div className="text-center py-12">
             <p className="text-muted-foreground">No properties match your filters.</p>
             <Button variant="outline" onClick={() => setFilter('all')} className="mt-4">

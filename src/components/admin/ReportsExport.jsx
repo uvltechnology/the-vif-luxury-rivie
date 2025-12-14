@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useKV } from '@github/spark/hooks'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -10,8 +10,8 @@ import { DownloadSimple, FileText, CurrencyEur, CalendarBlank } from '@phosphor-
 import { toast } from 'sonner'
 
 function ReportsExport() {
-  const [bookings] = useKV('admin-bookings', [])
-  const [messages] = useKV('admin-messages', [])
+  const [bookings] = useLocalStorage('admin-bookings', [])
+  const [messages] = useLocalStorage('admin-messages', [])
   const [reportType, setReportType] = useState('bookings')
   const [reportPeriod, setReportPeriod] = useState('current-month')
 
