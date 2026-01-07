@@ -241,5 +241,67 @@ export const en = {
     lowestRated: 'Lowest Rated',
     noReviews: 'No reviews yet',
     beFirst: 'Be the first to leave a review!'
+  },
+  areaGuide: {
+    heroTitle: 'Explore the Region',
+    heroSubtitle: 'Perfectly located between the sea and the mountains, our homes in La Turbie and Cannes place you at the heart of the most authentic and exclusive French Riviera experience.',
+    iconicTitle: 'Iconic Destinations',
+    iconicSubtitle: 'World-renowned locations just moments from your door',
+    discoverMoreTitle: 'Discover More',
+    discoverMoreSubtitle: 'Enchanting villages, hidden gems and unforgettable experiences await',
+    ctaTitle: 'Your Gateway to the Riviera',
+    ctaDescription: 'Each of our properties includes a personalized welcome guide with curated recommendations, insider tips, and exclusive local contacts to help you experience the French Riviera like never before. From private yacht charters to hidden beach coves, we ensure every moment of your stay is extraordinary.',
+    destinations: {
+      monaco: {
+        name: 'Monaco',
+        subtitle: 'Luxury, excitement and world-class attractions',
+        description: 'Just a few minutes away lies Monaco, with its iconic Monte-Carlo Casino, sparkling harbor, refined boutiques, and the legendary Formula 1 Grand Prix, where roaring engines transform the city each year into the world\'s most thrilling racetrack.'
+      },
+      laTurbie: {
+        name: 'La Turbie',
+        subtitle: 'History and breathtaking views',
+        description: 'Right next to the house, discover the imposing Trophy of Augustus, a Roman monument overlooking the Mediterranean. The village\'s stone streets, charming restaurants and panoramic vistas make La Turbie the perfect hilltop escape.'
+      },
+      eze: {
+        name: 'Éze & Fragonard',
+        subtitle: 'Medieval charm and artisan perfumery',
+        description: 'Just minutes from La Turbie, the medieval village of Éze rises above the sea like a fairytale fortress. With stone pathways, breathtaking views and the Exotic Garden, it is one of the Riviera\'s most enchanting sights. Stop by the iconic Fragonard Perfumery, where you can explore traditional perfume-making and even craft your own fragrance. A refined and unforgettable Riviera experience.'
+      },
+      nice: {
+        name: 'Nice',
+        subtitle: 'Art, culture and French lifestyle',
+        description: 'Nearby Nice invites you to explore its world-renowned museums — including the Matisse Museum and the MAMAC — its vibrant markets and the iconic Promenade des Anglais. A city full of color, culture and inspiration.'
+      },
+      cannes: {
+        name: 'Cannes',
+        subtitle: 'Beaches and glamour',
+        description: 'Our properties in Cannes place you within steps of sandy beaches and the legendary Cannes Film Festival, where cinema, luxury and summer nights blend into an unforgettable Mediterranean atmosphere.'
+      },
+      lerins: {
+        name: 'Lérins Islands',
+        subtitle: 'Nature, serenity and heritage',
+        description: 'Just a short boat ride from Cannes, the Lérins Islands offer a peaceful escape. Sainte-Marguerite Island enchants visitors with its fragrant pine forests, crystal-clear coves and the historic Fort of the "Man in the Iron Mask." Saint-Honorat Island is home to an ancient monastery, vineyards and untouched landscapes. A perfect destination for a day of nature, swimming and cultural discovery.'
+      },
+      villefranche: {
+        name: 'Villefranche-sur-Mer',
+        subtitle: 'Charm, colour and an iconic bay',
+        description: 'Just a short drive away, Villefranche-sur-Mer is famous for its turquoise bay—one of the most beautiful in the world—its colourful old town and its peaceful sandy beach. With its seafront restaurants and magical medieval streets, it is one of the Riviera\'s most romantic and unforgettable destinations.'
+      },
+      saintJean: {
+        name: 'Saint-Jean-Cap-Ferrat',
+        subtitle: 'Elegance and natural beauty',
+        description: 'Just a short drive away, Saint-Jean-Cap-Ferrat offers turquoise waters, hidden coves, scenic coastal paths and the magnificent Villa Ephrussi de Rothschild. A perfect blend of luxury, tranquility and Mediterranean charm.'
+      },
+      menton: {
+        name: 'Menton',
+        subtitle: 'The pearl of the Riviera',
+        description: 'Located at the gateway to Italy, Menton enchants visitors with its pastel façades, citrus gardens and the iconic Lemon Festival. A bright, gentle and beautifully Mediterranean town.'
+      },
+      italy: {
+        name: 'Italy',
+        subtitle: 'Just around the corner',
+        description: 'From our properties, the Italian border is only a short trip away. Visit Ventimiglia, Sanremo, or the picturesque Ligurian villages to enjoy Italian cuisine, open-air markets and a warm, relaxed atmosphere.'
+      }
+    }
   }
 }

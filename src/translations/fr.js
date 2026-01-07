@@ -241,5 +241,67 @@ export const fr = {
     lowestRated: 'Moins Bien Noté',
     noReviews: 'Pas encore d\'avis',
     beFirst: 'Soyez le premier à laisser un avis !'
+  },
+  areaGuide: {
+    heroTitle: 'Découvrir la Région',
+    heroSubtitle: 'Idéalement situés entre mer et montagne, nos hébergements de La Turbie et de Cannes vous ouvrent les portes de la Côte d\'Azur la plus authentique et la plus prestigieuse.',
+    iconicTitle: 'Destinations Emblématiques',
+    iconicSubtitle: 'Des lieux de renommée mondiale à quelques minutes de chez vous',
+    discoverMoreTitle: 'Découvrir Plus',
+    discoverMoreSubtitle: 'Villages enchanteurs, trésors cachés et expériences inoubliables vous attendent',
+    ctaTitle: 'Votre Porte d\'Entrée vers la Côte d\'Azur',
+    ctaDescription: 'Chacune de nos propriétés comprend un guide d\'accueil personnalisé avec des recommandations sélectionnées, des conseils d\'initiés et des contacts locaux exclusifs pour vous faire vivre la Côte d\'Azur comme jamais auparavant. Des locations de yachts privés aux criques secrètes, nous veillons à ce que chaque moment de votre séjour soit extraordinaire.',
+    destinations: {
+      monaco: {
+        name: 'Monaco',
+        subtitle: 'Luxe, élégance et frissons',
+        description: 'À quelques minutes seulement, Monaco révèle toute sa magie : ses ruelles historiques, son port scintillant, le célèbre Casino de Monte-Carlo, ainsi que l\'atmosphère unique du Grand Prix de Formule 1, dont le rugissement des moteurs résonne chaque printemps dans la principauté.'
+      },
+      laTurbie: {
+        name: 'La Turbie',
+        subtitle: 'Un village chargé d\'histoire',
+        description: 'À deux pas de la maison, découvrez le Trophée d\'Auguste, monument romain emblématique dominant la Méditerranée. Flânez dans les ruelles médiévales, profitez des restaurants locaux et des panoramas parmi les plus spectaculaires de la Riviera.'
+      },
+      eze: {
+        name: 'Éze & Fragonard',
+        subtitle: 'Village médiéval et parfumerie artisanale',
+        description: 'À seulement quelques minutes de La Turbie, le village médiéval d\'Éze vous transporte dans un décor suspendu entre ciel et mer. Ses ruelles en pierre, ses vues panoramiques et son Jardin Exotique en font l\'un des joyaux de la Côte d\'Azur. Ne manquez pas la célèbre Parfumerie Fragonard, où vous pourrez découvrir l\'art ancestral de la parfumerie et créer votre propre fragrance. Une expérience typiquement azuréenne, raffinée et inoubliable.'
+      },
+      nice: {
+        name: 'Nice',
+        subtitle: 'Culture, musées et art de vivre',
+        description: 'À quelques kilomètres s\'étend Nice, ville d\'art et de lumière : le Musée Matisse, le MAMAC, les marchés colorés et la célèbre Promenade des Anglais. Une expérience culturelle et sensorielle incomparable.'
+      },
+      cannes: {
+        name: 'Cannes',
+        subtitle: 'Plages et glamour',
+        description: 'Nos hébergements à Cannes vous placent à deux pas des plus belles plages de sable et du mythique Festival de Cannes, où cinéma, élégance et soirées animées se mêlent à l\'atmosphère méditerranéenne.'
+      },
+      lerins: {
+        name: 'Îles de Lérins',
+        subtitle: 'Nature, calme et histoire',
+        description: 'À quelques minutes en bateau de Cannes, les Îles de Lérins offrent une parenthèse hors du temps. L\'île Sainte-Marguerite, connue pour le mystérieux « Masque de Fer », séduit par ses forêts parfumées et ses criques translucides. L\'île Saint-Honorat vous accueille autour de son abbaye millénaire, de ses vignobles et de ses paysages préservés. Un havre de paix idéal pour une journée entre nature, baignades et découverte culturelle.'
+      },
+      villefranche: {
+        name: 'Villefranche-sur-Mer',
+        subtitle: 'Charme, couleurs et baie légendaire',
+        description: 'À quelques minutes seulement, Villefranche-sur-Mer séduit par sa baie turquoise classée parmi les plus belles du monde, son vieux village coloré et sa plage idyllique. Les ruelles médiévales, les restaurants en bord de mer et l\'atmosphère authentique en font l\'un des joyaux les plus romantiques de toute la Côte d\'Azur.'
+      },
+      saintJean: {
+        name: 'Saint-Jean-Cap-Ferrat',
+        subtitle: 'Élégance et nature préservée',
+        description: 'À quelques minutes en voiture, la presqu\'île de Saint-Jean-Cap-Ferrat vous invite à découvrir ses eaux turquoise, ses criques secrètes, la somptueuse Villa Ephrussi de Rothschild et son jardin légendaire. Un lieu où luxe et nature se rencontrent en parfaite harmonie.'
+      },
+      menton: {
+        name: 'Menton',
+        subtitle: 'La perle de la Riviera',
+        description: 'Aux portes de l\'Italie, Menton séduit par sa douceur de vivre, ses façades colorées, ses jardins d\'agrumes et son célèbre Fête du Citron. Une ville lumineuse, parfumée et délicieusement méditerranéenne.'
+      },
+      italy: {
+        name: 'L\'Italie à deux pas',
+        subtitle: 'Juste au coin de la rue',
+        description: 'Depuis nos hébergements, la frontière italienne se rejoint rapidement. Profitez d\'une escapade à Vintimille, Sanremo ou dans les villages ligures pour savourer la gastronomie, les marchés et l\'atmosphère ensoleillée de l\'Italie.'
+      }
+    }
   }
 }
