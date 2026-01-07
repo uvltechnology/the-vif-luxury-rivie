@@ -4,11 +4,11 @@ import AnimatedSection from '@/components/shared/AnimatedSection'
 import { OptimizedBackgroundImage } from '@/components/shared/OptimizedImage'
 import { Card, CardContent } from '@/components/ui/card'
 import { useParallax } from '@/hooks/use-parallax'
-import { useLanguage } from '@/contexts/LanguageContext'
+import { useTranslation } from '@/hooks/useTranslation'
 import { MapPin, Compass, Gem, Mountain, Waves, Building2, TreePalm, Sailboat, Heart, Sun, Citrus, Globe } from 'lucide-react'
 
 export default function AreaGuide() {
-  const { t } = useLanguage()
+  const { t } = useTranslation()
   const { scrollY } = useScroll()
   const backgroundY = useParallax(0.4)
   const contentY = useTransform(scrollY, [0, 400], [0, 100])

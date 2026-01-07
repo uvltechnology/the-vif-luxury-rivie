@@ -3,13 +3,15 @@ import { fr } from './fr'
 import { it } from './it'
 import { de } from './de'
 import { es } from './es'
+import { ru } from './ru'
 
 export const translations = {
   en,
   fr,
   it,
   de,
-  es
+  es,
+  ru
 }
 
 export function getTranslation(lang, key) {
