@@ -1,4 +1,9 @@
 export const en = {
+  seo: {
+    metaDescription: 'Luxury villas and apartments in La Turbie and Cannes with stunning views of Monaco and the Mediterranean. Pool, terraces, near Monaco, Nice, and Cannes.',
+    tagline1: 'Experience the Riviera like never before',
+    tagline2: 'Luxury, comfort and breathtaking views'
+  },
   nav: {
     home: 'Home',
     stays: 'Stays',

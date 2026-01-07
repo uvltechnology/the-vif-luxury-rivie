@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Toaster } from '@/components/ui/sonner'
 import { LanguageProvider } from '@/contexts/LanguageContext'
+import SEOHead from '@/components/shared/SEOHead'
 import Layout from '@/components/layout/Layout'
 import Home from '@/pages/Home'
 import Stays from '@/pages/Stays'
@@ -17,6 +18,7 @@ import Admin from '@/pages/Admin'
 function App() {
     return (
         <LanguageProvider>
+            <SEOHead />
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Layout />}>

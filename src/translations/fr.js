@@ -1,4 +1,9 @@
 export const fr = {
+  seo: {
+    metaDescription: 'Villas et appartements de luxe à La Turbie et Cannes avec vue sur Monaco et la Méditerranée. Piscine, terrasses, proche de Monaco, Nice et Cannes.',
+    tagline1: 'Vivez la Côte d\'Azur autrement',
+    tagline2: 'Luxe, confort et panoramas exceptionnels'
+  },
   nav: {
     home: 'Accueil',
     stays: 'Hébergements',

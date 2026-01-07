@@ -1,4 +1,9 @@
 export const it = {
+  seo: {
+    metaDescription: 'Ville e appartamenti di lusso a La Turbie e Cannes con vista su Monaco e il Mediterraneo. Piscina, terrazze, vicino a Monaco, Nizza e Cannes.',
+    tagline1: 'Vivi la Costa Azzurra come mai prima',
+    tagline2: 'Lusso, comfort e viste mozzafiato'
+  },
   nav: {
     home: 'Home',
     stays: 'Alloggi',
