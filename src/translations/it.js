@@ -241,5 +241,67 @@ export const it = {
     lowestRated: 'Peggiore Valutazione',
     noReviews: 'Nessuna recensione ancora',
     beFirst: 'Sii il primo a lasciare una recensione!'
+  },
+  areaGuide: {
+    heroTitle: 'Scoprire la Regione',
+    heroSubtitle: 'Perfettamente situate tra mare e montagna, le nostre case a La Turbie e Cannes vi offrono il meglio della Costa Azzurra: autenticità, eleganza e panorami indimenticabili.',
+    iconicTitle: 'Destinazioni Iconiche',
+    iconicSubtitle: 'Luoghi di fama mondiale a pochi passi dalla vostra porta',
+    discoverMoreTitle: 'Scopri di Più',
+    discoverMoreSubtitle: 'Borghi incantevoli, tesori nascosti e esperienze indimenticabili vi aspettano',
+    ctaTitle: 'La Vostra Porta sulla Riviera',
+    ctaDescription: 'Ogni nostra proprietà include una guida di benvenuto personalizzata con raccomandazioni selezionate, consigli da insider e contatti locali esclusivi per aiutarvi a vivere la Costa Azzurra come mai prima. Dagli yacht privati alle calette nascoste, ci assicuriamo che ogni momento del vostro soggiorno sia straordinario.',
+    destinations: {
+      monaco: {
+        name: 'Monaco',
+        subtitle: 'Lusso, emozione e fascino internazionale',
+        description: 'A pochi minuti, Monaco rivela tutto il suo splendore: il celebre Casino di Monte-Carlo, le sue boutique raffinate, il porto scintillante e l\'adrenalina unica del Gran Premio di Formula 1, quando la città si trasforma nel circuito più iconico del mondo.'
+      },
+      laTurbie: {
+        name: 'La Turbie',
+        subtitle: 'Un borgo storico con vista spettacolare',
+        description: 'Proprio accanto alla casa si trova l\'imponente Trophée d\'Auguste, monumento romano che domina il Mediterraneo. Passeggiate tra i vicoli medievali, scoprite i ristoranti locali e godete di viste panoramiche tra le più mozzafiato della Riviera.'
+      },
+      eze: {
+        name: 'Èze & Fragonard',
+        subtitle: 'Borgo medievale e arte della profumeria',
+        description: 'A pochi minuti da La Turbie, il borgo medievale di Èze domina il mare con la sua atmosfera magica. Vicoli in pietra, panorami mozzafiato e il celebre Giardino Esotico lo rendono uno dei luoghi più affascinanti della Riviera. Da non perdere la storica Profumeria Fragonard, dove scoprire l\'arte tradizionale del profumo e creare la tua fragranza personalizzata. Un\'esperienza elegante e tipicamente francese.'
+      },
+      nice: {
+        name: 'Nizza',
+        subtitle: 'Musei, arte e dolce vita',
+        description: 'A pochi chilometri, Nizza vi accoglie con i suoi musei rinomati — come il Museo Matisse e il MAMAC — i mercati colorati e la famosa Promenade des Anglais. Una città vibrante, ricca di cultura e ispirazione.'
+      },
+      cannes: {
+        name: 'Cannes',
+        subtitle: 'Spiagge, glamour e il celebre Festival',
+        description: 'Le nostre proprietà a Cannes si trovano vicino alle splendide spiagge sabbiose e all\'iconico Festival del Cinema, dove eleganza, cinema e atmosfera mediterranea si fondono in un\'esperienza unica.'
+      },
+      lerins: {
+        name: 'Isole di Lerins',
+        subtitle: 'Natura, tranquillità e storia',
+        description: 'A pochi minuti di traghetto da Cannes, le Isole di Lerins offrono un\'oasi di pace. L\'isola di Sainte-Marguerite affascina con le sue pinete profumate, le calette cristalline e la leggenda dell\'"Uomo dalla Maschera di Ferro". L\'isola di Saint-Honorat ospita un antico monastero, vigneti e paesaggi incontaminati. Una destinazione perfetta per una giornata tra natura, mare e cultura.'
+      },
+      villefranche: {
+        name: 'Villefranche-sur-Mer',
+        subtitle: 'Fascino, colori e una baia iconica',
+        description: 'A pochi minuti si trova Villefranche-sur-Mer, famosa per la sua baia turchese—tra le più belle al mondo—il borgo antico colorato e la sua spiaggia tranquilla. Con i ristoranti sul mare e le viuzze medievali, è una delle destinazioni più romantiche dell\'intera Costa Azzurra.'
+      },
+      saintJean: {
+        name: 'Saint-Jean-Cap-Ferrat',
+        subtitle: 'Eleganza e natura intatta',
+        description: 'A breve distanza si trova Saint-Jean-Cap-Ferrat, con le sue acque turchesi, i sentieri costieri, le calette tranquille e la splendida Villa Ephrussi de Rothschild. Un luogo dove lusso e Mediterraneo si fondono alla perfezione.'
+      },
+      menton: {
+        name: 'Menton',
+        subtitle: 'La perla della Riviera',
+        description: 'A pochi passi dall\'Italia, Menton affascina con le sue facciate color pastello, i giardini degli agrumi e il celebre Fête du Citron. Una città luminosa, profumata e rilassante.'
+      },
+      italy: {
+        name: 'L\'Italia vicinissima',
+        subtitle: 'A pochi minuti dal confine',
+        description: 'Dalle nostre proprietà, il confine italiano è facilmente raggiungibile. Una gita a Ventimiglia, Sanremo o ai borghi liguri offre l\'occasione di godere della cucina italiana, dei mercati e della tipica atmosfera mediterranea.'
+      }
+    }
   }
 }
