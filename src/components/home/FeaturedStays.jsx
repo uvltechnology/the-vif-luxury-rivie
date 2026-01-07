@@ -55,14 +55,14 @@ export default function FeaturedStays() {
     <Section>
       <div className="flex items-end justify-between mb-12">
         <div>
-          <h2 className="text-4xl md:text-5xl font-heading font-semibold mb-4">Our Stays</h2>
+          <h2 className="text-4xl md:text-5xl font-heading font-semibold mb-4">Our Properties</h2>
           <p className="text-lg text-muted-foreground max-w-2xl">
-            Each property is hand-selected for its character, views, and proximity to the best the Riviera offers.
+            Luxury villas and modern apartments, meticulously designed and fully equipped for an unforgettable Mediterranean escape.
           </p>
         </div>
         <Button asChild variant="ghost" className="hidden md:flex">
           <Link to="/stays">
-            Browse All
+            View All Properties
             <ArrowRight className="ml-2" size={18} />
           </Link>
         </Button>
@@ -109,7 +109,7 @@ export default function FeaturedStays() {
       <div className="mt-8 text-center md:hidden">
         <Button asChild variant="outline">
           <Link to="/stays">
-            Browse All Stays
+            View All Properties
             <ArrowRight className="ml-2" size={18} />
           </Link>
         </Button>

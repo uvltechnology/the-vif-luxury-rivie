@@ -1,9 +1,9 @@
-import prisma from '../config/database.js';
 import logger from '../utils/logger.js';
 
 /**
  * Audit Log Service
  * Tracks important actions for security and compliance
+ * Note: Using file-based logging since audit_logs table is not in basic schema
  */
 
 export const AuditAction = {
@@ -35,12 +35,27 @@ export const AuditAction = {
   USER_DELETE: 'USER_DELETE',
   USER_DEACTIVATE: 'USER_DEACTIVATE',
   
+  // Experiences
+  EXPERIENCE_CREATE: 'EXPERIENCE_CREATE',
+  EXPERIENCE_UPDATE: 'EXPERIENCE_UPDATE',
+  EXPERIENCE_DELETE: 'EXPERIENCE_DELETE',
+  
+  // Inquiries
+  INQUIRY_CREATE: 'INQUIRY_CREATE',
+  INQUIRY_UPDATE: 'INQUIRY_UPDATE',
+  INQUIRY_DELETE: 'INQUIRY_DELETE',
+  
+  // Reviews
+  REVIEW_CREATE: 'REVIEW_CREATE',
+  REVIEW_UPDATE: 'REVIEW_UPDATE',
+  REVIEW_DELETE: 'REVIEW_DELETE',
+  
   // Settings
   SETTINGS_UPDATE: 'SETTINGS_UPDATE',
 };
 
 /**
- * Create audit log entry
+ * Create audit log entry (logs to file for now)
  */
 export const createAuditLog = async ({
   userId,
@@ -53,30 +68,28 @@ export const createAuditLog = async ({
   userAgent,
 }) => {
   try {
-    const log = await prisma.auditLog.create({
-      data: {
-        userId,
-        action,
-        entity,
-        entityId,
-        oldValue: oldValue ? JSON.stringify(oldValue) : null,
-        newValue: newValue ? JSON.stringify(newValue) : null,
-        ipAddress,
-        userAgent,
-      },
-    });
+    const logEntry = {
+      timestamp: new Date().toISOString(),
+      userId: userId || 'anonymous',
+      action,
+      entity,
+      entityId,
+      ipAddress,
+      userAgent,
+      changes: oldValue && newValue ? { old: oldValue, new: newValue } : undefined,
+    };
     
-    logger.debug(`Audit log created: ${action} on ${entity} by user ${userId || 'anonymous'}`);
-    return log;
+    logger.info(`AUDIT: ${action} on ${entity}${entityId ? '#' + entityId : ''} by ${userId || 'anonymous'}`, logEntry);
+    
+    return logEntry;
   } catch (error) {
     logger.error('Failed to create audit log:', error);
-    // Don't throw - audit logging should not break main functionality
     return null;
   }
 };
 
 /**
- * Get audit logs with filtering
+ * Get audit logs - placeholder for file-based implementation
  */
 export const getAuditLogs = async ({
   userId,
@@ -88,35 +101,14 @@ export const getAuditLogs = async ({
   page = 1,
   limit = 50,
 }) => {
-  const where = {};
-  
-  if (userId) where.userId = userId;
-  if (action) where.action = action;
-  if (entity) where.entity = entity;
-  if (entityId) where.entityId = entityId;
-  
-  if (startDate || endDate) {
-    where.createdAt = {};
-    if (startDate) where.createdAt.gte = new Date(startDate);
-    if (endDate) where.createdAt.lte = new Date(endDate);
-  }
-  
-  const [logs, total] = await Promise.all([
-    prisma.auditLog.findMany({
-      where,
-      orderBy: { createdAt: 'desc' },
-      skip: (page - 1) * limit,
-      take: limit,
-    }),
-    prisma.auditLog.count({ where }),
-  ]);
-  
+  // In a file-based system, you'd read from log files
+  // For now, return empty results
   return {
-    logs,
-    total,
+    logs: [],
+    total: 0,
     page,
     limit,
-    totalPages: Math.ceil(total / limit),
+    totalPages: 0,
   };
 };
 

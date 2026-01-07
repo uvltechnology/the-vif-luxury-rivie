@@ -1,9 +1,11 @@
-import prisma from '../config/database.js';
+import { query } from '../config/database.js';
 import { ApiError } from '../utils/ApiError.js';
 import { successResponse, createdResponse, paginatedResponse, noContentResponse } from '../utils/response.js';
 import { parsePaginationParams } from '../utils/helpers.js';
-import { sendInquiryNotification, sendInquiryAutoReply } from '../services/emailService.js';
+import { createAuditLog, AuditAction, extractRequestInfo } from '../services/auditService.js';
+import { sendInquiryAutoReply, sendInquiryNotification } from '../services/emailService.js';
 import logger from '../utils/logger.js';
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * Get all inquiries (Admin)
@@ -12,37 +14,45 @@ import logger from '../utils/logger.js';
 export const getInquiries = async (req, res, next) => {
   try {
     const { page, limit, skip } = parsePaginationParams(req.query);
-    const { status, propertyId, search } = req.query;
+    const { status, type, propertyId } = req.query;
     
-    const where = {};
+    let whereConditions = ['1=1'];
+    let params = [];
     
-    if (status) where.status = status.toUpperCase();
-    if (propertyId) where.propertyId = propertyId;
-    
-    if (search) {
-      where.OR = [
-        { name: { contains: search, mode: 'insensitive' } },
-        { email: { contains: search, mode: 'insensitive' } },
-        { subject: { contains: search, mode: 'insensitive' } },
-      ];
+    if (status) {
+      whereConditions.push('status = ?');
+      params.push(status.toUpperCase());
+    }
+    if (type) {
+      whereConditions.push('type = ?');
+      params.push(type.toUpperCase());
+    }
+    if (propertyId) {
+      whereConditions.push('propertyId = ?');
+      params.push(propertyId);
     }
     
-    const [inquiries, total] = await Promise.all([
-      prisma.inquiry.findMany({
-        where,
-        orderBy: { createdAt: 'desc' },
-        skip,
-        take: limit,
-        include: {
-          property: {
-            select: { id: true, name: true, slug: true },
-          },
-        },
-      }),
-      prisma.inquiry.count({ where }),
-    ]);
+    const whereClause = whereConditions.join(' AND ');
     
-    return paginatedResponse(res, inquiries, { page, limit, total });
+    const [countResult] = await query(`SELECT COUNT(*) as total FROM inquiries WHERE ${whereClause}`, params);
+    const total = countResult.total;
+    
+    const inquiries = await query(
+      `SELECT i.*, p.name as propertyName, p.slug as propertySlug
+       FROM inquiries i
+       LEFT JOIN properties p ON i.propertyId = p.id
+       WHERE ${whereClause}
+       ORDER BY i.createdAt DESC
+       LIMIT ? OFFSET ?`,
+      [...params, limit, skip]
+    );
+    
+    const formattedInquiries = inquiries.map(i => ({
+      ...i,
+      property: i.propertyId ? { id: i.propertyId, name: i.propertyName, slug: i.propertySlug } : null,
+    }));
+    
+    return paginatedResponse(res, formattedInquiries, { page, limit, total });
   } catch (error) {
     next(error);
   }
@@ -56,21 +66,29 @@ export const getInquiry = async (req, res, next) => {
   try {
     const { id } = req.params;
     
-    const inquiry = await prisma.inquiry.findUnique({
-      where: { id },
-      include: {
-        property: true,
-        user: {
-          select: { id: true, firstName: true, lastName: true, email: true },
-        },
-      },
-    });
+    const [inquiry] = await query(
+      `SELECT i.*, p.name as propertyName, p.slug as propertySlug
+       FROM inquiries i
+       LEFT JOIN properties p ON i.propertyId = p.id
+       WHERE i.id = ?`,
+      [id]
+    );
     
     if (!inquiry) {
       throw new ApiError(404, 'Inquiry not found');
     }
     
-    return successResponse(res, inquiry);
+    // Mark as read
+    if (inquiry.status === 'NEW') {
+      await query("UPDATE inquiries SET status = 'READ', readAt = NOW() WHERE id = ?", [id]);
+    }
+    
+    const result = {
+      ...inquiry,
+      property: inquiry.propertyId ? { id: inquiry.propertyId, name: inquiry.propertyName, slug: inquiry.propertySlug } : null,
+    };
+    
+    return successResponse(res, result);
   } catch (error) {
     next(error);
   }
@@ -82,60 +100,47 @@ export const getInquiry = async (req, res, next) => {
  */
 export const createInquiry = async (req, res, next) => {
   try {
-    const {
-      name,
-      email,
-      phone,
-      propertyId,
-      subject,
-      message,
-      checkIn,
-      checkOut,
-      numGuests,
-    } = req.body;
+    const { type, propertyId, name, email, phone, country, message, preferredContact, checkIn, checkOut, numGuests } = req.body;
     
     // Validate property if provided
     if (propertyId) {
-      const property = await prisma.property.findUnique({
-        where: { id: propertyId },
-      });
+      const [property] = await query('SELECT id FROM properties WHERE id = ?', [propertyId]);
       if (!property) {
         throw new ApiError(404, 'Property not found');
       }
     }
     
-    const inquiry = await prisma.inquiry.create({
-      data: {
-        name,
-        email,
-        phone,
-        propertyId,
-        userId: req.user?.id || null,
-        subject,
-        message,
-        checkIn: checkIn ? new Date(checkIn) : null,
-        checkOut: checkOut ? new Date(checkOut) : null,
-        numGuests,
-        status: 'NEW',
-      },
-      include: {
-        property: {
-          select: { id: true, name: true },
-        },
-      },
+    const inquiryId = uuidv4();
+    await query(
+      `INSERT INTO inquiries (id, type, propertyId, name, email, phone, country, message, 
+       preferredContact, checkIn, checkOut, numGuests, status)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'NEW')`,
+      [inquiryId, type || 'GENERAL', propertyId, name, email, phone, country, message, 
+       preferredContact, checkIn ? new Date(checkIn) : null, checkOut ? new Date(checkOut) : null, numGuests]
+    );
+    
+    const [inquiry] = await query('SELECT * FROM inquiries WHERE id = ?', [inquiryId]);
+    
+    // Audit log
+    await createAuditLog({
+      ...extractRequestInfo(req),
+      action: AuditAction.INQUIRY_CREATE,
+      entity: 'Inquiry',
+      entityId: inquiryId,
+      newValue: inquiry,
     });
     
-    // Send notification emails
+    // Send emails
     try {
-      await sendInquiryNotification(inquiry);
       await sendInquiryAutoReply(inquiry);
+      await sendInquiryNotification(inquiry);
     } catch (emailError) {
       logger.error('Failed to send inquiry emails:', emailError);
     }
     
-    logger.info(`Inquiry created from: ${email}`);
+    logger.info(`Inquiry created from ${email}`);
     
-    return createdResponse(res, inquiry, 'Inquiry submitted successfully. We\'ll respond within 24 hours.');
+    return createdResponse(res, inquiry, 'Your inquiry has been submitted. We will get back to you soon!');
   } catch (error) {
     next(error);
   }
@@ -148,29 +153,51 @@ export const createInquiry = async (req, res, next) => {
 export const updateInquiry = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { status, response } = req.body;
+    const { status, adminNotes, assignedTo } = req.body;
     
-    const currentInquiry = await prisma.inquiry.findUnique({
-      where: { id },
-    });
+    const [currentInquiry] = await query('SELECT * FROM inquiries WHERE id = ?', [id]);
     
     if (!currentInquiry) {
       throw new ApiError(404, 'Inquiry not found');
     }
     
-    const updateData = {};
+    const updates = [];
+    const params = [];
     
-    if (status) updateData.status = status;
-    if (response) {
-      updateData.response = response;
-      updateData.respondedBy = req.user.id;
-      updateData.respondedAt = new Date();
-      if (!status) updateData.status = 'RESPONDED';
+    if (status) {
+      updates.push('status = ?');
+      params.push(status);
+      
+      if (status === 'RESPONDED') {
+        updates.push('respondedAt = NOW()');
+      }
     }
     
-    const inquiry = await prisma.inquiry.update({
-      where: { id },
-      data: updateData,
+    if (adminNotes !== undefined) {
+      updates.push('adminNotes = ?');
+      params.push(adminNotes);
+    }
+    
+    if (assignedTo !== undefined) {
+      updates.push('assignedTo = ?');
+      params.push(assignedTo);
+    }
+    
+    if (updates.length > 0) {
+      params.push(id);
+      await query(`UPDATE inquiries SET ${updates.join(', ')}, updatedAt = NOW() WHERE id = ?`, params);
+    }
+    
+    const [inquiry] = await query('SELECT * FROM inquiries WHERE id = ?', [id]);
+    
+    // Audit log
+    await createAuditLog({
+      ...extractRequestInfo(req),
+      action: AuditAction.INQUIRY_UPDATE,
+      entity: 'Inquiry',
+      entityId: id,
+      oldValue: currentInquiry,
+      newValue: inquiry,
     });
     
     return successResponse(res, inquiry, 'Inquiry updated successfully');
@@ -187,16 +214,21 @@ export const deleteInquiry = async (req, res, next) => {
   try {
     const { id } = req.params;
     
-    const inquiry = await prisma.inquiry.findUnique({
-      where: { id },
-    });
+    const [inquiry] = await query('SELECT * FROM inquiries WHERE id = ?', [id]);
     
     if (!inquiry) {
       throw new ApiError(404, 'Inquiry not found');
     }
     
-    await prisma.inquiry.delete({
-      where: { id },
+    await query('DELETE FROM inquiries WHERE id = ?', [id]);
+    
+    // Audit log
+    await createAuditLog({
+      ...extractRequestInfo(req),
+      action: AuditAction.INQUIRY_DELETE,
+      entity: 'Inquiry',
+      entityId: id,
+      oldValue: inquiry,
     });
     
     return noContentResponse(res);
@@ -206,41 +238,22 @@ export const deleteInquiry = async (req, res, next) => {
 };
 
 /**
- * Get inquiry statistics (Admin)
+ * Get inquiry stats (Admin)
  * GET /api/v1/inquiries/stats
  */
 export const getInquiryStats = async (req, res, next) => {
   try {
-    const [total, newCount, inProgressCount, respondedCount, closedCount] = await Promise.all([
-      prisma.inquiry.count(),
-      prisma.inquiry.count({ where: { status: 'NEW' } }),
-      prisma.inquiry.count({ where: { status: 'IN_PROGRESS' } }),
-      prisma.inquiry.count({ where: { status: 'RESPONDED' } }),
-      prisma.inquiry.count({ where: { status: 'CLOSED' } }),
-    ]);
+    const [stats] = await query(
+      `SELECT 
+        COUNT(*) as total,
+        SUM(CASE WHEN status = 'NEW' THEN 1 ELSE 0 END) as newCount,
+        SUM(CASE WHEN status = 'READ' THEN 1 ELSE 0 END) as readCount,
+        SUM(CASE WHEN status = 'RESPONDED' THEN 1 ELSE 0 END) as respondedCount,
+        SUM(CASE WHEN status = 'CLOSED' THEN 1 ELSE 0 END) as closedCount
+       FROM inquiries`
+    );
     
-    // Recent inquiries
-    const recentInquiries = await prisma.inquiry.findMany({
-      orderBy: { createdAt: 'desc' },
-      take: 5,
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        subject: true,
-        status: true,
-        createdAt: true,
-      },
-    });
-    
-    return successResponse(res, {
-      total,
-      new: newCount,
-      inProgress: inProgressCount,
-      responded: respondedCount,
-      closed: closedCount,
-      recentInquiries,
-    });
+    return successResponse(res, stats);
   } catch (error) {
     next(error);
   }

@@ -172,10 +172,10 @@ export default function Testimonials() {
         className="text-center mb-12"
       >
         <h2 className="text-4xl md:text-5xl font-heading font-semibold mb-4">
-          Guest Experiences
+          What Our Guests Say
         </h2>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          Don't just take our word for it—hear from the guests who have made unforgettable memories at The VIF.
+          Authentic stories from travelers who discovered the magic of the French Riviera with us.
         </p>
       </motion.div>
 

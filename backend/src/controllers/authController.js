@@ -1,10 +1,11 @@
-import prisma from '../config/database.js';
+import { query } from '../config/database.js';
 import { ApiError } from '../utils/ApiError.js';
 import { successResponse, createdResponse } from '../utils/response.js';
 import { generateTokens, hashPassword, comparePassword, verifyRefreshToken } from '../middleware/auth.js';
 import { sanitizeUser } from '../utils/helpers.js';
 import { createAuditLog, AuditAction, extractRequestInfo } from '../services/auditService.js';
 import logger from '../utils/logger.js';
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * Register a new user
@@ -15,9 +16,7 @@ export const register = async (req, res, next) => {
     const { email, password, firstName, lastName, phone } = req.body;
     
     // Check if user exists
-    const existingUser = await prisma.user.findUnique({
-      where: { email },
-    });
+    const [existingUser] = await query('SELECT id FROM users WHERE email = ?', [email]);
     
     if (existingUser) {
       throw new ApiError(409, 'An account with this email already exists');
@@ -27,24 +26,20 @@ export const register = async (req, res, next) => {
     const hashedPassword = await hashPassword(password);
     
     // Create user
-    const user = await prisma.user.create({
-      data: {
-        email,
-        password: hashedPassword,
-        firstName,
-        lastName,
-        phone,
-      },
-    });
+    const userId = uuidv4();
+    await query(
+      `INSERT INTO users (id, email, password, firstName, lastName, phone) 
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [userId, email, hashedPassword, firstName, lastName, phone]
+    );
+    
+    const [user] = await query('SELECT * FROM users WHERE id = ?', [userId]);
     
     // Generate tokens
     const { accessToken, refreshToken } = generateTokens(user.id);
     
     // Update last login
-    await prisma.user.update({
-      where: { id: user.id },
-      data: { lastLoginAt: new Date() },
-    });
+    await query('UPDATE users SET lastLoginAt = NOW() WHERE id = ?', [user.id]);
     
     // Audit log
     await createAuditLog({
@@ -76,9 +71,7 @@ export const login = async (req, res, next) => {
     const { email, password } = req.body;
     
     // Find user
-    const user = await prisma.user.findUnique({
-      where: { email },
-    });
+    const [user] = await query('SELECT * FROM users WHERE email = ?', [email]);
     
     if (!user) {
       throw new ApiError(401, 'Invalid email or password');
@@ -99,10 +92,7 @@ export const login = async (req, res, next) => {
     const { accessToken, refreshToken } = generateTokens(user.id);
     
     // Update last login
-    await prisma.user.update({
-      where: { id: user.id },
-      data: { lastLoginAt: new Date() },
-    });
+    await query('UPDATE users SET lastLoginAt = NOW() WHERE id = ?', [user.id]);
     
     // Audit log
     await createAuditLog({
@@ -141,9 +131,7 @@ export const refreshToken = async (req, res, next) => {
     const decoded = verifyRefreshToken(token);
     
     // Check if user exists and is active
-    const user = await prisma.user.findUnique({
-      where: { id: decoded.userId },
-    });
+    const [user] = await query('SELECT * FROM users WHERE id = ?', [decoded.userId]);
     
     if (!user || !user.isActive) {
       throw new ApiError(401, 'Invalid refresh token');
@@ -170,22 +158,27 @@ export const refreshToken = async (req, res, next) => {
  */
 export const getProfile = async (req, res, next) => {
   try {
-    const user = await prisma.user.findUnique({
-      where: { id: req.user.id },
-      include: {
-        bookings: {
-          take: 5,
-          orderBy: { createdAt: 'desc' },
-          include: {
-            property: {
-              select: { name: true, slug: true },
-            },
-          },
-        },
-      },
-    });
+    const [user] = await query('SELECT * FROM users WHERE id = ?', [req.user.id]);
     
-    return successResponse(res, sanitizeUser(user));
+    // Get recent bookings
+    const bookings = await query(
+      `SELECT b.*, p.name as propertyName, p.slug as propertySlug 
+       FROM bookings b 
+       LEFT JOIN properties p ON b.propertyId = p.id 
+       WHERE b.userId = ? 
+       ORDER BY b.createdAt DESC LIMIT 5`,
+      [req.user.id]
+    );
+    
+    const userWithBookings = {
+      ...sanitizeUser(user),
+      bookings: bookings.map(b => ({
+        ...b,
+        property: { name: b.propertyName, slug: b.propertySlug }
+      }))
+    };
+    
+    return successResponse(res, userWithBookings);
   } catch (error) {
     next(error);
   }
@@ -199,14 +192,19 @@ export const updateProfile = async (req, res, next) => {
   try {
     const { firstName, lastName, phone } = req.body;
     
-    const user = await prisma.user.update({
-      where: { id: req.user.id },
-      data: {
-        ...(firstName && { firstName }),
-        ...(lastName && { lastName }),
-        ...(phone && { phone }),
-      },
-    });
+    const updates = [];
+    const params = [];
+    
+    if (firstName) { updates.push('firstName = ?'); params.push(firstName); }
+    if (lastName) { updates.push('lastName = ?'); params.push(lastName); }
+    if (phone) { updates.push('phone = ?'); params.push(phone); }
+    
+    if (updates.length > 0) {
+      params.push(req.user.id);
+      await query(`UPDATE users SET ${updates.join(', ')}, updatedAt = NOW() WHERE id = ?`, params);
+    }
+    
+    const [user] = await query('SELECT * FROM users WHERE id = ?', [req.user.id]);
     
     return successResponse(res, sanitizeUser(user), 'Profile updated successfully');
   } catch (error) {
@@ -223,9 +221,7 @@ export const changePassword = async (req, res, next) => {
     const { currentPassword, newPassword } = req.body;
     
     // Get user with password
-    const user = await prisma.user.findUnique({
-      where: { id: req.user.id },
-    });
+    const [user] = await query('SELECT * FROM users WHERE id = ?', [req.user.id]);
     
     // Verify current password
     const isValid = await comparePassword(currentPassword, user.password);
@@ -238,10 +234,7 @@ export const changePassword = async (req, res, next) => {
     const hashedPassword = await hashPassword(newPassword);
     
     // Update password
-    await prisma.user.update({
-      where: { id: req.user.id },
-      data: { password: hashedPassword },
-    });
+    await query('UPDATE users SET password = ?, updatedAt = NOW() WHERE id = ?', [hashedPassword, req.user.id]);
     
     // Audit log
     await createAuditLog({

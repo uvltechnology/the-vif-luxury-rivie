@@ -75,7 +75,7 @@ export default function HomeHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          Your French Riviera Retreat Awaits
+          Discover the French Riviera Like Never Before
         </motion.h1>
         <motion.p
           className="text-xl md:text-2xl mb-8 font-light tracking-wide text-white"
@@ -87,7 +87,7 @@ export default function HomeHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          Curated villas and apartments in the heart of the Mediterranean
+          Charming villas and apartments in La Turbie and Cannes, with breathtaking views of Monaco and the Mediterranean
         </motion.p>
         <motion.div
           className="flex flex-col sm:flex-row gap-4 justify-center"
@@ -97,7 +97,7 @@ export default function HomeHero() {
         >
           <Button asChild size="lg" className="text-lg px-8 py-6">
             <Link to="/stays">
-              View Our Stays
+              Explore Our Properties
               <ArrowRight className="ml-2" size={20} />
             </Link>
           </Button>

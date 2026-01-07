@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import prisma from '../config/database.js';
+import { query } from '../config/database.js';
 import config from '../config/index.js';
 import { ApiError } from '../utils/ApiError.js';
 import logger from '../utils/logger.js';
@@ -23,17 +23,10 @@ export const authenticate = async (req, res, next) => {
     const decoded = jwt.verify(token, config.jwt.secret);
     
     // Get user from database
-    const user = await prisma.user.findUnique({
-      where: { id: decoded.userId },
-      select: {
-        id: true,
-        email: true,
-        firstName: true,
-        lastName: true,
-        role: true,
-        isActive: true,
-      },
-    });
+    const [user] = await query(
+      'SELECT id, email, firstName, lastName, role, isActive FROM users WHERE id = ?',
+      [decoded.userId]
+    );
     
     if (!user) {
       throw new ApiError(401, 'User not found');
@@ -68,17 +61,10 @@ export const optionalAuth = async (req, res, next) => {
       const token = authHeader.split(' ')[1];
       const decoded = jwt.verify(token, config.jwt.secret);
       
-      const user = await prisma.user.findUnique({
-        where: { id: decoded.userId },
-        select: {
-          id: true,
-          email: true,
-          firstName: true,
-          lastName: true,
-          role: true,
-          isActive: true,
-        },
-      });
+      const [user] = await query(
+        'SELECT id, email, firstName, lastName, role, isActive FROM users WHERE id = ?',
+        [decoded.userId]
+      );
       
       if (user && user.isActive) {
         req.user = user;

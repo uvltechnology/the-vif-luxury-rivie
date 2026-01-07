@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ChefHat, Wine, Boat, Car } from '@phosphor-icons/react'
+import { ChefHat, Wine, Boat, Car, FilmStrip, FlagCheckered } from '@phosphor-icons/react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import Section from '@/components/shared/Section'
@@ -8,24 +8,24 @@ import AnimatedSection from '@/components/shared/AnimatedSection'
 export default function ExperiencesTeaser() {
   const experiences = [
     {
-      icon: ChefHat,
-      title: 'Private Chef',
-      description: 'Savor Provençal cuisine prepared in your villa'
+      icon: FilmStrip,
+      title: 'Cannes Film Festival',
+      description: 'Walk the red carpet at the world\'s most prestigious cinema event'
     },
     {
-      icon: Wine,
-      title: 'Wine Tastings',
-      description: 'Explore local vineyards and olive groves'
+      icon: FlagCheckered,
+      title: 'Monaco Grand Prix',
+      description: 'Experience F1 racing through the legendary streets of Monaco'
     },
     {
       icon: Boat,
       title: 'Yacht Excursions',
-      description: 'Discover the coast from the water'
+      description: 'Explore hidden coves and coastal gems from the sea'
     },
     {
-      icon: Car,
-      title: 'Transfers',
-      description: 'Seamless airport and local transport'
+      icon: Wine,
+      title: 'Wine & Gastronomy',
+      description: 'Savor Provençal flavors and renowned local vintages'
     }
   ]
 
@@ -34,10 +34,10 @@ export default function ExperiencesTeaser() {
       <AnimatedSection>
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-heading font-semibold mb-4">
-            Enhance Your Stay
+            Iconic Riviera Experiences
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Elevate your Riviera escape with curated experiences and personalized services.
+            From glamorous international events to intimate local discoveries—create moments that last a lifetime.
           </p>
         </div>
       </AnimatedSection>
@@ -61,7 +61,7 @@ export default function ExperiencesTeaser() {
       <AnimatedSection delay={0.6} direction="fade">
         <div className="text-center mt-10">
           <Button asChild size="lg" variant="outline">
-            <Link to="/experiences">View All Experiences</Link>
+            <Link to="/experiences">Discover All Experiences</Link>
           </Button>
         </div>
       </AnimatedSection>

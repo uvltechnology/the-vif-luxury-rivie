@@ -1,10 +1,11 @@
-import prisma from '../config/database.js';
+import { query } from '../config/database.js';
 import { ApiError } from '../utils/ApiError.js';
 import { successResponse, createdResponse, paginatedResponse, noContentResponse } from '../utils/response.js';
-import { generateBookingRef, calculateNights, calculateBookingTotal, datesOverlap, parsePaginationParams } from '../utils/helpers.js';
+import { generateBookingRef, calculateNights, calculateBookingTotal, parsePaginationParams } from '../utils/helpers.js';
 import { createAuditLog, AuditAction, extractRequestInfo } from '../services/auditService.js';
 import { sendBookingConfirmation, sendAdminBookingNotification } from '../services/emailService.js';
 import logger from '../utils/logger.js';
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * Get all bookings (Admin)
@@ -15,61 +16,74 @@ export const getBookings = async (req, res, next) => {
     const { page, limit, skip } = parsePaginationParams(req.query);
     const { status, propertyId, startDate, endDate, search } = req.query;
     
-    const where = {};
+    let whereConditions = ['1=1'];
+    let params = [];
     
-    if (status) where.status = status.toUpperCase();
-    if (propertyId) where.propertyId = propertyId;
-    
-    if (startDate || endDate) {
-      where.checkIn = {};
-      if (startDate) where.checkIn.gte = new Date(startDate);
-      if (endDate) where.checkIn.lte = new Date(endDate);
+    if (status) {
+      whereConditions.push('b.status = ?');
+      params.push(status.toUpperCase());
     }
-    
+    if (propertyId) {
+      whereConditions.push('b.propertyId = ?');
+      params.push(propertyId);
+    }
+    if (startDate) {
+      whereConditions.push('b.checkIn >= ?');
+      params.push(new Date(startDate));
+    }
+    if (endDate) {
+      whereConditions.push('b.checkIn <= ?');
+      params.push(new Date(endDate));
+    }
     if (search) {
-      where.OR = [
-        { guestName: { contains: search, mode: 'insensitive' } },
-        { guestEmail: { contains: search, mode: 'insensitive' } },
-        { bookingRef: { contains: search, mode: 'insensitive' } },
-      ];
+      whereConditions.push('(b.guestName LIKE ? OR b.guestEmail LIKE ? OR b.bookingRef LIKE ?)');
+      params.push(`%${search}%`, `%${search}%`, `%${search}%`);
     }
     
-    const [bookings, total] = await Promise.all([
-      prisma.booking.findMany({
-        where,
-        orderBy: { createdAt: 'desc' },
-        skip,
-        take: limit,
-        include: {
-          property: {
-            select: {
-              id: true,
-              name: true,
-              slug: true,
-              type: true,
-            },
-          },
-          user: {
-            select: {
-              id: true,
-              firstName: true,
-              lastName: true,
-              email: true,
-            },
-          },
-          experiences: {
-            include: {
-              experience: {
-                select: { name: true },
-              },
-            },
-          },
-        },
-      }),
-      prisma.booking.count({ where }),
-    ]);
+    const whereClause = whereConditions.join(' AND ');
     
-    return paginatedResponse(res, bookings, { page, limit, total });
+    // Get total count
+    const [countResult] = await query(`SELECT COUNT(*) as total FROM bookings b WHERE ${whereClause}`, params);
+    const total = countResult.total;
+    
+    // Get bookings with property info
+    const bookings = await query(
+      `SELECT b.*, p.id as propId, p.name as propName, p.slug as propSlug, p.type as propType,
+       u.id as uId, u.firstName as uFirstName, u.lastName as uLastName, u.email as uEmail
+       FROM bookings b
+       LEFT JOIN properties p ON b.propertyId = p.id
+       LEFT JOIN users u ON b.userId = u.id
+       WHERE ${whereClause}
+       ORDER BY b.createdAt DESC
+       LIMIT ? OFFSET ?`,
+      [...params, limit, skip]
+    );
+    
+    // Format response
+    const formattedBookings = bookings.map(b => ({
+      id: b.id,
+      bookingRef: b.bookingRef,
+      propertyId: b.propertyId,
+      userId: b.userId,
+      checkIn: b.checkIn,
+      checkOut: b.checkOut,
+      numGuests: b.numGuests,
+      numAdults: b.numAdults,
+      numChildren: b.numChildren,
+      guestName: b.guestName,
+      guestEmail: b.guestEmail,
+      guestPhone: b.guestPhone,
+      guestCountry: b.guestCountry,
+      totalPrice: b.totalPrice,
+      status: b.status,
+      notes: b.notes,
+      specialRequests: b.specialRequests,
+      createdAt: b.createdAt,
+      property: { id: b.propId, name: b.propName, slug: b.propSlug, type: b.propType },
+      user: b.uId ? { id: b.uId, firstName: b.uFirstName, lastName: b.uLastName, email: b.uEmail } : null,
+    }));
+    
+    return paginatedResponse(res, formattedBookings, { page, limit, total });
   } catch (error) {
     next(error);
   }
@@ -86,41 +100,38 @@ export const getBooking = async (req, res, next) => {
     // Allow lookup by ID or booking reference
     const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
     
-    const booking = await prisma.booking.findFirst({
-      where: isUUID ? { id } : { bookingRef: id },
-      include: {
-        property: {
-          include: {
-            images: { where: { isPrimary: true }, take: 1 },
-          },
-        },
-        user: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            email: true,
-            phone: true,
-          },
-        },
-        experiences: {
-          include: {
-            experience: true,
-          },
-        },
-      },
-    });
+    const [booking] = await query(
+      `SELECT b.*, p.id as propId, p.name as propName, p.slug as propSlug, p.type as propType,
+       u.id as uId, u.firstName as uFirstName, u.lastName as uLastName, u.email as uEmail, u.phone as uPhone
+       FROM bookings b
+       LEFT JOIN properties p ON b.propertyId = p.id
+       LEFT JOIN users u ON b.userId = u.id
+       WHERE ${isUUID ? 'b.id = ?' : 'b.bookingRef = ?'}`,
+      [id]
+    );
     
     if (!booking) {
       throw new ApiError(404, 'Booking not found');
     }
     
     // Check authorization for non-admin users
-    if (req.user.role === 'GUEST' && booking.userId !== req.user.id) {
+    if (req.user?.role === 'GUEST' && booking.userId !== req.user.id) {
       throw new ApiError(403, 'You do not have access to this booking');
     }
     
-    return successResponse(res, booking);
+    // Get property image
+    const images = await query(
+      'SELECT * FROM property_images WHERE propertyId = ? AND isPrimary = true LIMIT 1',
+      [booking.propId]
+    );
+    
+    const result = {
+      ...booking,
+      property: { id: booking.propId, name: booking.propName, slug: booking.propSlug, type: booking.propType, images },
+      user: booking.uId ? { id: booking.uId, firstName: booking.uFirstName, lastName: booking.uLastName, email: booking.uEmail, phone: booking.uPhone } : null,
+    };
+    
+    return successResponse(res, result);
   } catch (error) {
     next(error);
   }
@@ -135,34 +146,35 @@ export const getMyBookings = async (req, res, next) => {
     const { page, limit, skip } = parsePaginationParams(req.query);
     const { status } = req.query;
     
-    const where = {
-      userId: req.user.id,
-    };
+    let whereConditions = ['b.userId = ?'];
+    let params = [req.user.id];
     
-    if (status) where.status = status.toUpperCase();
+    if (status) {
+      whereConditions.push('b.status = ?');
+      params.push(status.toUpperCase());
+    }
     
-    const [bookings, total] = await Promise.all([
-      prisma.booking.findMany({
-        where,
-        orderBy: { checkIn: 'desc' },
-        skip,
-        take: limit,
-        include: {
-          property: {
-            select: {
-              id: true,
-              name: true,
-              slug: true,
-              type: true,
-              images: { where: { isPrimary: true }, take: 1 },
-            },
-          },
-        },
-      }),
-      prisma.booking.count({ where }),
-    ]);
+    const whereClause = whereConditions.join(' AND ');
     
-    return paginatedResponse(res, bookings, { page, limit, total });
+    const [countResult] = await query(`SELECT COUNT(*) as total FROM bookings b WHERE ${whereClause}`, params);
+    const total = countResult.total;
+    
+    const bookings = await query(
+      `SELECT b.*, p.id as propId, p.name as propName, p.slug as propSlug, p.type as propType
+       FROM bookings b
+       LEFT JOIN properties p ON b.propertyId = p.id
+       WHERE ${whereClause}
+       ORDER BY b.checkIn DESC
+       LIMIT ? OFFSET ?`,
+      [...params, limit, skip]
+    );
+    
+    const formattedBookings = bookings.map(b => ({
+      ...b,
+      property: { id: b.propId, name: b.propName, slug: b.propSlug, type: b.propType },
+    }));
+    
+    return paginatedResponse(res, formattedBookings, { page, limit, total });
   } catch (error) {
     next(error);
   }
@@ -175,206 +187,144 @@ export const getMyBookings = async (req, res, next) => {
 export const createBooking = async (req, res, next) => {
   try {
     const {
-      propertyId,
-      checkIn,
-      checkOut,
-      numGuests,
-      numAdults,
-      numChildren,
-      guestName,
-      guestEmail,
-      guestPhone,
-      guestCountry,
-      notes,
-      specialRequests,
-      experienceIds,
+      propertyId, checkIn, checkOut, numGuests, numAdults, numChildren,
+      guestName, guestEmail, guestPhone, guestCountry, notes, specialRequests,
     } = req.body;
     
     // Validate property exists and is active
-    const property = await prisma.property.findUnique({
-      where: { id: propertyId },
-    });
+    const [property] = await query('SELECT * FROM properties WHERE id = ? AND isActive = true', [propertyId]);
     
-    if (!property || !property.isActive) {
+    if (!property) {
       throw new ApiError(404, 'Property not found or unavailable');
     }
     
-    // Validate guest count
-    if (numGuests > property.maxGuests) {
-      throw new ApiError(400, `This property can accommodate up to ${property.maxGuests} guests`);
+    const checkInDate = new Date(checkIn);
+    const checkOutDate = new Date(checkOut);
+    
+    // Validate dates
+    if (checkInDate >= checkOutDate) {
+      throw new ApiError(400, 'Check-out date must be after check-in date');
     }
     
-    // Calculate nights
-    const nights = calculateNights(checkIn, checkOut);
-    
-    // Validate minimum/maximum nights
-    if (nights < property.minNights) {
-      throw new ApiError(400, `Minimum stay is ${property.minNights} nights`);
+    if (checkInDate < new Date()) {
+      throw new ApiError(400, 'Check-in date cannot be in the past');
     }
     
-    if (nights > property.maxNights) {
-      throw new ApiError(400, `Maximum stay is ${property.maxNights} nights`);
+    // Check guest capacity
+    const totalGuests = numGuests || (numAdults || 1) + (numChildren || 0);
+    if (totalGuests > property.maxGuests) {
+      throw new ApiError(400, `Maximum ${property.maxGuests} guests allowed`);
     }
     
-    // Check availability - no overlapping confirmed/pending bookings
-    const existingBookings = await prisma.booking.findMany({
-      where: {
-        propertyId,
-        status: { in: ['CONFIRMED', 'PENDING'] },
-        OR: [
-          { checkIn: { lt: new Date(checkOut) }, checkOut: { gt: new Date(checkIn) } },
-        ],
-      },
-    });
+    // Check for overlapping bookings
+    const overlapping = await query(
+      `SELECT id FROM bookings WHERE propertyId = ? AND status IN ('CONFIRMED', 'PENDING')
+       AND ((checkIn < ? AND checkOut > ?) OR (checkIn < ? AND checkOut > ?) OR (checkIn >= ? AND checkOut <= ?))`,
+      [propertyId, checkOutDate, checkInDate, checkOutDate, checkInDate, checkInDate, checkOutDate]
+    );
     
-    if (existingBookings.length > 0) {
-      throw new ApiError(409, 'These dates are not available');
-    }
-    
-    // Check blocked dates
-    const blockedDates = await prisma.blockedDate.findMany({
-      where: {
-        propertyId,
-        OR: [
-          { startDate: { lt: new Date(checkOut) }, endDate: { gt: new Date(checkIn) } },
-        ],
-      },
-    });
-    
-    if (blockedDates.length > 0) {
-      throw new ApiError(409, 'These dates are blocked');
+    if (overlapping.length > 0) {
+      throw new ApiError(409, 'Property is not available for selected dates');
     }
     
     // Calculate pricing
-    const pricing = calculateBookingTotal({
-      pricePerNight: property.pricePerNight,
-      nights,
-      cleaningFee: property.cleaningFee,
-      serviceFee: property.pricePerNight * nights * 0.05, // 5% service fee
-      taxRate: 0.1, // 10% tax
-    });
+    const nights = calculateNights(checkInDate, checkOutDate);
+    const accommodationCost = nights * property.pricePerNight;
+    const cleaningFee = property.cleaningFee || 0;
+    const totalPrice = accommodationCost + cleaningFee;
     
     // Generate booking reference
     const bookingRef = generateBookingRef();
     
-    // Create booking
-    const booking = await prisma.booking.create({
-      data: {
-        bookingRef,
-        propertyId,
-        userId: req.user?.id || null,
-        guestName,
-        guestEmail,
-        guestPhone,
-        guestCountry,
-        checkIn: new Date(checkIn),
-        checkOut: new Date(checkOut),
-        numGuests,
-        numAdults: numAdults || numGuests,
-        numChildren: numChildren || 0,
-        pricePerNight: property.pricePerNight,
-        numNights: nights,
-        subtotal: pricing.subtotal,
-        cleaningFee: pricing.cleaningFee,
-        serviceFee: pricing.serviceFee,
-        taxes: pricing.taxes,
-        totalPrice: pricing.total,
-        notes,
-        specialRequests,
-        status: 'PENDING',
-      },
-      include: {
-        property: true,
-      },
-    });
+    const bookingId = uuidv4();
+    await query(
+      `INSERT INTO bookings (id, bookingRef, propertyId, userId, checkIn, checkOut, numGuests, numAdults, 
+       numChildren, guestName, guestEmail, guestPhone, guestCountry, basePrice, cleaningFee, totalPrice, 
+       status, notes, specialRequests)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'PENDING', ?, ?)`,
+      [bookingId, bookingRef, propertyId, req.user?.id || null, checkInDate, checkOutDate, totalGuests,
+       numAdults || 1, numChildren || 0, guestName, guestEmail, guestPhone, guestCountry,
+       accommodationCost, cleaningFee, totalPrice, notes, specialRequests]
+    );
     
-    // Add experiences if requested
-    if (experienceIds?.length > 0) {
-      // Implementation for adding experiences to booking
-      // Would create BookingExperience records
-    }
+    const [booking] = await query('SELECT * FROM bookings WHERE id = ?', [bookingId]);
     
     // Audit log
     await createAuditLog({
       ...extractRequestInfo(req),
+      userId: req.user?.id,
       action: AuditAction.BOOKING_CREATE,
       entity: 'Booking',
-      entityId: booking.id,
+      entityId: bookingId,
       newValue: booking,
     });
     
-    // Send emails
+    // Send confirmation emails
     try {
       await sendBookingConfirmation(booking, property);
       await sendAdminBookingNotification(booking, property);
     } catch (emailError) {
       logger.error('Failed to send booking emails:', emailError);
-      // Don't fail the booking creation if emails fail
     }
     
     logger.info(`Booking created: ${bookingRef}`);
     
-    return createdResponse(res, booking, 'Booking created successfully');
+    return createdResponse(res, { ...booking, property }, 'Booking created successfully');
   } catch (error) {
     next(error);
   }
 };
 
 /**
- * Update booking (Admin only)
+ * Update booking status (Admin)
  * PATCH /api/v1/bookings/:id
  */
 export const updateBooking = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { status, notes, internalNotes } = req.body;
+    const { status, adminNotes } = req.body;
     
-    const currentBooking = await prisma.booking.findUnique({
-      where: { id },
-      include: { property: true },
-    });
+    const [currentBooking] = await query('SELECT * FROM bookings WHERE id = ?', [id]);
     
     if (!currentBooking) {
       throw new ApiError(404, 'Booking not found');
     }
     
-    const updateData = {};
+    const updates = [];
+    const params = [];
     
     if (status) {
-      updateData.status = status;
-      if (status === 'CONFIRMED') updateData.confirmedAt = new Date();
-      if (status === 'CANCELLED') updateData.cancelledAt = new Date();
+      updates.push('status = ?');
+      params.push(status);
+      
+      if (status === 'CONFIRMED') {
+        updates.push('confirmedAt = NOW()');
+      } else if (status === 'CANCELLED') {
+        updates.push('cancelledAt = NOW()');
+      }
     }
     
-    if (notes !== undefined) updateData.notes = notes;
-    if (internalNotes !== undefined) updateData.internalNotes = internalNotes;
+    if (adminNotes !== undefined) {
+      updates.push('adminNotes = ?');
+      params.push(adminNotes);
+    }
     
-    const booking = await prisma.booking.update({
-      where: { id },
-      data: updateData,
-      include: {
-        property: true,
-      },
-    });
+    if (updates.length > 0) {
+      params.push(id);
+      await query(`UPDATE bookings SET ${updates.join(', ')}, updatedAt = NOW() WHERE id = ?`, params);
+    }
+    
+    const [booking] = await query('SELECT * FROM bookings WHERE id = ?', [id]);
     
     // Audit log
     await createAuditLog({
       ...extractRequestInfo(req),
       action: AuditAction.BOOKING_UPDATE,
       entity: 'Booking',
-      entityId: booking.id,
+      entityId: id,
       oldValue: currentBooking,
       newValue: booking,
     });
-    
-    // Send confirmation email if status changed to confirmed
-    if (status === 'CONFIRMED' && currentBooking.status !== 'CONFIRMED') {
-      try {
-        await sendBookingConfirmation(booking, booking.property);
-      } catch (emailError) {
-        logger.error('Failed to send confirmation email:', emailError);
-      }
-    }
     
     return successResponse(res, booking, 'Booking updated successfully');
   } catch (error) {
@@ -391,48 +341,76 @@ export const cancelBooking = async (req, res, next) => {
     const { id } = req.params;
     const { reason } = req.body;
     
-    const currentBooking = await prisma.booking.findUnique({
-      where: { id },
-    });
+    const [booking] = await query('SELECT * FROM bookings WHERE id = ?', [id]);
     
-    if (!currentBooking) {
+    if (!booking) {
       throw new ApiError(404, 'Booking not found');
     }
     
-    // Check if user can cancel (owner or admin)
-    if (req.user.role === 'GUEST' && currentBooking.userId !== req.user.id) {
-      throw new ApiError(403, 'You do not have permission to cancel this booking');
+    // Check authorization
+    if (req.user.role === 'GUEST' && booking.userId !== req.user.id) {
+      throw new ApiError(403, 'You can only cancel your own bookings');
     }
     
-    // Check if booking can be cancelled
-    if (['CANCELLED', 'COMPLETED'].includes(currentBooking.status)) {
-      throw new ApiError(400, 'This booking cannot be cancelled');
+    if (['CANCELLED', 'COMPLETED'].includes(booking.status)) {
+      throw new ApiError(400, `Booking cannot be cancelled (current status: ${booking.status})`);
     }
     
-    const booking = await prisma.booking.update({
-      where: { id },
-      data: {
-        status: 'CANCELLED',
-        cancelledAt: new Date(),
-        internalNotes: currentBooking.internalNotes
-          ? `${currentBooking.internalNotes}\nCancellation reason: ${reason || 'Not provided'}`
-          : `Cancellation reason: ${reason || 'Not provided'}`,
-      },
-    });
+    await query(
+      `UPDATE bookings SET status = 'CANCELLED', cancelledAt = NOW(), cancellationReason = ?, updatedAt = NOW() WHERE id = ?`,
+      [reason, id]
+    );
+    
+    const [updatedBooking] = await query('SELECT * FROM bookings WHERE id = ?', [id]);
     
     // Audit log
     await createAuditLog({
       ...extractRequestInfo(req),
+      userId: req.user.id,
       action: AuditAction.BOOKING_CANCEL,
       entity: 'Booking',
-      entityId: booking.id,
-      oldValue: currentBooking,
-      newValue: booking,
+      entityId: id,
+      oldValue: booking,
+      newValue: updatedBooking,
     });
     
     logger.info(`Booking cancelled: ${booking.bookingRef}`);
     
-    return successResponse(res, booking, 'Booking cancelled successfully');
+    return successResponse(res, updatedBooking, 'Booking cancelled successfully');
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Get booking statistics (Admin)
+ * GET /api/v1/bookings/stats
+ */
+export const getBookingStats = async (req, res, next) => {
+  try {
+    const { startDate, endDate } = req.query;
+    
+    let dateFilter = '';
+    const params = [];
+    
+    if (startDate && endDate) {
+      dateFilter = 'WHERE createdAt BETWEEN ? AND ?';
+      params.push(new Date(startDate), new Date(endDate));
+    }
+    
+    const [stats] = await query(
+      `SELECT 
+        COUNT(*) as total,
+        SUM(CASE WHEN status = 'PENDING' THEN 1 ELSE 0 END) as pending,
+        SUM(CASE WHEN status = 'CONFIRMED' THEN 1 ELSE 0 END) as confirmed,
+        SUM(CASE WHEN status = 'CANCELLED' THEN 1 ELSE 0 END) as cancelled,
+        SUM(CASE WHEN status = 'COMPLETED' THEN 1 ELSE 0 END) as completed,
+        SUM(CASE WHEN status = 'CONFIRMED' THEN totalPrice ELSE 0 END) as totalRevenue
+       FROM bookings ${dateFilter}`,
+      params
+    );
+    
+    return successResponse(res, stats);
   } catch (error) {
     next(error);
   }
@@ -446,17 +424,13 @@ export const deleteBooking = async (req, res, next) => {
   try {
     const { id } = req.params;
     
-    const booking = await prisma.booking.findUnique({
-      where: { id },
-    });
+    const [booking] = await query('SELECT * FROM bookings WHERE id = ?', [id]);
     
     if (!booking) {
       throw new ApiError(404, 'Booking not found');
     }
     
-    await prisma.booking.delete({
-      where: { id },
-    });
+    await query('DELETE FROM bookings WHERE id = ?', [id]);
     
     // Audit log
     await createAuditLog({
@@ -475,95 +449,6 @@ export const deleteBooking = async (req, res, next) => {
   }
 };
 
-/**
- * Get booking statistics (Admin)
- * GET /api/v1/bookings/stats
- */
-export const getBookingStats = async (req, res, next) => {
-  try {
-    const { period = '30' } = req.query;
-    const days = parseInt(period);
-    const startDate = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
-    
-    const [
-      totalBookings,
-      confirmedBookings,
-      pendingBookings,
-      cancelledBookings,
-      revenueResult,
-      upcomingBookings,
-      recentBookings,
-    ] = await Promise.all([
-      prisma.booking.count({
-        where: { createdAt: { gte: startDate } },
-      }),
-      prisma.booking.count({
-        where: { status: 'CONFIRMED', createdAt: { gte: startDate } },
-      }),
-      prisma.booking.count({
-        where: { status: 'PENDING' },
-      }),
-      prisma.booking.count({
-        where: { status: 'CANCELLED', createdAt: { gte: startDate } },
-      }),
-      prisma.booking.aggregate({
-        where: { status: 'CONFIRMED', createdAt: { gte: startDate } },
-        _sum: { totalPrice: true },
-      }),
-      prisma.booking.count({
-        where: {
-          status: { in: ['CONFIRMED', 'PENDING'] },
-          checkIn: { gte: new Date() },
-        },
-      }),
-      prisma.booking.findMany({
-        where: { createdAt: { gte: startDate } },
-        orderBy: { createdAt: 'desc' },
-        take: 5,
-        include: {
-          property: { select: { name: true } },
-        },
-      }),
-    ]);
-    
-    // Bookings by property
-    const bookingsByProperty = await prisma.booking.groupBy({
-      by: ['propertyId'],
-      where: { createdAt: { gte: startDate } },
-      _count: { id: true },
-      _sum: { totalPrice: true },
-    });
-    
-    // Get property names
-    const propertyIds = bookingsByProperty.map((b) => b.propertyId);
-    const properties = await prisma.property.findMany({
-      where: { id: { in: propertyIds } },
-      select: { id: true, name: true },
-    });
-    
-    const propertyMap = new Map(properties.map((p) => [p.id, p.name]));
-    
-    return successResponse(res, {
-      period: `${days} days`,
-      totalBookings,
-      confirmedBookings,
-      pendingBookings,
-      cancelledBookings,
-      upcomingBookings,
-      revenue: revenueResult._sum.totalPrice || 0,
-      recentBookings,
-      bookingsByProperty: bookingsByProperty.map((b) => ({
-        propertyId: b.propertyId,
-        propertyName: propertyMap.get(b.propertyId),
-        count: b._count.id,
-        revenue: b._sum.totalPrice || 0,
-      })),
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
 export default {
   getBookings,
   getBooking,
@@ -571,6 +456,6 @@ export default {
   createBooking,
   updateBooking,
   cancelBooking,
-  deleteBooking,
   getBookingStats,
+  deleteBooking,
 };

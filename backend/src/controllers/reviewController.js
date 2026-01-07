@@ -1,241 +1,258 @@
-import prisma from '../config/database.js';
+import { query } from '../config/database.js';
 import { ApiError } from '../utils/ApiError.js';
 import { successResponse, createdResponse, paginatedResponse, noContentResponse } from '../utils/response.js';
 import { parsePaginationParams } from '../utils/helpers.js';
+import { createAuditLog, AuditAction, extractRequestInfo } from '../services/auditService.js';
 import logger from '../utils/logger.js';
+import { v4 as uuidv4 } from 'uuid';
 
 /**
- * Get all reviews
+ * Get all reviews (Admin)
  * GET /api/v1/reviews
  */
 export const getReviews = async (req, res, next) => {
   try {
     const { page, limit, skip } = parsePaginationParams(req.query);
-    const { propertyId, rating, verified } = req.query;
+    const { propertyId, isPublished, minRating } = req.query;
     
-    const where = {
-      isPublished: true,
-    };
+    let whereConditions = ['1=1'];
+    let params = [];
     
-    if (propertyId) where.propertyId = propertyId;
-    if (rating) where.rating = parseInt(rating);
-    if (verified === 'true') where.isVerified = true;
+    if (propertyId) {
+      whereConditions.push('r.propertyId = ?');
+      params.push(propertyId);
+    }
+    if (isPublished !== undefined) {
+      whereConditions.push('r.isPublished = ?');
+      params.push(isPublished === 'true');
+    }
+    if (minRating) {
+      whereConditions.push('r.rating >= ?');
+      params.push(parseFloat(minRating));
+    }
     
-    const [reviews, total] = await Promise.all([
-      prisma.review.findMany({
-        where,
-        orderBy: { createdAt: 'desc' },
-        skip,
-        take: limit,
-        include: {
-          property: {
-            select: { id: true, name: true, slug: true },
-          },
-        },
-      }),
-      prisma.review.count({ where }),
-    ]);
+    const whereClause = whereConditions.join(' AND ');
     
-    return paginatedResponse(res, reviews, { page, limit, total });
+    const [countResult] = await query(`SELECT COUNT(*) as total FROM reviews r WHERE ${whereClause}`, params);
+    const total = countResult.total;
+    
+    const reviews = await query(
+      `SELECT r.*, p.name as propertyName, p.slug as propertySlug
+       FROM reviews r
+       LEFT JOIN properties p ON r.propertyId = p.id
+       WHERE ${whereClause}
+       ORDER BY r.createdAt DESC
+       LIMIT ? OFFSET ?`,
+      [...params, limit, skip]
+    );
+    
+    const formattedReviews = reviews.map(r => ({
+      ...r,
+      property: { id: r.propertyId, name: r.propertyName, slug: r.propertySlug },
+    }));
+    
+    return paginatedResponse(res, formattedReviews, { page, limit, total });
   } catch (error) {
     next(error);
   }
 };
 
 /**
- * Get reviews for a property
- * GET /api/v1/reviews/property/:propertyId
- */
-export const getPropertyReviews = async (req, res, next) => {
-  try {
-    const { propertyId } = req.params;
-    const { page, limit, skip } = parsePaginationParams(req.query);
-    
-    const where = {
-      propertyId,
-      isPublished: true,
-    };
-    
-    const [reviews, total, avgRating] = await Promise.all([
-      prisma.review.findMany({
-        where,
-        orderBy: { createdAt: 'desc' },
-        skip,
-        take: limit,
-      }),
-      prisma.review.count({ where }),
-      prisma.review.aggregate({
-        where,
-        _avg: {
-          rating: true,
-          cleanlinessRating: true,
-          locationRating: true,
-          valueRating: true,
-          communicationRating: true,
-        },
-      }),
-    ]);
-    
-    // Rating distribution
-    const ratingDistribution = await prisma.review.groupBy({
-      by: ['rating'],
-      where,
-      _count: { rating: true },
-    });
-    
-    return paginatedResponse(res, {
-      reviews,
-      summary: {
-        averageRating: avgRating._avg.rating,
-        totalReviews: total,
-        ratings: {
-          overall: avgRating._avg.rating,
-          cleanliness: avgRating._avg.cleanlinessRating,
-          location: avgRating._avg.locationRating,
-          value: avgRating._avg.valueRating,
-          communication: avgRating._avg.communicationRating,
-        },
-        distribution: ratingDistribution.reduce((acc, r) => {
-          acc[r.rating] = r._count.rating;
-          return acc;
-        }, {}),
-      },
-    }, { page, limit, total });
-  } catch (error) {
-    next(error);
-  }
-};
-
-/**
- * Get single review
+ * Get single review (Admin)
  * GET /api/v1/reviews/:id
  */
 export const getReview = async (req, res, next) => {
   try {
     const { id } = req.params;
     
-    const review = await prisma.review.findUnique({
-      where: { id },
-      include: {
-        property: {
-          select: { id: true, name: true, slug: true },
-        },
-        user: {
-          select: { id: true, firstName: true, lastName: true },
-        },
-      },
-    });
+    const [review] = await query(
+      `SELECT r.*, p.name as propertyName, p.slug as propertySlug
+       FROM reviews r
+       LEFT JOIN properties p ON r.propertyId = p.id
+       WHERE r.id = ?`,
+      [id]
+    );
     
     if (!review) {
       throw new ApiError(404, 'Review not found');
     }
     
-    return successResponse(res, review);
+    const result = {
+      ...review,
+      property: { id: review.propertyId, name: review.propertyName, slug: review.propertySlug },
+    };
+    
+    return successResponse(res, result);
   } catch (error) {
     next(error);
   }
 };
 
 /**
- * Create review
+ * Get reviews for a property (Public)
+ * GET /api/v1/properties/:propertyId/reviews
+ */
+export const getPropertyReviews = async (req, res, next) => {
+  try {
+    const { propertyId } = req.params;
+    const { page, limit, skip } = parsePaginationParams(req.query);
+    
+    const [countResult] = await query(
+      'SELECT COUNT(*) as total FROM reviews WHERE propertyId = ? AND isPublished = true',
+      [propertyId]
+    );
+    const total = countResult.total;
+    
+    const reviews = await query(
+      `SELECT id, rating, title, content, guestName, stayDate, response, respondedAt, createdAt
+       FROM reviews 
+       WHERE propertyId = ? AND isPublished = true
+       ORDER BY createdAt DESC
+       LIMIT ? OFFSET ?`,
+      [propertyId, limit, skip]
+    );
+    
+    // Get rating summary
+    const [summary] = await query(
+      `SELECT 
+        AVG(rating) as averageRating,
+        AVG(cleanlinessRating) as cleanlinessAvg,
+        AVG(locationRating) as locationAvg,
+        AVG(valueRating) as valueAvg,
+        AVG(communicationRating) as communicationAvg,
+        COUNT(*) as totalReviews,
+        SUM(CASE WHEN rating = 5 THEN 1 ELSE 0 END) as fiveStars,
+        SUM(CASE WHEN rating >= 4 AND rating < 5 THEN 1 ELSE 0 END) as fourStars,
+        SUM(CASE WHEN rating >= 3 AND rating < 4 THEN 1 ELSE 0 END) as threeStars,
+        SUM(CASE WHEN rating >= 2 AND rating < 3 THEN 1 ELSE 0 END) as twoStars,
+        SUM(CASE WHEN rating < 2 THEN 1 ELSE 0 END) as oneStar
+       FROM reviews WHERE propertyId = ? AND isPublished = true`,
+      [propertyId]
+    );
+    
+    return paginatedResponse(res, reviews, { page, limit, total, summary });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Create review (after stay)
  * POST /api/v1/reviews
  */
 export const createReview = async (req, res, next) => {
   try {
     const {
-      propertyId,
-      rating,
-      title,
-      content,
-      guestName,
-      guestEmail,
-      cleanlinessRating,
-      locationRating,
-      valueRating,
-      communicationRating,
-      stayDate,
+      propertyId, bookingId, rating, title, content, guestName, guestEmail,
+      cleanlinessRating, locationRating, valueRating, communicationRating, stayDate,
     } = req.body;
     
     // Validate property exists
-    const property = await prisma.property.findUnique({
-      where: { id: propertyId },
-    });
-    
+    const [property] = await query('SELECT id, name FROM properties WHERE id = ?', [propertyId]);
     if (!property) {
       throw new ApiError(404, 'Property not found');
     }
     
-    // Check if user has a completed booking (for verification)
-    let isVerified = false;
-    if (req.user) {
-      const completedBooking = await prisma.booking.findFirst({
-        where: {
-          userId: req.user.id,
-          propertyId,
-          status: 'COMPLETED',
-        },
-      });
-      isVerified = !!completedBooking;
+    // Check if booking exists and is completed (if bookingId provided)
+    if (bookingId) {
+      const [booking] = await query(
+        'SELECT id, status FROM bookings WHERE id = ? AND propertyId = ?',
+        [bookingId, propertyId]
+      );
+      
+      if (!booking) {
+        throw new ApiError(404, 'Booking not found');
+      }
+      
+      // Check for existing review
+      const [existingReview] = await query(
+        'SELECT id FROM reviews WHERE bookingId = ?',
+        [bookingId]
+      );
+      
+      if (existingReview) {
+        throw new ApiError(409, 'A review already exists for this booking');
+      }
     }
     
-    const review = await prisma.review.create({
-      data: {
-        propertyId,
-        userId: req.user?.id || null,
-        guestName,
-        guestEmail,
-        rating,
-        title,
-        content,
-        cleanlinessRating,
-        locationRating,
-        valueRating,
-        communicationRating,
-        stayDate: stayDate ? new Date(stayDate) : null,
-        isVerified,
-        isPublished: true, // Could be false for moderation
-      },
+    const reviewId = uuidv4();
+    await query(
+      `INSERT INTO reviews (id, propertyId, bookingId, rating, title, content, guestName, guestEmail,
+       cleanlinessRating, locationRating, valueRating, communicationRating, stayDate, isPublished)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, false)`,
+      [reviewId, propertyId, bookingId, rating, title, content, guestName, guestEmail,
+       cleanlinessRating, locationRating, valueRating, communicationRating, 
+       stayDate ? new Date(stayDate) : null]
+    );
+    
+    const [review] = await query('SELECT * FROM reviews WHERE id = ?', [reviewId]);
+    
+    // Audit log
+    await createAuditLog({
+      ...extractRequestInfo(req),
+      action: AuditAction.REVIEW_CREATE,
+      entity: 'Review',
+      entityId: reviewId,
+      newValue: review,
     });
     
-    logger.info(`Review created for property: ${property.name}`);
+    logger.info(`Review submitted for property: ${property.name}`);
     
-    return createdResponse(res, review, 'Review submitted successfully');
+    return createdResponse(res, review, 'Thank you for your review! It will be published after moderation.');
   } catch (error) {
     next(error);
   }
 };
 
 /**
- * Update review (Admin - for responding or moderation)
+ * Update review (Admin)
  * PATCH /api/v1/reviews/:id
  */
 export const updateReview = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { response, isPublished } = req.body;
+    const { isPublished, response, isFeatured } = req.body;
     
-    const currentReview = await prisma.review.findUnique({
-      where: { id },
-    });
+    const [currentReview] = await query('SELECT * FROM reviews WHERE id = ?', [id]);
     
     if (!currentReview) {
       throw new ApiError(404, 'Review not found');
     }
     
-    const updateData = {};
-    
-    if (response !== undefined) {
-      updateData.response = response;
-      updateData.respondedAt = new Date();
-    }
+    const updates = [];
+    const params = [];
     
     if (isPublished !== undefined) {
-      updateData.isPublished = isPublished;
+      updates.push('isPublished = ?');
+      params.push(isPublished);
     }
     
-    const review = await prisma.review.update({
-      where: { id },
-      data: updateData,
+    if (response !== undefined) {
+      updates.push('response = ?');
+      params.push(response);
+      updates.push('respondedAt = NOW()');
+    }
+    
+    if (isFeatured !== undefined) {
+      updates.push('isFeatured = ?');
+      params.push(isFeatured);
+    }
+    
+    if (updates.length > 0) {
+      params.push(id);
+      await query(`UPDATE reviews SET ${updates.join(', ')}, updatedAt = NOW() WHERE id = ?`, params);
+    }
+    
+    const [review] = await query('SELECT * FROM reviews WHERE id = ?', [id]);
+    
+    // Audit log
+    await createAuditLog({
+      ...extractRequestInfo(req),
+      action: AuditAction.REVIEW_UPDATE,
+      entity: 'Review',
+      entityId: id,
+      oldValue: currentReview,
+      newValue: review,
     });
     
     return successResponse(res, review, 'Review updated successfully');
@@ -245,23 +262,28 @@ export const updateReview = async (req, res, next) => {
 };
 
 /**
- * Delete review (Admin only)
+ * Delete review (Admin)
  * DELETE /api/v1/reviews/:id
  */
 export const deleteReview = async (req, res, next) => {
   try {
     const { id } = req.params;
     
-    const review = await prisma.review.findUnique({
-      where: { id },
-    });
+    const [review] = await query('SELECT * FROM reviews WHERE id = ?', [id]);
     
     if (!review) {
       throw new ApiError(404, 'Review not found');
     }
     
-    await prisma.review.delete({
-      where: { id },
+    await query('DELETE FROM reviews WHERE id = ?', [id]);
+    
+    // Audit log
+    await createAuditLog({
+      ...extractRequestInfo(req),
+      action: AuditAction.REVIEW_DELETE,
+      entity: 'Review',
+      entityId: id,
+      oldValue: review,
     });
     
     return noContentResponse(res);
@@ -271,26 +293,26 @@ export const deleteReview = async (req, res, next) => {
 };
 
 /**
- * Get featured reviews for homepage
+ * Get featured reviews (Public)
  * GET /api/v1/reviews/featured
  */
 export const getFeaturedReviews = async (req, res, next) => {
   try {
-    const reviews = await prisma.review.findMany({
-      where: {
-        isPublished: true,
-        rating: { gte: 4 },
-      },
-      orderBy: { createdAt: 'desc' },
-      take: 6,
-      include: {
-        property: {
-          select: { id: true, name: true, slug: true },
-        },
-      },
-    });
+    const reviews = await query(
+      `SELECT r.*, p.name as propertyName, p.slug as propertySlug
+       FROM reviews r
+       LEFT JOIN properties p ON r.propertyId = p.id
+       WHERE r.isPublished = true AND r.isFeatured = true
+       ORDER BY r.rating DESC, r.createdAt DESC
+       LIMIT 10`
+    );
     
-    return successResponse(res, reviews);
+    const formattedReviews = reviews.map(r => ({
+      ...r,
+      property: { id: r.propertyId, name: r.propertyName, slug: r.propertySlug },
+    }));
+    
+    return successResponse(res, formattedReviews);
   } catch (error) {
     next(error);
   }
@@ -298,8 +320,8 @@ export const getFeaturedReviews = async (req, res, next) => {
 
 export default {
   getReviews,
-  getPropertyReviews,
   getReview,
+  getPropertyReviews,
   createReview,
   updateReview,
   deleteReview,

@@ -1,23 +1,23 @@
-import { MapPin, Eye, Heart } from '@phosphor-icons/react'
+import { MapPin, Eye, Heart, Sparkle, Buildings, Compass } from '@phosphor-icons/react'
 import Section from '@/components/shared/Section'
 import AnimatedSection from '@/components/shared/AnimatedSection'
 
 export default function WhyVIF() {
   const features = [
     {
-      icon: MapPin,
-      title: 'Prime Location',
-      description: 'Perfectly positioned between Monaco and Nice, with easy access to beaches, villages, and cultural attractions.'
+      icon: Sparkle,
+      title: 'Experience the Riviera',
+      description: 'Golden beaches, picturesque villages, exquisite local cuisine, and world-renowned events—from the Cannes Film Festival to the Monaco Grand Prix.'
     },
     {
-      icon: Eye,
-      title: 'Sea Views & Privacy',
-      description: 'Every property offers stunning Mediterranean vistas and the seclusion to truly unwind and disconnect.'
+      icon: Buildings,
+      title: 'Exceptional Properties',
+      description: 'Luxury villas and modern apartments, fully equipped with premium amenities for an unforgettable stay on the Côte d\'Azur.'
     },
     {
-      icon: Heart,
-      title: 'Thoughtful Service',
-      description: 'From welcome concierge to curated experiences, we handle the details so you can focus on creating memories.'
+      icon: Compass,
+      title: 'Perfectly Positioned',
+      description: 'Monaco, Nice, Menton, Saint-Jean-Cap-Ferrat, Villefranche-sur-Mer—and Italy just minutes away. Your gateway to Mediterranean treasures.'
     }
   ]
 
@@ -26,10 +26,10 @@ export default function WhyVIF() {
       <AnimatedSection>
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-heading font-semibold mb-4">
-            Why Choose The VIF
+            Experience the Riviera
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            More than accommodation—a thoughtfully curated Riviera experience designed for those who appreciate quality and authenticity.
+            Where sun-kissed coastlines meet timeless elegance—discover a lifestyle that has captivated travelers for generations.
           </p>
         </div>
       </AnimatedSection>
