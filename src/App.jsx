@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Toaster } from '@/components/ui/sonner'
 import { LanguageProvider } from '@/contexts/LanguageContext'
 import SEOHead from '@/components/shared/SEOHead'
-import ScrollToTop from '@/components/shared/ScrollToTop'
 import Layout from '@/components/layout/Layout'
 import Home from '@/pages/Home'
 import TheVilla from '@/pages/TheVilla'
@@ -24,7 +23,6 @@ function App() {
         <LanguageProvider>
             <SEOHead />
             <BrowserRouter>
-                <ScrollToTop />
                 <Routes>
                     <Route path="/" element={<Layout />}>
                         <Route index element={<Home />} />

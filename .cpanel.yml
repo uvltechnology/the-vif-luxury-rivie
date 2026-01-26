@@ -1,8 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/thevifco/repositories/the-vif-luxury-rivie
-    - cd $DEPLOYPATH
-    - /home/thevifco/nodevenv/backend/20/bin/npm install 2>&1 || /usr/bin/npm install 2>&1
-    - /home/thevifco/nodevenv/backend/20/bin/npm run build 2>&1 || /usr/bin/npm run build 2>&1
-    - /bin/cp -R $DEPLOYPATH/dist/* /home/thevifco/public_html/
+    - export DEPLOYPATH=/home/thevifco/public_html/
+    - /bin/cp -R dist/* $DEPLOYPATH
