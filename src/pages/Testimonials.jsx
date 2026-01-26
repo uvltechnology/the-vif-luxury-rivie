@@ -1,256 +1,217 @@
-import { Star, Quotes, Seal, FunnelSimple, SortAscending } from '@phosphor-icons/react'
-import { motion, useScroll, useTransform } from 'framer-motion'
-import { Card } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import Section from '@/components/shared/Section'
-import AnimatedSection from '@/components/shared/AnimatedSection'
-import { testimonials, stats } from '@/data/testimonials'
-import { useState, useMemo } from 'react'
+import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
+import { Star, Quotes } from '@phosphor-icons/react'
+import { reviewApi } from '@/services/api'
 
-function TestimonialCard({ testimonial, index }) {
+const defaultReviews = [
+  {
+    id: 1,
+    quote: "The place is impeccable. Words cannot possibly describe how superb the location is, the incredible ambience on the main terrace where the pool also is, and how stylish the internal décor is.",
+    name: "Sarah Mitchell",
+    location: "England",
+    rating: 5,
+    date: "August 2025"
+  },
+  {
+    id: 2,
+    quote: "An absolutely stunning property with breathtaking views. The attention to detail and the level of service exceeded all our expectations. A truly magical experience on the French Riviera.",
+    name: "Jean-Pierre Dubois",
+    location: "France",
+    rating: 5,
+    date: "July 2025"
+  },
+  {
+    id: 3,
+    quote: "We've stayed at many luxury villas around the world, but The VIF is truly special. The combination of elegance, comfort, and that incredible Mediterranean view is unmatched.",
+    name: "Michael Chen",
+    location: "Singapore",
+    rating: 5,
+    date: "June 2025"
+  },
+  {
+    id: 4,
+    quote: "From the moment we arrived, we knew this was going to be a special vacation. The villa exceeded every expectation. The pool area is magnificent and the sunsets are unforgettable.",
+    name: "Emma & James",
+    location: "United States",
+    rating: 5,
+    date: "May 2025"
+  },
+  {
+    id: 5,
+    quote: "Pure perfection. The villa is beautifully maintained, the views are spectacular, and the location is ideal for exploring the Riviera. We will definitely be returning.",
+    name: "Alessandro Rossi",
+    location: "Italy",
+    rating: 5,
+    date: "April 2025"
+  },
+  {
+    id: 6,
+    quote: "A dream come true! The property photos don't do it justice. Every room is thoughtfully designed and the outdoor spaces are perfect for relaxing and entertaining.",
+    name: "Charlotte van der Berg",
+    location: "Netherlands",
+    rating: 5,
+    date: "March 2025"
+  }
+]
+
+export default function Testimonials() {
+  const [reviews, setReviews] = useState(defaultReviews)
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await reviewApi.getAll({ limit: 20 })
+        const apiReviews = response.data || []
+        
+        if (apiReviews.length > 0) {
+          const transformedReviews = apiReviews.map(review => ({
+            id: review.id,
+            quote: review.comment || '',
+            name: review.guestName || 'Guest',
+            location: review.guestCountry || 'International',
+            rating: review.rating || 5,
+            date: new Date(review.stayDate || review.createdAt).toLocaleDateString('en-US', { 
+              month: 'long', 
+              year: 'numeric' 
+            })
+          }))
+          setReviews(transformedReviews)
+        }
+      } catch (err) {
+        console.error('Failed to fetch reviews:', err)
+      }
+    }
+    
+    fetchReviews()
+  }, [])
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.05 }}
-    >
-      <Card className="h-full p-6 md:p-8 hover:shadow-lg transition-all duration-300 relative overflow-hidden group">
-        <div className="absolute top-4 right-4 text-accent/10 group-hover:text-accent/20 transition-colors duration-300">
-          <Quotes size={64} weight="fill" />
+    <div className="bg-[#faf8f5]">
+      {/* Hero Section */}
+      <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1600&q=80"
+            alt="Guest Reviews"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/30" />
         </div>
-
-        <div className="relative z-10">
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex gap-1">
-              {[...Array(testimonial.rating)].map((_, i) => (
-                <Star key={i} size={18} weight="fill" className="text-secondary" />
-              ))}
-            </div>
-            {testimonial.verified && (
-              <Badge variant="outline" className="gap-1 text-xs border-primary/30 text-primary">
-                <Seal size={14} weight="fill" />
-                Verified
-              </Badge>
-            )}
-          </div>
-
-          <blockquote className="text-foreground mb-4 leading-relaxed">
-            "{testimonial.review}"
-          </blockquote>
-
-          {testimonial.highlight && (
-            <div className="mb-4 p-3 bg-accent/10 rounded-lg border-l-3 border-accent">
-              <p className="text-sm italic text-foreground/90">
-                {testimonial.highlight}
-              </p>
-            </div>
-          )}
-
-          <div className="flex items-center justify-between pt-4 border-t border-border">
-            <div>
-              <p className="font-medium text-foreground">{testimonial.name}</p>
-              <p className="text-sm text-muted-foreground">{testimonial.location}</p>
-            </div>
-            <div className="text-right">
-              <p className="text-sm font-medium text-primary">{testimonial.propertyStayed}</p>
-              <p className="text-xs text-muted-foreground">{testimonial.date}</p>
-            </div>
-          </div>
-        </div>
-      </Card>
-    </motion.div>
-  )
-}
-
-function StatsHero() {
-  const { scrollY } = useScroll()
-  const headerY = useTransform(scrollY, [0, 200], [0, 50])
-  const headerOpacity = useTransform(scrollY, [0, 200], [1, 0.3])
-
-  return (
-    <motion.div
-      className="bg-gradient-to-br from-primary/5 via-accent/5 to-secondary/5 rounded-2xl p-8 md:p-12 mb-12"
-      style={{
-        y: headerY,
-        opacity: headerOpacity,
-      }}
-    >
-      <AnimatedSection>
-        <div className="text-center mb-8">
-          <motion.h1
-            className="text-4xl md:text-5xl lg:text-6xl font-heading font-semibold mb-4"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
+        
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="relative z-10 text-center text-white"
+        >
+          <h1 className="font-heading text-5xl md:text-7xl font-light tracking-wide">
             Guest Reviews
-          </motion.h1>
+          </h1>
+        </motion.div>
+      </section>
+
+      {/* Intro Section */}
+      <section className="py-24 md:py-32">
+        <div className="max-w-4xl mx-auto px-6 text-center">
           <motion.p
-            className="text-lg text-muted-foreground max-w-3xl mx-auto"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-xs tracking-[0.3em] uppercase text-muted-foreground mb-6"
           >
-            Real experiences from real guests. Every review is verified from guests who have stayed at our properties.
+            Testimonials
+          </motion.p>
+          
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="font-heading text-3xl md:text-4xl lg:text-5xl font-light mb-8"
+          >
+            What our guests say
+          </motion.h2>
+          
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-muted-foreground leading-relaxed"
+          >
+            Authentic stories from travelers who discovered the magic of the French Riviera 
+            at The VIF. We're honored to have hosted guests from around the world.
           </motion.p>
         </div>
-      </AnimatedSection>
+      </section>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-        <AnimatedSection delay={0.1}>
-          <div className="text-center p-6 rounded-xl bg-card border border-border shadow-sm">
-            <div className="text-4xl md:text-5xl font-heading font-semibold text-primary mb-2">
-              {stats.averageRating}
-            </div>
-            <div className="flex justify-center gap-1 mb-2">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} size={16} weight="fill" className="text-secondary" />
-              ))}
-            </div>
-            <p className="text-sm text-muted-foreground">Average Rating</p>
-          </div>
-        </AnimatedSection>
+      {/* Reviews Grid */}
+      <section className="pb-24 md:pb-32">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {reviews.map((review, index) => (
+              <motion.div
+                key={review.id}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-white p-8"
+              >
+                {/* Stars */}
+                <div className="flex gap-1 mb-6">
+                  {[...Array(review.rating)].map((_, i) => (
+                    <Star key={i} size={16} weight="fill" className="text-[#c9a962]" />
+                  ))}
+                </div>
 
-        <AnimatedSection delay={0.2}>
-          <div className="text-center p-6 rounded-xl bg-card border border-border shadow-sm">
-            <div className="text-4xl md:text-5xl font-heading font-semibold text-primary mb-2">
-              {stats.totalGuests}+
-            </div>
-            <p className="text-sm text-muted-foreground mt-4">Happy Guests</p>
-          </div>
-        </AnimatedSection>
+                {/* Quote */}
+                <blockquote className="font-heading text-lg font-light leading-relaxed mb-6 italic">
+                  "{review.quote}"
+                </blockquote>
 
-        <AnimatedSection delay={0.3}>
-          <div className="text-center p-6 rounded-xl bg-card border border-border shadow-sm">
-            <div className="text-4xl md:text-5xl font-heading font-semibold text-primary mb-2">
-              {stats.repeatGuestRate}%
-            </div>
-            <p className="text-sm text-muted-foreground mt-4">Repeat Guests</p>
-          </div>
-        </AnimatedSection>
-
-        <AnimatedSection delay={0.4}>
-          <div className="text-center p-6 rounded-xl bg-card border border-border shadow-sm">
-            <div className="text-4xl md:text-5xl font-heading font-semibold text-primary mb-2">
-              {stats.yearsHosting}+
-            </div>
-            <p className="text-sm text-muted-foreground mt-4">Years Hosting</p>
-          </div>
-        </AnimatedSection>
-      </div>
-    </motion.div>
-  )
-}
-
-export default function TestimonialsPage() {
-  const [propertyFilter, setPropertyFilter] = useState('all')
-  const [sortBy, setSortBy] = useState('recent')
-
-  const filteredAndSortedTestimonials = useMemo(() => {
-    let result = [...testimonials]
-
-    if (propertyFilter !== 'all') {
-      result = result.filter(t => t.propertyStayed === propertyFilter)
-    }
-
-    if (sortBy === 'recent') {
-      result.sort((a, b) => new Date(b.date) - new Date(a.date))
-    } else if (sortBy === 'rating') {
-      result.sort((a, b) => b.rating - a.rating)
-    }
-
-    return result
-  }, [propertyFilter, sortBy])
-
-  const uniqueProperties = [...new Set(testimonials.map(t => t.propertyStayed))]
-
-  return (
-    <div>
-      <Section className="bg-background">
-        <StatsHero />
-
-        <div className="flex flex-col sm:flex-row gap-4 mb-8 items-start sm:items-center justify-between">
-          <div className="flex items-center gap-2">
-            <FunnelSimple size={20} className="text-muted-foreground" />
-            <span className="text-sm font-medium text-foreground">Filter by property:</span>
-            <Select value={propertyFilter} onValueChange={setPropertyFilter}>
-              <SelectTrigger className="w-[200px]">
-                <SelectValue placeholder="All Properties" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Properties</SelectItem>
-                {uniqueProperties.map(property => (
-                  <SelectItem key={property} value={property}>
-                    {property}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <SortAscending size={20} className="text-muted-foreground" />
-            <span className="text-sm font-medium text-foreground">Sort by:</span>
-            <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-[160px]">
-                <SelectValue placeholder="Most Recent" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="recent">Most Recent</SelectItem>
-                <SelectItem value="rating">Highest Rated</SelectItem>
-              </SelectContent>
-            </Select>
+                {/* Author */}
+                <div className="pt-6 border-t border-border">
+                  <p className="font-medium text-sm">{review.name}</p>
+                  <p className="text-muted-foreground text-sm">
+                    {review.location} • {review.date}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
+      </section>
 
-        <div className="mb-4 text-sm text-muted-foreground">
-          Showing {filteredAndSortedTestimonials.length} {filteredAndSortedTestimonials.length === 1 ? 'review' : 'reviews'}
+      {/* CTA Section */}
+      <section className="py-24 md:py-32 bg-[#0f1c2e] text-white text-center">
+        <div className="max-w-4xl mx-auto px-6">
+          <Quotes size={48} weight="light" className="mx-auto text-white/30 mb-8" />
+          
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="font-heading text-3xl md:text-4xl font-light mb-8"
+          >
+            Ready to create your own memories?
+          </motion.h2>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+          >
+            <a 
+              href="/contact"
+              className="inline-block px-10 py-4 border border-white/30 text-white text-xs tracking-[0.2em] uppercase hover:bg-white hover:text-[#0f1c2e] transition-all duration-300"
+            >
+              Book Your Stay
+            </a>
+          </motion.div>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {filteredAndSortedTestimonials.map((testimonial, index) => (
-            <TestimonialCard key={testimonial.id} testimonial={testimonial} index={index} />
-          ))}
-        </div>
-
-        {filteredAndSortedTestimonials.length === 0 && (
-          <div className="text-center py-16">
-            <p className="text-muted-foreground text-lg mb-4">No reviews found for this filter.</p>
-            <Button onClick={() => setPropertyFilter('all')} variant="outline">
-              Clear Filters
-            </Button>
-          </div>
-        )}
-      </Section>
-
-      <Section className="bg-gradient-to-br from-primary/5 to-accent/5">
-        <AnimatedSection direction="fade">
-          <div className="text-center max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-heading font-semibold mb-4">
-              Ready to Create Your Own Story?
-            </h2>
-            <p className="text-lg text-muted-foreground mb-8">
-              Join our community of satisfied guests and discover why The VIF is the premier choice for French Riviera vacations.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-primary hover:bg-primary/90">
-                View Our Stays
-              </Button>
-              <Button size="lg" variant="outline">
-                Contact Us
-              </Button>
-            </div>
-          </div>
-        </AnimatedSection>
-      </Section>
+      </section>
     </div>
   )
 }

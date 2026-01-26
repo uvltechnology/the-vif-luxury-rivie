@@ -1,231 +1,189 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { 
-  List, 
-  X, 
-  House, 
-  Sparkle, 
-  MapTrifold, 
-  Star, 
-  BookOpen, 
-  Heart,
-  ChatCircleDots,
-  CaretRight
-} from '@phosphor-icons/react'
-import { Button } from '@/components/ui/button'
+import { List, Phone, Bell } from '@phosphor-icons/react'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
-import { Separator } from '@/components/ui/separator'
-import LanguageSwitcher from '@/components/shared/LanguageSwitcher'
-import { useTranslation } from '@/hooks/useTranslation'
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const location = useLocation()
-  const { t } = useTranslation()
   
-  // Check if we're on the home page (has video background)
   const isHomePage = location.pathname === '/'
-  // Use transparent/white nav only on home page when not scrolled
   const useTransparentNav = isHomePage && !isScrolled
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
+      setIsScrolled(window.scrollY > 50)
     }
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   const navLinks = [
-    { path: '/stays', label: t('nav.stays'), icon: House, description: 'Villas & Apartments' },
-    { path: '/experiences', label: t('nav.experiences'), icon: Sparkle, description: 'Curated Extras' },
-    { path: '/the-riviera', label: t('nav.theRiviera'), icon: MapTrifold, description: 'Local Guides' },
-    { path: '/reviews', label: t('nav.reviews'), icon: Star, description: 'Guest Stories' },
-    { path: '/how-to-book', label: t('nav.howToBook'), icon: BookOpen, description: 'Booking Info' },
-    { path: '/our-story', label: t('nav.ourStory'), icon: Heart, description: 'About Us' }
+    { path: '/the-villa', label: 'THE VILLA' },
+    { path: '/services', label: 'SERVICES' },
+    { path: '/experiences', label: 'EXPERIENCES' },
+    { path: '/gallery', label: 'GALLERY' },
+    { path: '/contact', label: 'CONTACT' },
   ]
 
   const isActivePath = (path) => {
-    if (path === '/stays' && location.pathname.startsWith('/stays')) {
-      return true
-    }
     return location.pathname === path
   }
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         useTransparentNav 
           ? 'bg-transparent' 
-          : 'bg-card/95 backdrop-blur-md shadow-sm'
+          : 'bg-white/95 backdrop-blur-sm'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          <Link to="/" className="flex items-center space-x-2">
-            <span 
-              className={`text-2xl font-heading font-bold tracking-tight transition-colors duration-300 ${
-                useTransparentNav ? 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]' : 'text-foreground'
-              }`}
-              style={{ textShadow: useTransparentNav ? '0 2px 4px rgba(0,0,0,0.4)' : 'none' }}
-            >
-              The VIF
-            </span>
-          </Link>
-
+      <div className="w-full px-6 lg:px-10">
+        <div className="flex items-center justify-between h-16 lg:h-20">
+          
+          {/* Left Navigation - Villa Soleil Style */}
           <nav className="hidden lg:flex items-center space-x-8">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`text-sm font-medium tracking-wide transition-colors relative ${
-                  useTransparentNav
-                    ? isActivePath(link.path)
-                      ? 'text-white'
-                      : 'text-white/90 hover:text-white'
-                    : isActivePath(link.path)
-                      ? 'text-primary'
-                      : 'text-foreground hover:text-primary'
-                }`}
-                style={{ textShadow: useTransparentNav ? '0 1px 3px rgba(0,0,0,0.4)' : 'none' }}
+                style={{
+                  fontFamily: "'Lato', sans-serif",
+                  fontSize: '14px',
+                  fontWeight: 700,
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  color: useTransparentNav ? '#ffffff' : '#1a1a1a',
+                  textShadow: useTransparentNav ? '0 1px 3px rgba(0,0,0,0.3)' : 'none'
+                }}
+                className="transition-all duration-300 hover:opacity-60"
               >
                 {link.label}
-                {isActivePath(link.path) && (
-                  <span className={`absolute -bottom-1 left-0 right-0 h-0.5 ${
-                    useTransparentNav ? 'bg-white' : 'bg-primary'
-                  }`} />
-                )}
               </Link>
             ))}
           </nav>
 
-          <div className="hidden lg:flex items-center space-x-4">
-            <LanguageSwitcher useWhiteText={useTransparentNav} />
-            <Button 
-              asChild 
-              variant="ghost" 
-              size="sm"
-              className={`transition-colors duration-300 ${
-                useTransparentNav 
-                  ? 'text-white hover:text-white hover:bg-white/20' 
-                  : ''
-              }`}
-              style={{ textShadow: useTransparentNav ? '0 1px 3px rgba(0,0,0,0.4)' : 'none' }}
+          {/* Center Logo - With white outline for visibility */}
+          <Link to="/" className="absolute left-1/2 transform -translate-x-1/2">
+            <span 
+              style={{ 
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontSize: '26px',
+                fontWeight: 500,
+                letterSpacing: '0.15em',
+                color: '#c9a962',
+                textShadow: useTransparentNav 
+                  ? '-1px -1px 0 rgba(255,255,255,0.5), 1px -1px 0 rgba(255,255,255,0.5), -1px 1px 0 rgba(255,255,255,0.5), 1px 1px 0 rgba(255,255,255,0.5), 0 2px 8px rgba(0,0,0,0.3)' 
+                  : 'none',
+                WebkitTextStroke: useTransparentNav ? '0.5px rgba(255,255,255,0.4)' : 'none'
+              }}
+              className="transition-all duration-300"
             >
-              <Link to="/contact">{t('nav.contact')}</Link>
-            </Button>
-            <Button asChild size="sm">
-              <Link to="/contact">{t('nav.book')}</Link>
-            </Button>
+              THE VIF
+            </span>
+          </Link>
+
+          {/* Right Side - Phone & Book Now - Villa Soleil Style */}
+          <div className="hidden lg:flex items-center space-x-6">
+            <a 
+              href="tel:+33615322966" 
+              style={{
+                fontFamily: "'Lato', sans-serif",
+                fontSize: '12px',
+                fontWeight: 500,
+                letterSpacing: '0.05em',
+                color: useTransparentNav ? '#ffffff' : '#1a1a1a',
+                textShadow: useTransparentNav ? '0 1px 3px rgba(0,0,0,0.3)' : 'none'
+              }}
+              className="flex items-center space-x-2 transition-colors duration-300 hover:opacity-70"
+            >
+              <Phone size={14} weight="regular" />
+              <span>+33621049443</span>
+            </a>
+            
+            <Link
+              to="/contact"
+              style={{
+                fontFamily: "'Lato', sans-serif",
+                fontSize: '11px',
+                fontWeight: 500,
+                letterSpacing: '0.1em',
+                backgroundColor: '#1a1a1a',
+                color: '#ffffff',
+                padding: '10px 20px'
+              }}
+              className="flex items-center space-x-2 transition-all duration-300 hover:bg-[#333]"
+            >
+              <Bell size={14} weight="regular" />
+              <span>BOOK NOW</span>
+            </Link>
           </div>
 
-          <div className="flex lg:hidden items-center space-x-3">
-            <LanguageSwitcher useWhiteText={useTransparentNav} />
-            <Button asChild size="sm">
-              <Link to="/contact">{t('nav.book')}</Link>
-            </Button>
+          {/* Mobile Menu Button */}
+          <div className="flex lg:hidden">
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button 
-                  variant="ghost" 
-                  size="icon"
-                  className={`transition-colors duration-300 ${
-                    useTransparentNav ? 'text-white hover:text-white hover:bg-white/20' : ''
+                <button
+                  className={`p-2 transition-colors duration-300 ${
+                    useTransparentNav ? 'text-white' : 'text-[#1a1a1a]'
                   }`}
                 >
-                  <List className="h-6 w-6" />
-                </Button>
+                  <List className="h-6 w-6" weight="light" />
+                </button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-full sm:w-80 p-0">
+              <SheetContent side="right" className="w-full sm:w-80 p-0 bg-white">
                 <div className="flex flex-col h-full">
-                  <div className="px-6 py-6 border-b border-border">
-                    <Link
-                      to="/"
-                      className="text-3xl font-heading font-bold text-foreground"
-                      onClick={() => setIsMobileMenuOpen(false)}
+                  {/* Mobile Header */}
+                  <div className="px-6 py-6 border-b border-gray-100 text-center">
+                    <span 
+                      className="font-serif text-xl tracking-[0.15em]"
+                      style={{ 
+                        color: '#c9a962',
+                        fontFamily: "'Cormorant Garamond', Georgia, serif"
+                      }}
                     >
-                      The VIF
-                    </Link>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      The Vacation in France
-                    </p>
+                      THE VIF
+                    </span>
                   </div>
                   
-                  <nav className="flex-1 px-4 py-6 overflow-y-auto">
-                    <div className="space-y-1">
-                      {navLinks.map((link) => {
-                        const Icon = link.icon
-                        const isActive = isActivePath(link.path)
-                        return (
-                          <Link
-                            key={link.path}
-                            to={link.path}
-                            onClick={() => setIsMobileMenuOpen(false)}
-                            className={`
-                              group flex items-center gap-4 px-4 py-4 rounded-lg transition-all duration-200
-                              ${isActive 
-                                ? 'bg-primary/10 text-primary' 
-                                : 'text-foreground hover:bg-accent hover:text-accent-foreground'
-                              }
-                            `}
-                          >
-                            <div className={`
-                              p-2 rounded-md transition-colors
-                              ${isActive 
-                                ? 'bg-primary/20 text-primary' 
-                                : 'bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary'
-                              }
-                            `}>
-                              <Icon className="h-5 w-5" weight={isActive ? 'fill' : 'regular'} />
-                            </div>
-                            <div className="flex-1">
-                              <div className="font-medium text-base">{link.label}</div>
-                              <div className="text-xs text-muted-foreground mt-0.5">
-                                {link.description}
-                              </div>
-                            </div>
-                            <CaretRight 
-                              className={`
-                                h-4 w-4 transition-transform
-                                ${isActive ? 'text-primary' : 'text-muted-foreground opacity-0 group-hover:opacity-100'}
-                              `}
-                              weight="bold"
-                            />
-                          </Link>
-                        )
-                      })}
+                  {/* Mobile Nav Links */}
+                  <nav className="flex-1 px-6 py-8">
+                    <div className="space-y-5">
+                      {navLinks.map((link) => (
+                        <Link
+                          key={link.path}
+                          to={link.path}
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className={`block text-[12px] tracking-[0.1em] transition-colors ${
+                            isActivePath(link.path)
+                              ? 'text-[#1a1a1a]'
+                              : 'text-gray-500 hover:text-[#1a1a1a]'
+                          }`}
+                        >
+                          {link.label}
+                        </Link>
+                      ))}
                     </div>
-
-                    <Separator className="my-6" />
-
-                    <Link
-                      to="/contact"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="group flex items-center gap-4 px-4 py-4 rounded-lg transition-all duration-200 text-foreground hover:bg-accent hover:text-accent-foreground"
-                    >
-                      <div className="p-2 rounded-md bg-muted text-muted-foreground transition-colors group-hover:bg-primary/10 group-hover:text-primary">
-                        <ChatCircleDots className="h-5 w-5" weight="regular" />
-                      </div>
-                      <div className="flex-1">
-                        <div className="font-medium text-base">{t('nav.contact')}</div>
-                        <div className="text-xs text-muted-foreground mt-0.5">
-                          Get in Touch
-                        </div>
-                      </div>
-                      <CaretRight 
-                        className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-transform"
-                        weight="bold"
-                      />
-                    </Link>
                   </nav>
 
-                  <div className="p-6 border-t border-border bg-muted/30">
-                    <Button asChild className="w-full" size="lg">
-                      <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)}>
-                        {t('nav.book')}
-                      </Link>
-                    </Button>
+                  {/* Mobile Footer */}
+                  <div className="p-6 border-t border-gray-100 space-y-4">
+                    <a 
+                      href="tel:+33615322966" 
+                      className="flex items-center justify-center space-x-2 text-[11px] tracking-[0.05em] text-gray-600"
+                    >
+                      <Phone size={14} />
+                      <span>+33 6 15 32 29 66</span>
+                    </a>
+                    <Link 
+                      to="/contact" 
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center justify-center space-x-2 w-full py-3 bg-[#1a1a1a] text-white text-[11px] tracking-[0.1em]"
+                    >
+                      <Bell size={14} />
+                      <span>BOOK NOW</span>
+                    </Link>
                   </div>
                 </div>
               </SheetContent>

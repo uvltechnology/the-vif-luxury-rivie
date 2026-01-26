@@ -6,6 +6,9 @@ import Home from '@/pages/Home'
 import Stays from '@/pages/Stays'
 import PropertyDetail from '@/pages/PropertyDetail'
 import Experiences from '@/pages/Experiences'
+import Services from '@/pages/Services'
+import Gallery from '@/pages/Gallery'
+import TheVilla from '@/pages/TheVilla'
 import AreaGuide from '@/pages/AreaGuide'
 import HowToBook from '@/pages/HowToBook'
 import OurStory from '@/pages/OurStory'
@@ -21,9 +24,12 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Layout />}>
                         <Route index element={<Home />} />
+                        <Route path="the-villa" element={<TheVilla />} />
                         <Route path="stays" element={<Stays />} />
                         <Route path="stays/:propertySlug" element={<PropertyDetail />} />
+                        <Route path="services" element={<Services />} />
                         <Route path="experiences" element={<Experiences />} />
+                        <Route path="gallery" element={<Gallery />} />
                         <Route path="the-riviera" element={<AreaGuide />} />
                         <Route path="how-to-book" element={<HowToBook />} />
                         <Route path="our-story" element={<OurStory />} />

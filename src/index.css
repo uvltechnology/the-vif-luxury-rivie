@@ -8,38 +8,43 @@
 }
 
 :root {
-  --background: oklch(0.98 0.005 75);
-  --foreground: oklch(0.25 0 0);
+  /* Villa Soleil inspired color palette - Elegant cream and navy */
+  --background: #faf8f5;
+  --foreground: #1a1a1a;
   
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.25 0 0);
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
   
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.25 0 0);
+  --popover: #ffffff;
+  --popover-foreground: #1a1a1a;
   
-  --primary: oklch(0.35 0.08 250);
-  --primary-foreground: oklch(1 0 0);
+  /* Deep navy blue - main accent */
+  --primary: #0f1c2e;
+  --primary-foreground: #ffffff;
   
-  --secondary: oklch(0.62 0.11 35);
-  --secondary-foreground: oklch(1 0 0);
+  /* Warm gold/beige accent */
+  --secondary: #c9a962;
+  --secondary-foreground: #1a1a1a;
   
-  --accent: oklch(0.75 0.08 75);
-  --accent-foreground: oklch(0.25 0 0);
+  /* Light beige accent */
+  --accent: #f5f0e8;
+  --accent-foreground: #1a1a1a;
   
-  --muted: oklch(0.95 0.005 75);
-  --muted-foreground: oklch(0.55 0 0);
+  --muted: #f5f3f0;
+  --muted-foreground: #6b6b6b;
   
-  --destructive: oklch(0.55 0.22 25);
-  --destructive-foreground: oklch(1 0 0);
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
   
-  --border: oklch(0.88 0.005 75);
-  --input: oklch(0.88 0.005 75);
-  --ring: oklch(0.35 0.08 250);
+  --border: #e8e4df;
+  --input: #e8e4df;
+  --ring: #0f1c2e;
   
-  --radius: 0.5rem;
+  --radius: 0rem;
   
-  --font-heading: 'Playfair Display', serif;
-  --font-body: 'Inter', sans-serif;
+  /* Villa Soleil uses elegant serif fonts */
+  --font-heading: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  --font-body: 'Lato', 'Inter', -apple-system, sans-serif;
 }
 
 @theme {
@@ -74,31 +79,67 @@
 body {
   font-family: var(--font-body);
   font-size: 16px;
-  line-height: 1.6;
+  line-height: 1.7;
   color: var(--foreground);
   background-color: var(--background);
+  letter-spacing: 0.01em;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1.2;
   color: var(--foreground);
 }
 
 h1 {
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
-  letter-spacing: -0.02em;
+  font-size: clamp(3rem, 8vw, 5rem);
+  letter-spacing: 0.02em;
   line-height: 1.1;
+  font-weight: 300;
 }
 
 h2 {
-  font-size: clamp(2rem, 4vw, 2.5rem);
-  letter-spacing: -0.01em;
+  font-size: clamp(2rem, 5vw, 3rem);
+  letter-spacing: 0.01em;
+  font-weight: 400;
 }
 
 h3 {
-  font-size: clamp(1.5rem, 3vw, 1.75rem);
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  font-weight: 500;
+}
+
+/* Villa Soleil style small caps label */
+.section-label {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  margin-bottom: 1rem;
+}
+
+/* Elegant underline animation */
+.elegant-link {
+  position: relative;
+  display: inline-block;
+}
+
+.elegant-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: currentColor;
+  transition: width 0.3s ease;
+}
+
+.elegant-link:hover::after {
+  width: 100%;
 }
 
 .section-padding {

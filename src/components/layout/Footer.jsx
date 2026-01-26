@@ -1,138 +1,176 @@
-import { Link } from 'react-router-dom'
-import { InstagramLogo, FacebookLogo, EnvelopeSimple } from '@phosphor-icons/react'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { useState } from 'react'
-import { toast } from 'sonner'
+import { Link, useLocation } from 'react-router-dom'
+import { InstagramLogo, EnvelopeSimple, Phone } from '@phosphor-icons/react'
 import { useTranslation } from '@/hooks/useTranslation'
 
-export default function Footer() {
-  const [email, setEmail] = useState('')
-  const { t } = useTranslation()
+// Gallery images for the footer strip
+const galleryImages = [
+  'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=400&q=80',
+  'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400&q=80',
+  'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&q=80',
+  'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400&q=80',
+  'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&q=80',
+]
 
-  const handleNewsletterSubmit = (e) => {
-    e.preventDefault()
-    if (email) {
-      toast.success('Thanks for subscribing! Check your inbox soon.')
-      setEmail('')
-    }
-  }
+export default function Footer() {
+  const { t } = useTranslation()
+  const location = useLocation()
+  const isHomePage = location.pathname === '/'
 
   return (
-    <footer className="bg-card border-t border-border mt-16">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          <div>
-            <h3 className="text-2xl font-heading font-bold mb-4">The VIF</h3>
-            <p className="text-muted-foreground text-sm mb-4">
-              {t('footer.tagline')}
-            </p>
-            <div className="flex space-x-3">
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
+    <footer>
+      {/* Gallery Strip - Only show on home page */}
+      {isHomePage && (
+        <div className="flex w-full h-64 overflow-hidden">
+          {galleryImages.map((image, index) => (
+            <div key={index} className="flex-1 min-w-0">
+              <img
+                src={image}
+                alt={`Gallery ${index + 1}`}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Main Footer - Villa Soleil Style */}
+      <div className="bg-[#0f1c2e] py-20">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-12">
+            
+            {/* Left - Contact by Mail */}
+            <div className="flex flex-col items-center md:items-start">
+              <div className="w-16 h-16 rounded-full border border-white/30 flex items-center justify-center mb-4">
+                <EnvelopeSimple size={24} weight="light" className="text-white" />
+              </div>
+              <span 
+                style={{
+                  fontFamily: "'Lato', sans-serif",
+                  fontSize: '11px',
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  color: '#ffffff'
+                }}
               >
-                <InstagramLogo size={24} />
-              </a>
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
+                Contact Us By Mail
+              </span>
+            </div>
+
+            {/* Center - Logo and Address */}
+            <div className="flex flex-col items-center text-center">
+              {/* Sun Icon */}
+              <div className="mb-4">
+                <svg width="60" height="40" viewBox="0 0 60 40" fill="none">
+                  <circle cx="30" cy="20" r="8" fill="#c9a962"/>
+                  <path d="M30 5 L30 10" stroke="#c9a962" strokeWidth="1.5"/>
+                  <path d="M30 30 L30 35" stroke="#c9a962" strokeWidth="1.5"/>
+                  <path d="M15 20 L20 20" stroke="#c9a962" strokeWidth="1.5"/>
+                  <path d="M40 20 L45 20" stroke="#c9a962" strokeWidth="1.5"/>
+                  <path d="M19 9 L22 12" stroke="#c9a962" strokeWidth="1.5"/>
+                  <path d="M38 28 L41 31" stroke="#c9a962" strokeWidth="1.5"/>
+                  <path d="M19 31 L22 28" stroke="#c9a962" strokeWidth="1.5"/>
+                  <path d="M38 12 L41 9" stroke="#c9a962" strokeWidth="1.5"/>
+                </svg>
+              </div>
+              
+              {/* Logo Text */}
+              <h2 
+                style={{
+                  fontFamily: "'Cormorant Garamond', Georgia, serif",
+                  fontSize: '28px',
+                  fontWeight: 400,
+                  letterSpacing: '0.2em',
+                  color: '#c9a962',
+                  marginBottom: '16px'
+                }}
               >
-                <FacebookLogo size={24} />
-              </a>
-              <a
-                href="mailto:hello@thevif.com"
-                className="text-muted-foreground hover:text-primary transition-colors"
+                THE VIF
+              </h2>
+              
+              {/* Wave Decoration */}
+              <div className="mb-4">
+                <svg width="60" height="12" viewBox="0 0 60 12" fill="none">
+                  <path d="M0 6C10 6 10 2 20 2C30 2 30 10 40 10C50 10 50 6 60 6" stroke="#c9a962" strokeWidth="1.5" fill="none"/>
+                </svg>
+              </div>
+              
+              {/* Address */}
+              <p 
+                style={{
+                  fontFamily: "'Cormorant Garamond', Georgia, serif",
+                  fontSize: '16px',
+                  fontWeight: 300,
+                  fontStyle: 'italic',
+                  color: 'rgba(255,255,255,0.8)',
+                  lineHeight: 1.6
+                }}
               >
-                <EnvelopeSimple size={24} />
+                French Riviera<br />
+                Côte d'Azur, France
+              </p>
+            </div>
+
+            {/* Right - Phone */}
+            <div className="flex flex-col items-center md:items-end">
+              <div className="w-16 h-16 rounded-full border border-white/30 flex items-center justify-center mb-4">
+                <Phone size={24} weight="light" className="text-white" />
+              </div>
+              <a 
+                href="tel:+33615322966"
+                style={{
+                  fontFamily: "'Lato', sans-serif",
+                  fontSize: '11px',
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  color: '#ffffff'
+                }}
+                className="hover:text-[#c9a962] transition-colors"
+              >
+                +336 15 32 29 66
               </a>
             </div>
           </div>
-
-          <div>
-            <h4 className="font-medium mb-4">{t('footer.quickLinks')}</h4>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link to="/stays" className="text-muted-foreground hover:text-primary transition-colors">
-                  {t('nav.stays')}
-                </Link>
-              </li>
-              <li>
-                <Link to="/experiences" className="text-muted-foreground hover:text-primary transition-colors">
-                  {t('nav.experiences')}
-                </Link>
-              </li>
-              <li>
-                <Link to="/the-riviera" className="text-muted-foreground hover:text-primary transition-colors">
-                  {t('nav.theRiviera')}
-                </Link>
-              </li>
-              <li>
-                <Link to="/reviews" className="text-muted-foreground hover:text-primary transition-colors">
-                  {t('nav.reviews')}
-                </Link>
-              </li>
-              <li>
-                <Link to="/how-to-book" className="text-muted-foreground hover:text-primary transition-colors">
-                  {t('nav.howToBook')}
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-medium mb-4">{t('nav.ourStory')}</h4>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link to="/our-story" className="text-muted-foreground hover:text-primary transition-colors">
-                  {t('nav.ourStory')}
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact" className="text-muted-foreground hover:text-primary transition-colors">
-                  {t('nav.contact')}
-                </Link>
-              </li>
-              <li>
-                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                  {t('footer.privacy')}
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                  {t('footer.terms')}
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-medium mb-4">Stay Updated</h4>
-            <p className="text-sm text-muted-foreground mb-3">
-              Get travel tips and exclusive offers delivered to your inbox.
-            </p>
-            <form onSubmit={handleNewsletterSubmit} className="flex flex-col space-y-2">
-              <Input
-                type="email"
-                placeholder={t('contact.email')}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="text-sm"
-              />
-              <Button type="submit" size="sm" className="w-full">
-                Subscribe
-              </Button>
-            </form>
-          </div>
         </div>
+      </div>
 
-        <div className="mt-12 pt-8 border-t border-border text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} The VIF. {t('footer.allRightsReserved')}</p>
+      {/* Bottom Bar */}
+      <div className="bg-[#0a1420] py-6">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <p 
+              style={{
+                fontFamily: "'Lato', sans-serif",
+                fontSize: '11px',
+                color: 'rgba(255,255,255,0.5)'
+              }}
+            >
+              © {new Date().getFullYear()} The VIF. All rights reserved.
+            </p>
+            <div className="flex items-center gap-6">
+              <a 
+                href="#" 
+                style={{
+                  fontFamily: "'Lato', sans-serif",
+                  fontSize: '11px',
+                  color: 'rgba(255,255,255,0.5)'
+                }}
+                className="hover:text-white transition-colors"
+              >
+                Privacy Policy
+              </a>
+              <a 
+                href="#" 
+                style={{
+                  fontFamily: "'Lato', sans-serif",
+                  fontSize: '11px',
+                  color: 'rgba(255,255,255,0.5)'
+                }}
+                className="hover:text-white transition-colors"
+              >
+                Terms of Service
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

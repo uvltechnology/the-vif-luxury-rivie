@@ -1,19 +1,19 @@
 import HomeHero from '@/components/home/HomeHero'
-import WhyVIF from '@/components/home/WhyVIF'
-import FeaturedStays from '@/components/home/FeaturedStays'
-import NearbyDestinations from '@/components/home/NearbyDestinations'
-import ExperiencesTeaser from '@/components/home/ExperiencesTeaser'
-import Testimonials from '@/components/home/Testimonials'
+import WelcomeSection from '@/components/home/WelcomeSection'
+import FeaturedCarousel from '@/components/home/FeaturedCarousel'
+import StaySection from '@/components/home/StaySection'
+import GuestReviews from '@/components/home/GuestReviews'
+import LocationSection from '@/components/home/LocationSection'
 
 export default function Home() {
   return (
     <div>
       <HomeHero />
-      <WhyVIF />
-      <FeaturedStays />
-      <NearbyDestinations />
-      <ExperiencesTeaser />
-      <Testimonials />
+      <WelcomeSection />
+      <FeaturedCarousel />
+      <StaySection />
+      <GuestReviews />
+      <LocationSection />
     </div>
   )
 }

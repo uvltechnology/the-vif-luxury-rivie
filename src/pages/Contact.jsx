@@ -1,27 +1,18 @@
 import { useState } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
-import Section from '@/components/shared/Section'
-import AnimatedSection from '@/components/shared/AnimatedSection'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { Button } from '@/components/ui/button'
-import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { EnvelopeSimple, Phone, MapPin } from '@phosphor-icons/react'
 import { toast } from 'sonner'
 
 export default function Contact() {
   const [inquiries, setInquiries] = useLocalStorage('contact-inquiries', [])
   const [messages, setMessages] = useLocalStorage('admin-messages', [])
-  const { scrollY } = useScroll()
-  const headerY = useTransform(scrollY, [0, 200], [0, 50])
-  const headerOpacity = useTransform(scrollY, [0, 200], [1, 0.3])
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    property: '',
     checkIn: '',
     checkOut: '',
     guests: '',
@@ -36,20 +27,13 @@ export default function Contact() {
       submittedAt: new Date().toISOString()
     }
     
-    const propertyNames = {
-      'villa-rocsea': 'Villa Rocsea',
-      'villa-bellevue': 'Villa Bellevue',
-      'palm-beach-apartment': 'Palm Beach Apartment',
-      'not-sure': 'Not specified'
-    }
-    
     const adminMessage = {
       id: `MSG-${Date.now()}`,
       guestName: formData.name,
       guestEmail: formData.email,
       guestPhone: formData.phone || '',
-      subject: `Inquiry about ${propertyNames[formData.property] || 'properties'}`,
-      message: `${formData.message}\n\nTravel Details:\nProperty: ${propertyNames[formData.property] || 'Not specified'}\nCheck-in: ${formData.checkIn || 'Not specified'}\nCheck-out: ${formData.checkOut || 'Not specified'}\nGuests: ${formData.guests || 'Not specified'}`,
+      subject: `Inquiry about The VIF`,
+      message: `${formData.message}\n\nTravel Details:\nCheck-in: ${formData.checkIn || 'Not specified'}\nCheck-out: ${formData.checkOut || 'Not specified'}\nGuests: ${formData.guests || 'Not specified'}`,
       status: 'unread',
       createdAt: new Date().toISOString(),
       replies: []
@@ -63,7 +47,6 @@ export default function Contact() {
       name: '',
       email: '',
       phone: '',
-      property: '',
       checkIn: '',
       checkOut: '',
       guests: '',
@@ -76,200 +59,274 @@ export default function Contact() {
   }
 
   return (
-    <div className="pt-20">
-      <Section className="bg-card border-b border-border">
+    <div className="bg-[#faf8f5]">
+      {/* Hero Section - Villa Soleil Style */}
+      <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=80"
+            alt="Contact The VIF"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/20" />
+        </div>
+        
         <motion.div
-          className="text-center max-w-3xl mx-auto"
-          style={{
-            y: headerY,
-            opacity: headerOpacity,
-          }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="relative z-10 text-center"
         >
-          <motion.h1
-            className="text-5xl md:text-6xl font-heading font-semibold mb-4"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+          <h1 
+            style={{ 
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontSize: 'clamp(4rem, 15vw, 12rem)',
+              fontWeight: 300,
+              lineHeight: 1,
+              letterSpacing: '0.02em',
+              color: '#ffffff',
+              textShadow: '0 2px 40px rgba(0,0,0,0.15)'
+            }}
           >
-            Get in Touch
-          </motion.h1>
-          <motion.p
-            className="text-xl text-muted-foreground"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            We'd love to help you plan your French Riviera escape. Send us a message and we'll respond within 24 hours.
-          </motion.p>
+            Contact
+          </h1>
         </motion.div>
-      </Section>
+      </section>
 
-      <Section>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <AnimatedSection direction="left">
-            <div>
-              <h2 className="text-2xl font-heading font-semibold mb-6">Send Us a Message</h2>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <Label htmlFor="name">Name *</Label>
-                  <Input
-                    id="name"
-                    value={formData.name}
-                    onChange={(e) => handleChange('name', e.target.value)}
-                    required
-                    placeholder="Your full name"
-                  />
-                </div>
+      {/* Contact Content - Villa Soleil Style */}
+      <section className="py-32 md:py-40">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            {/* Contact Info */}
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <p style={{
+                fontFamily: "'Lato', sans-serif",
+                fontSize: '11px',
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                color: '#777',
+                marginBottom: '1.5rem'
+              }}>
+                Get in Touch
+              </p>
+              <h2 style={{
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontSize: 'clamp(2rem, 4vw, 3rem)',
+                fontWeight: 300,
+                lineHeight: 1.2,
+                color: '#0f1c2e',
+                marginBottom: '2rem'
+              }}>
+                We'd love to hear from you
+              </h2>
+              <p style={{
+                fontFamily: "'Lato', sans-serif",
+                fontSize: '15px',
+                fontWeight: 300,
+                lineHeight: 1.8,
+                color: '#555',
+                marginBottom: '3rem'
+              }}>
+                Have questions about The VIF or ready to book your stay? We're here to help 
+                you plan your perfect French Riviera experience. Reach out to us and we'll 
+                respond within 24 hours.
+              </p>
 
-                <div>
-                  <Label htmlFor="email">Email *</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => handleChange('email', e.target.value)}
-                    required
-                    placeholder="your.email@example.com"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="phone">Phone (optional)</Label>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) => handleChange('phone', e.target.value)}
-                    placeholder="+33 X XX XX XX XX"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="property">Interested Property</Label>
-                  <Select value={formData.property} onValueChange={(value) => handleChange('property', value)}>
-                    <SelectTrigger id="property">
-                      <SelectValue placeholder="Select a property" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="villa-rocsea">Villa Rocsea</SelectItem>
-                      <SelectItem value="villa-bellevue">Villa Bellevue</SelectItem>
-                      <SelectItem value="palm-beach-apartment">Palm Beach Apartment</SelectItem>
-                      <SelectItem value="not-sure">Not sure yet</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="check-in">Check-in Date</Label>
-                    <Input
-                      id="check-in"
-                      type="date"
-                      value={formData.checkIn}
-                      onChange={(e) => handleChange('checkIn', e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="check-out">Check-out Date</Label>
-                    <Input
-                      id="check-out"
-                      type="date"
-                      value={formData.checkOut}
-                      onChange={(e) => handleChange('checkOut', e.target.value)}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <Label htmlFor="guests">Number of Guests</Label>
-                  <Input
-                    id="guests"
-                    type="number"
-                    min="1"
-                    max="12"
-                    value={formData.guests}
-                    onChange={(e) => handleChange('guests', e.target.value)}
-                    placeholder="2"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="message">Message *</Label>
-                  <Textarea
-                    id="message"
-                    value={formData.message}
-                    onChange={(e) => handleChange('message', e.target.value)}
-                    required
-                    placeholder="Tell us about your travel plans, any special requests, or questions you have..."
-                    rows={5}
-                  />
-                </div>
-
-                <Button type="submit" size="lg" className="w-full">
-                  Send Message
-                </Button>
-              </form>
-            </div>
-          </AnimatedSection>
-
-          <AnimatedSection direction="right" delay={0.2}>
-            <div>
-              <h2 className="text-2xl font-heading font-semibold mb-6">Contact Details</h2>
-              <div className="space-y-6 mb-8">
+              <div className="space-y-8">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <EnvelopeSimple size={24} className="text-primary" />
+                  <div className="p-3 bg-[#f5f0e8]">
+                    <EnvelopeSimple size={24} weight="light" style={{ color: '#0f1c2e' }} />
                   </div>
                   <div>
-                    <h3 className="font-semibold mb-1">Email</h3>
-                    <a href="mailto:hello@thevif.com" className="text-muted-foreground hover:text-primary transition-colors">
-                      hello@thevif.com
+                    <h3 style={{
+                      fontFamily: "'Lato', sans-serif",
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      color: '#0f1c2e',
+                      marginBottom: '4px'
+                    }}>Email</h3>
+                    <a 
+                      href="mailto:contact@thevif.com" 
+                      style={{
+                        fontFamily: "'Lato', sans-serif",
+                        fontSize: '14px',
+                        fontWeight: 300,
+                        color: '#666'
+                      }}
+                      className="hover:text-[#0f1c2e] transition-colors"
+                    >
+                      contact@thevif.com
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <Phone size={24} className="text-primary" />
+                  <div className="p-3 bg-[#f5f0e8]">
+                    <Phone size={24} weight="light" style={{ color: '#0f1c2e' }} />
                   </div>
                   <div>
-                    <h3 className="font-semibold mb-1">Phone</h3>
-                    <a href="tel:+33123456789" className="text-muted-foreground hover:text-primary transition-colors">
-                      +33 1 23 45 67 89
+                    <h3 style={{
+                      fontFamily: "'Lato', sans-serif",
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      color: '#0f1c2e',
+                      marginBottom: '4px'
+                    }}>Phone</h3>
+                    <a 
+                      href="tel:+33600000000" 
+                      style={{
+                        fontFamily: "'Lato', sans-serif",
+                        fontSize: '14px',
+                        fontWeight: 300,
+                        color: '#666'
+                      }}
+                      className="hover:text-[#0f1c2e] transition-colors"
+                    >
+                      +33 6 00 00 00 00
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <MapPin size={24} className="text-primary" />
+                  <div className="p-3 bg-[#f5f0e8]">
+                    <MapPin size={24} weight="light" style={{ color: '#0f1c2e' }} />
                   </div>
                   <div>
-                    <h3 className="font-semibold mb-1">Location</h3>
-                    <p className="text-muted-foreground">
-                      French Riviera<br />
-                      Côte d'Azur, France
+                    <h3 style={{
+                      fontFamily: "'Lato', sans-serif",
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      color: '#0f1c2e',
+                      marginBottom: '4px'
+                    }}>Location</h3>
+                    <p style={{
+                      fontFamily: "'Lato', sans-serif",
+                      fontSize: '14px',
+                      fontWeight: 300,
+                      color: '#666'
+                    }}>
+                      French Riviera, France
                     </p>
                   </div>
                 </div>
               </div>
+            </motion.div>
 
-              <div className="bg-muted/30 rounded-lg p-6">
-                <h3 className="font-semibold mb-3">Response Time</h3>
-                <p className="text-sm text-muted-foreground mb-4">
-                  We typically respond to inquiries within 24 hours during business days. For urgent requests, please mention this in your message.
-                </p>
-                <h3 className="font-semibold mb-3">Office Hours</h3>
-                <p className="text-sm text-muted-foreground">
-                  Monday - Friday: 9:00 AM - 6:00 PM (CET)<br />
-                  Saturday: 10:00 AM - 4:00 PM (CET)<br />
-                  Sunday: Closed
-                </p>
-              </div>
-            </div>
-          </AnimatedSection>
+            {/* Contact Form */}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-xs tracking-[0.15em] uppercase text-muted-foreground mb-2">
+                      Name *
+                    </label>
+                    <Input
+                      type="text"
+                      value={formData.name}
+                      onChange={(e) => handleChange('name', e.target.value)}
+                      required
+                      className="border-border bg-white h-12"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs tracking-[0.15em] uppercase text-muted-foreground mb-2">
+                      Email *
+                    </label>
+                    <Input
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => handleChange('email', e.target.value)}
+                      required
+                      className="border-border bg-white h-12"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs tracking-[0.15em] uppercase text-muted-foreground mb-2">
+                    Phone
+                  </label>
+                  <Input
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) => handleChange('phone', e.target.value)}
+                    className="border-border bg-white h-12"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div>
+                    <label className="block text-xs tracking-[0.15em] uppercase text-muted-foreground mb-2">
+                      Check-in
+                    </label>
+                    <Input
+                      type="date"
+                      value={formData.checkIn}
+                      onChange={(e) => handleChange('checkIn', e.target.value)}
+                      className="border-border bg-white h-12"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs tracking-[0.15em] uppercase text-muted-foreground mb-2">
+                      Check-out
+                    </label>
+                    <Input
+                      type="date"
+                      value={formData.checkOut}
+                      onChange={(e) => handleChange('checkOut', e.target.value)}
+                      className="border-border bg-white h-12"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs tracking-[0.15em] uppercase text-muted-foreground mb-2">
+                      Guests
+                    </label>
+                    <Input
+                      type="number"
+                      min="1"
+                      max="10"
+                      value={formData.guests}
+                      onChange={(e) => handleChange('guests', e.target.value)}
+                      className="border-border bg-white h-12"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs tracking-[0.15em] uppercase text-muted-foreground mb-2">
+                    Message *
+                  </label>
+                  <Textarea
+                    value={formData.message}
+                    onChange={(e) => handleChange('message', e.target.value)}
+                    required
+                    rows={5}
+                    className="border-border bg-white resize-none"
+                    placeholder="Tell us about your ideal stay..."
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full px-10 py-4 bg-[#0f1c2e] text-white text-xs tracking-[0.2em] uppercase hover:bg-[#1a2d42] transition-all duration-300"
+                >
+                  Send Message
+                </button>
+              </form>
+            </motion.div>
+          </div>
         </div>
-      </Section>
+      </section>
     </div>
   )
 }

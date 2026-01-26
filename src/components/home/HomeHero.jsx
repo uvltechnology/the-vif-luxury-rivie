@@ -1,43 +1,43 @@
 import { Link } from 'react-router-dom'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { Button } from '@/components/ui/button'
-import { ArrowRight } from '@phosphor-icons/react'
 import { useParallax } from '@/hooks/use-parallax'
 import { useState, useEffect } from 'react'
 import heroVideo from '@/assets/videos/lv_0_20251213141115.mp4'
+import { CaretDown } from '@phosphor-icons/react'
 
 export default function HomeHero() {
   const { scrollY } = useScroll()
-  const backgroundY = useParallax(0.5)
-  const contentY = useTransform(scrollY, [0, 500], [0, 150])
-  const opacity = useTransform(scrollY, [0, 300], [1, 0])
-  const scale = useTransform(scrollY, [0, 300], [1, 1.1])
+  const backgroundY = useParallax(0.3)
+  const contentY = useTransform(scrollY, [0, 500], [0, 100])
+  const opacity = useTransform(scrollY, [0, 400], [1, 0])
   
-  // State for smooth zoom-in animation on load
   const [isLoaded, setIsLoaded] = useState(false)
   const [videoReady, setVideoReady] = useState(false)
 
   useEffect(() => {
-    // Trigger zoom animation after component mounts
     const timer = setTimeout(() => setIsLoaded(true), 100)
     return () => clearTimeout(timer)
   }, [])
 
+  const scrollToWelcome = () => {
+    const welcomeSection = document.getElementById('welcome')
+    if (welcomeSection) {
+      welcomeSection.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
   return (
     <div className="relative h-screen flex items-center justify-center overflow-hidden">
-      {/* Video Background with Smooth Zoom Transition */}
+      {/* Video Background - Villa Soleil Style */}
       <motion.div
         className="absolute inset-0"
-        style={{
-          y: backgroundY,
-          scale,
-        }}
+        style={{ y: backgroundY }}
       >
         <div 
-          className={`absolute inset-0 transition-all duration-[2500ms] ease-out ${
+          className={`absolute inset-0 transition-all duration-[2000ms] ease-out ${
             isLoaded && videoReady 
               ? 'scale-100 opacity-100' 
-              : 'scale-110 opacity-0'
+              : 'scale-105 opacity-0'
           }`}
         >
           <video
@@ -52,69 +52,81 @@ export default function HomeHero() {
             <source src={heroVideo} type="video/mp4" />
           </video>
         </div>
-        {/* Dark overlay for text readability - stronger opacity */}
-        <div className="absolute inset-0 bg-black/50" />
-        {/* Additional gradient for depth */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/60" />
+        {/* Subtle dark overlay */}
+        <div className="absolute inset-0 bg-black/20" />
       </motion.div>
       
+      {/* Content - Villa Soleil Style - WHITE text */}
       <motion.div
-        className="relative z-10 text-center px-6 max-w-4xl mx-auto"
+        className="relative z-10 text-center px-6 max-w-6xl mx-auto"
         style={{
           y: contentY,
           opacity,
         }}
       >
         <motion.h1
-          className="text-5xl md:text-7xl font-heading font-bold mb-6 text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]"
           style={{ 
-            textShadow: '0 2px 4px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.3)',
-            color: '#ffffff'
+            fontFamily: "'Cormorant Garamond', Georgia, serif",
+            fontSize: 'clamp(3.5rem, 10vw, 8rem)',
+            fontWeight: 500,
+            lineHeight: 1.1,
+            letterSpacing: '-0.01em',
+            color: '#ffffff',
+            textShadow: '0 4px 40px rgba(0,0,0,0.4), 0 2px 10px rgba(0,0,0,0.3)'
           }}
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 1, delay: 0.3, ease: 'easeOut' }}
         >
-          Discover the French Riviera Like Never Before
+          Embrace the<br />ultimate luxury
         </motion.h1>
+
+        {/* Decorative wave element like Villa Soleil */}
+        <motion.div
+          className="flex justify-center my-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.4 }}
+        >
+          <svg width="60" height="12" viewBox="0 0 60 12" fill="none">
+            <path d="M0 6C10 6 10 2 20 2C30 2 30 10 40 10C50 10 50 6 60 6" stroke="white" strokeWidth="1.5" fill="none"/>
+          </svg>
+        </motion.div>
+        
         <motion.p
-          className="text-xl md:text-2xl mb-8 font-light tracking-wide text-white"
           style={{ 
-            textShadow: '0 2px 4px rgba(0,0,0,0.6), 0 4px 8px rgba(0,0,0,0.4)',
-            color: '#ffffff'
+            fontFamily: "'Cormorant Garamond', Georgia, serif",
+            fontSize: 'clamp(1rem, 2vw, 1.25rem)',
+            fontWeight: 300,
+            fontStyle: 'italic',
+            letterSpacing: '0.02em',
+            color: 'rgba(255,255,255,0.9)',
+            textShadow: '0 1px 10px rgba(0,0,0,0.3)'
           }}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          transition={{ duration: 1, delay: 0.5, ease: 'easeOut' }}
         >
-          Charming villas and apartments in La Turbie and Cannes, with breathtaking views of Monaco and the Mediterranean
+          Experience the perfect getaway<br />at The VIF
         </motion.p>
-        <motion.div
-          className="flex flex-col sm:flex-row gap-4 justify-center"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-        >
-          <Button asChild size="lg" className="text-lg px-8 py-6">
-            <Link to="/stays">
-              Explore Our Properties
-              <ArrowRight className="ml-2" size={20} />
-            </Link>
-          </Button>
-          <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6 bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20">
-            <Link to="/contact">Contact Us</Link>
-          </Button>
-        </motion.div>
       </motion.div>
 
-      <motion.div
-        className="absolute bottom-12 left-1/2 transform -translate-x-1/2 animate-bounce"
+      {/* Scroll indicator - Villa Soleil style */}
+      <motion.button
+        onClick={scrollToWelcome}
+        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white/60 hover:text-white transition-colors cursor-pointer"
         style={{ opacity }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 1 }}
       >
-        <div className="w-6 h-10 border-2 border-white/50 rounded-full flex items-start justify-center p-2">
-          <div className="w-1.5 h-1.5 bg-white rounded-full" />
-        </div>
-      </motion.div>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <CaretDown size={28} weight="thin" />
+        </motion.div>
+      </motion.button>
     </div>
   )
 }

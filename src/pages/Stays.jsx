@@ -1,14 +1,11 @@
 import { useState, useEffect } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
-import Section from '@/components/shared/Section'
-import PropertyCard from '@/components/stays/PropertyCard'
-import PropertyCardSkeleton from '@/components/stays/PropertyCardSkeleton'
+import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import { propertyApi, getImageUrl } from '@/services/api'
-import { Button } from '@/components/ui/button'
+import { Bed, Users, SwimmingPool, Eye } from '@phosphor-icons/react'
 
 // Transform API response to frontend format
 const transformProperty = (apiProperty) => {
-  // Check if property has pool or sea view from amenities
   const amenityNames = apiProperty.amenities?.map(a => a.name?.toLowerCase() || '') || []
   const hasPool = amenityNames.some(name => name.includes('pool'))
   const hasSeaView = amenityNames.some(name => name.includes('sea view') || name.includes('sea-view'))
@@ -28,33 +25,23 @@ const transformProperty = (apiProperty) => {
     hasSeaView,
     shortDescription: apiProperty.shortDescription || apiProperty.description?.substring(0, 200),
     images: apiProperty.images?.map(img => getImageUrl(img.url)) || [],
-    amenities: apiProperty.amenities?.map(a => a.name) || [],
-    averageRating: apiProperty.averageRating,
-    reviewCount: apiProperty._count?.reviews || 0
+    amenities: apiProperty.amenities?.map(a => a.name) || []
   }
 }
 
 export default function Stays() {
-  const [filter, setFilter] = useState('all')
   const [properties, setProperties] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState(null)
-  const { scrollY } = useScroll()
-  const headerY = useTransform(scrollY, [0, 200], [0, 50])
-  const headerOpacity = useTransform(scrollY, [0, 200], [1, 0.3])
 
-  // Fetch properties from API
   useEffect(() => {
     const fetchProperties = async () => {
       setIsLoading(true)
-      setError(null)
       try {
         const response = await propertyApi.getAll({ limit: 50 })
         const transformedProperties = (response.data || []).map(transformProperty)
         setProperties(transformedProperties)
       } catch (err) {
         console.error('Failed to fetch properties:', err)
-        setError('Failed to load properties. Please try again later.')
       } finally {
         setIsLoading(false)
       }
@@ -63,161 +50,187 @@ export default function Stays() {
     fetchProperties()
   }, [])
 
-  const filters = [
-    { id: 'all', label: 'All Properties' },
-    { id: 'villa', label: 'Villas' },
-    { id: 'apartment', label: 'Apartments' },
-    { id: 'pool', label: 'With Pool' },
-    { id: 'sea-view', label: 'Sea View' }
-  ]
-
-  const filteredProperties = properties.filter((property) => {
-    if (filter === 'all') return true
-    if (filter === 'villa') return property.type === 'villa'
-    if (filter === 'apartment') return property.type === 'apartment'
-    if (filter === 'pool') return property.hasPool
-    if (filter === 'sea-view') return property.hasSeaView
-    return true
-  })
-
   return (
-    <div className="pt-20">
-      <div className="bg-card border-b border-border">
-        <Section>
-          <motion.div
-            className="text-center mb-8"
-            style={{
-              y: headerY,
-              opacity: headerOpacity,
-            }}
-          >
-            <motion.h1
-              className="text-5xl md:text-6xl font-heading font-semibold mb-4"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              Our Collection
-            </motion.h1>
-            <motion.p
-              className="text-xl text-muted-foreground max-w-2xl mx-auto"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              Choose your perfect French Riviera home. Each property offers a unique perspective on Mediterranean living.
-            </motion.p>
-          </motion.div>
-
-          <motion.div
-            className="flex flex-wrap justify-center gap-3"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-          >
-            {filters.map((f, index) => (
-              <motion.div
-                key={f.id}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{
-                  duration: 0.3,
-                  delay: 0.3 + index * 0.05,
-                  ease: [0.25, 0.1, 0.25, 1]
-                }}
-                whileHover={{
-                  scale: 1.05,
-                  y: -2,
-                  transition: { duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }
-                }}
-                whileTap={{
-                  scale: 0.98,
-                  transition: { duration: 0.1 }
-                }}
-              >
-                <Button
-                  variant={filter === f.id ? 'default' : 'outline'}
-                  onClick={() => setFilter(f.id)}
-                  size="sm"
-                  className="relative overflow-hidden"
-                >
-                  {f.label}
-                </Button>
-              </motion.div>
-            ))}
-          </motion.div>
-        </Section>
-      </div>
-
-      <Section>
-        {error ? (
-          <div className="text-center py-12">
-            <p className="text-red-500 mb-4">{error}</p>
-            <Button variant="outline" onClick={() => window.location.reload()}>
-              Try Again
-            </Button>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {isLoading ? (
-              <>
-                {[...Array(3)].map((_, index) => (
-                  <motion.div
-                    key={`skeleton-${index}`}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 0.4,
-                      delay: index * 0.1,
-                      ease: [0.25, 0.1, 0.25, 1]
-                    }}
-                  >
-                    <PropertyCardSkeleton />
-                  </motion.div>
-                ))}
-              </>
-            ) : (
-              <>
-                {filteredProperties.map((property, index) => (
-                  <motion.div
-                    key={property.id}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 0.5,
-                      delay: index * 0.1,
-                      ease: [0.25, 0.1, 0.25, 1]
-                    }}
-                  >
-                    <PropertyCard property={property} />
-                  </motion.div>
-                ))}
-              </>
-            )}
-          </div>
-        )}
-
-        {!isLoading && !error && filteredProperties.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground">No properties match your filters.</p>
-            <Button variant="outline" onClick={() => setFilter('all')} className="mt-4">
-              View All Properties
-            </Button>
-          </div>
-        )}
-      </Section>
-
-      <Section className="bg-muted/30">
-        <div className="text-center max-w-2xl mx-auto">
-          <h2 className="text-3xl font-heading font-semibold mb-4">Still Deciding?</h2>
-          <p className="text-muted-foreground mb-6">
-            We're happy to help you find the perfect property for your group size, dates, and preferences.
-          </p>
-          <Button asChild size="lg">
-            <a href="/contact">Get Personalized Recommendations</a>
-          </Button>
+    <div className="bg-[#faf8f5]">
+      {/* Hero Section */}
+      <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=80"
+            alt="Our Stays"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/30" />
         </div>
-      </Section>
+        
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="relative z-10 text-center text-white"
+        >
+          <h1 className="font-heading text-5xl md:text-7xl font-light tracking-wide">
+            Our Stays
+          </h1>
+        </motion.div>
+      </section>
+
+      {/* Intro Section */}
+      <section className="py-24 md:py-32">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-xs tracking-[0.3em] uppercase text-muted-foreground mb-6"
+          >
+            Accommodations
+          </motion.p>
+          
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="font-heading text-3xl md:text-4xl lg:text-5xl font-light mb-8"
+          >
+            Discover our properties
+          </motion.h2>
+          
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-muted-foreground leading-relaxed"
+          >
+            Each of our carefully selected properties offers a unique experience on the 
+            French Riviera. From stunning sea views to private pools, discover your 
+            perfect Mediterranean retreat.
+          </motion.p>
+        </div>
+      </section>
+
+      {/* Properties Grid */}
+      <section className="pb-24 md:pb-32">
+        <div className="max-w-7xl mx-auto px-6">
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {[...Array(4)].map((_, index) => (
+                <div key={index} className="animate-pulse">
+                  <div className="aspect-[4/3] bg-muted mb-6" />
+                  <div className="h-6 bg-muted w-2/3 mb-3" />
+                  <div className="h-4 bg-muted w-1/2" />
+                </div>
+              ))}
+            </div>
+          ) : properties.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+              {properties.map((property, index) => (
+                <motion.div
+                  key={property.id}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <Link to={`/stays/${property.slug}`} className="group block">
+                    <div className="aspect-[4/3] overflow-hidden mb-6">
+                      <img
+                        src={property.images[0] || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80'}
+                        alt={property.name}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    </div>
+                    
+                    <h3 className="font-heading text-2xl font-light mb-2">
+                      {property.name}
+                    </h3>
+                    
+                    <p className="text-muted-foreground text-sm mb-4">
+                      {property.location}
+                    </p>
+                    
+                    <div className="flex items-center gap-6 text-sm text-muted-foreground mb-4">
+                      <span className="flex items-center gap-2">
+                        <Bed size={16} weight="light" />
+                        {property.bedrooms} Bedrooms
+                      </span>
+                      <span className="flex items-center gap-2">
+                        <Users size={16} weight="light" />
+                        Up to {property.capacity}
+                      </span>
+                      {property.hasPool && (
+                        <span className="flex items-center gap-2">
+                          <SwimmingPool size={16} weight="light" />
+                          Pool
+                        </span>
+                      )}
+                      {property.hasSeaView && (
+                        <span className="flex items-center gap-2">
+                          <Eye size={16} weight="light" />
+                          Sea View
+                        </span>
+                      )}
+                    </div>
+                    
+                    <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+                      {property.shortDescription}
+                    </p>
+                    
+                    <p className="text-sm">
+                      From <span className="font-medium">€{property.price}</span> / night
+                    </p>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-16">
+              <p className="text-muted-foreground">No properties available at the moment.</p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24 md:py-32 bg-[#0f1c2e] text-white text-center">
+        <div className="max-w-4xl mx-auto px-6">
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="font-heading text-3xl md:text-4xl font-light mb-8"
+          >
+            Can't decide? Let us help you
+          </motion.h2>
+          
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-white/70 mb-8 max-w-2xl mx-auto"
+          >
+            Tell us about your ideal stay and we'll recommend the perfect property for 
+            your French Riviera experience.
+          </motion.p>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+          >
+            <Link 
+              to="/contact"
+              className="inline-block px-10 py-4 border border-white/30 text-white text-xs tracking-[0.2em] uppercase hover:bg-white hover:text-[#0f1c2e] transition-all duration-300"
+            >
+              Get Recommendations
+            </Link>
+          </motion.div>
+        </div>
+      </section>
     </div>
   )
 }
