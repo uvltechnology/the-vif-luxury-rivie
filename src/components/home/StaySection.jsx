@@ -1,6 +1,10 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 
+// Import local villa images
+import indoorImage from '@/assets/images/The Villa Homepage/The Villa Homepage 2nd Image.jpg'
+import outdoorImage from '@/assets/images/The Villa Homepage/The Villa Homepage 3rd Image.jpg'
+
 export default function StaySection() {
   return (
     <section className="py-32 md:py-40 bg-[#f5f0e8]">
@@ -53,9 +57,11 @@ export default function StaySection() {
           >
             <div className="aspect-[4/3] overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80"
+                src={indoorImage}
                 alt="Indoor amenities"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                loading="lazy"
+                decoding="async"
               />
             </div>
             <div className="p-8">
@@ -110,9 +116,11 @@ export default function StaySection() {
           >
             <div className="aspect-[4/3] overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80"
+                src={outdoorImage}
                 alt="Outdoor amenities"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                loading="lazy"
+                decoding="async"
               />
             </div>
             <div className="p-8">

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X } from '@phosphor-icons/react'
+import { OptimizedImage } from '../components/shared/OptimizedImage'
 
 // Import gallery images
 import img1 from '../assets/images/The VIF Gallery/1.jpg'
@@ -29,10 +30,6 @@ import img23 from '../assets/images/The VIF Gallery/23.jpg'
 import img24 from '../assets/images/The VIF Gallery/24.jpg'
 import img25 from '../assets/images/The VIF Gallery/25.jpg'
 import img26 from '../assets/images/The VIF Gallery/26.jpg'
-import img27 from '../assets/images/The VIF Gallery/27.jpg'
-import img28 from '../assets/images/The VIF Gallery/28.jpg'
-import img29 from '../assets/images/The VIF Gallery/29.jpg'
-import img30 from '../assets/images/The VIF Gallery/30.jpg'
 
 const galleryImages = [
   { src: img1, alt: 'Villa image 1' },
@@ -60,11 +57,7 @@ const galleryImages = [
   { src: img23, alt: 'Villa image 23' },
   { src: img24, alt: 'Villa image 24' },
   { src: img25, alt: 'Villa image 25' },
-  { src: img26, alt: 'Villa image 26' },
-  { src: img27, alt: 'Villa image 27' },
-  { src: img28, alt: 'Villa image 28' },
-  { src: img29, alt: 'Villa image 29' },
-  { src: img30, alt: 'Villa image 30' }
+  { src: img26, alt: 'Villa image 26' }
 ]
 
 export default function Gallery() {
@@ -146,11 +139,14 @@ export default function Gallery() {
                   style={{ borderRadius: '4px' }}
                   onClick={() => setSelectedImage(image)}
                 >
-                  <img
+                  <OptimizedImage
                     src={image.src}
                     alt={image.alt}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full"
+                    objectFit="cover"
+                    priority={index < 4}
                   />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
                 </motion.div>
               ))}
             </AnimatePresence>

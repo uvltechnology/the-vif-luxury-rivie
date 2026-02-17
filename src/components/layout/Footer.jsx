@@ -2,14 +2,14 @@ import { Link, useLocation } from 'react-router-dom'
 import { InstagramLogo, EnvelopeSimple, Phone } from '@phosphor-icons/react'
 import { useTranslation } from '@/hooks/useTranslation'
 
-// Gallery images for the footer strip
-const galleryImages = [
-  'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=400&q=80',
-  'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400&q=80',
-  'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&q=80',
-  'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400&q=80',
-  'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&q=80',
-]
+// Import local gallery images for the footer strip
+import gallery1 from '@/assets/images/The VIF Gallery/6.jpg'
+import gallery2 from '@/assets/images/The VIF Gallery/7.jpg'
+import gallery3 from '@/assets/images/The VIF Gallery/8.jpg'
+import gallery4 from '@/assets/images/The VIF Gallery/9.jpg'
+import gallery5 from '@/assets/images/The VIF Gallery/10.jpg'
+
+const galleryImages = [gallery1, gallery2, gallery3, gallery4, gallery5]
 
 export default function Footer() {
   const { t } = useTranslation()
@@ -20,13 +20,15 @@ export default function Footer() {
     <footer>
       {/* Gallery Strip - Only show on home page */}
       {isHomePage && (
-        <div className="flex w-full h-64 overflow-hidden">
+        <div className="flex w-full h-64 gap-4 px-4 py-4 bg-[#faf8f5]">
           {galleryImages.map((image, index) => (
-            <div key={index} className="flex-1 min-w-0">
+            <div key={index} className="flex-1 min-w-0 overflow-hidden rounded-xl">
               <img
                 src={image}
                 alt={`Gallery ${index + 1}`}
                 className="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           ))}

@@ -143,6 +143,8 @@ export default function Experiences() {
                     src={destination.image}
                     alt={destination.name}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <h3 style={{
@@ -221,6 +223,8 @@ export default function Experiences() {
                     src={club.image}
                     alt={club.name}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <h3 style={{
@@ -261,6 +265,8 @@ export default function Experiences() {
                   src={boatExcursionImage}
                   alt="Boat excursion"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
               <h2 style={{
@@ -298,6 +304,8 @@ export default function Experiences() {
                   src={hikingImage}
                   alt="Hiking trail"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
               <h2 style={{
@@ -435,6 +443,8 @@ export default function Experiences() {
                     src={place.image}
                     alt={place.name}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <h3 style={{

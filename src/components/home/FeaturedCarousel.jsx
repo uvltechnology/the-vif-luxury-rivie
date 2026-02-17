@@ -3,26 +3,34 @@ import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { ArrowLeft, ArrowRight, ArrowUpRight } from '@phosphor-icons/react'
 
-// Import sample images - these should be updated with actual villa images
+// Import local villa images
+import slide1 from '@/assets/images/The VIF Gallery/1.jpg'
+import slide2 from '@/assets/images/The VIF Gallery/2.jpg'
+import slide3 from '@/assets/images/The VIF Gallery/3.jpg'
+import slide4 from '@/assets/images/The VIF Gallery/4.jpg'
+import slide5 from '@/assets/images/The VIF Gallery/5.jpg'
+import villaImage from '@/assets/images/The Villa Homepage/The Villa Homepage 1st Image.jpg'
+import experiencesImage from '@/assets/images/The VIF Experiences Hompage/Experiences.jpg'
+
 const slides = [
   {
-    image: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1600&q=80',
+    image: slide1,
     alt: 'Luxury villa exterior'
   },
   {
-    image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=80',
+    image: slide2,
     alt: 'Villa pool view'
   },
   {
-    image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1600&q=80',
+    image: slide3,
     alt: 'Villa interior'
   },
   {
-    image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600&q=80',
+    image: slide4,
     alt: 'Villa terrace'
   },
   {
-    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&q=80',
+    image: slide5,
     alt: 'Sea view from villa'
   }
 ]
@@ -65,6 +73,8 @@ export default function FeaturedCarousel() {
                 src={slide.image}
                 alt={slide.alt}
                 className="w-full h-full object-cover"
+                loading={index === 0 ? 'eager' : 'lazy'}
+                decoding="async"
               />
             </motion.div>
           ))}
@@ -126,9 +136,11 @@ export default function FeaturedCarousel() {
             className="relative aspect-[4/3] overflow-hidden"
           >
             <img
-              src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1000&q=80"
+              src={villaImage}
               alt="Villa exterior"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              loading="lazy"
+              decoding="async"
             />
             {/* Gold/Orange Overlay */}
             <div 
@@ -180,9 +192,11 @@ export default function FeaturedCarousel() {
             className="relative aspect-[4/3] overflow-hidden"
           >
             <img
-              src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1000&q=80"
-              alt="Yacht experience"
+              src={experiencesImage}
+              alt="French Riviera experiences"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              loading="lazy"
+              decoding="async"
             />
             {/* Text Content - positioned at bottom left */}
             <div 

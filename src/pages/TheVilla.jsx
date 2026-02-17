@@ -121,6 +121,8 @@ export default function TheVilla() {
                 alt="Villa interior"
                 className="w-full h-auto object-contain"
                 style={{ borderRadius: '16px' }}
+                loading="lazy"
+                decoding="async"
               />
             </motion.div>
           </div>
@@ -143,6 +145,8 @@ export default function TheVilla() {
               src={indoorImage}
               alt="Indoor amenities"
               className="w-full h-full object-cover"
+              loading="lazy"
+              decoding="async"
             />
           </motion.div>
           
@@ -280,6 +284,8 @@ export default function TheVilla() {
               src={outdoorImage}
               alt="Outdoor amenities"
               className="w-full h-full object-cover"
+              loading="lazy"
+              decoding="async"
             />
           </motion.div>
         </div>

@@ -1,5 +1,8 @@
 import { motion } from 'framer-motion'
 
+// Import local location image
+import locationImage from '@/assets/images/The VIF Experiences Hompage/Villefranche-sur-Mer.jpg'
+
 export default function LocationSection() {
   return (
     <section className="py-24 md:py-32 bg-[#f5f0e8]">
@@ -14,9 +17,11 @@ export default function LocationSection() {
             className="aspect-square lg:aspect-[4/5] overflow-hidden"
           >
             <img
-              src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&q=80"
-              alt="French Riviera Map Location"
+              src={locationImage}
+              alt="Villefranche-sur-Mer - French Riviera"
               className="w-full h-full object-cover"
+              loading="lazy"
+              decoding="async"
             />
           </motion.div>
 

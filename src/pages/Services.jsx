@@ -330,6 +330,8 @@ export default function Services() {
                 alt={`Service ${index + 1}`}
                 className="w-full h-full object-cover"
                 style={{ borderRadius: '16px' }}
+                loading="lazy"
+                decoding="async"
               />
             </div>
           ))}
