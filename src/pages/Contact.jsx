@@ -1,330 +1,358 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { useLocalStorage } from '@/hooks/useLocalStorage'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { EnvelopeSimple, Phone, MapPin } from '@phosphor-icons/react'
 import { toast } from 'sonner'
 
+const API_URL = 'http://100.120.0.85:5101'
+
 export default function Contact() {
-  const [inquiries, setInquiries] = useLocalStorage('contact-inquiries', [])
-  const [messages, setMessages] = useLocalStorage('admin-messages', [])
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
     phone: '',
-    checkIn: '',
-    checkOut: '',
-    guests: '',
+    arrivalDate: '',
+    departureDate: '',
+    adults: '',
+    children0to5: '',
+    children6to16: '',
     message: ''
   })
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    const newInquiry = {
-      ...formData,
-      id: Date.now(),
-      submittedAt: new Date().toISOString()
+    setIsSubmitting(true)
+
+    try {
+      const response = await fetch(`${API_URL}/api/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send message')
+      }
+
+      toast.success('Thank you! We\'ll get back to you within 24 hours.')
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        arrivalDate: '',
+        departureDate: '',
+        adults: '',
+        children0to5: '',
+        children6to16: '',
+        message: ''
+      })
+    } catch (error) {
+      toast.error(error.message || 'Failed to send message. Please try again.')
+    } finally {
+      setIsSubmitting(false)
     }
-    
-    const adminMessage = {
-      id: `MSG-${Date.now()}`,
-      guestName: formData.name,
-      guestEmail: formData.email,
-      guestPhone: formData.phone || '',
-      subject: `Inquiry about The VIF`,
-      message: `${formData.message}\n\nTravel Details:\nCheck-in: ${formData.checkIn || 'Not specified'}\nCheck-out: ${formData.checkOut || 'Not specified'}\nGuests: ${formData.guests || 'Not specified'}`,
-      status: 'unread',
-      createdAt: new Date().toISOString(),
-      replies: []
-    }
-    
-    setInquiries((current) => [newInquiry, ...current])
-    setMessages((current) => [adminMessage, ...(current || [])])
-    
-    toast.success('Thank you! We\'ll get back to you within 24 hours.')
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      checkIn: '',
-      checkOut: '',
-      guests: '',
-      message: ''
-    })
   }
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
+  const inputStyle = {
+    fontFamily: "'Lato', sans-serif",
+    fontSize: '14px',
+    fontWeight: 300,
+    color: '#333',
+    backgroundColor: '#ffffff',
+    border: '1px solid #e5e5e5',
+    borderRadius: '0',
+    padding: '16px',
+    width: '100%',
+    outline: 'none',
+    transition: 'border-color 0.3s ease'
+  }
+
+  const labelStyle = {
+    fontFamily: "'Lato', sans-serif",
+    fontSize: '12px',
+    fontWeight: 600,
+    color: '#0f1c2e',
+    marginBottom: '8px',
+    display: 'block'
+  }
+
+  const sectionTitleStyle = {
+    fontFamily: "'Lato', sans-serif",
+    fontSize: '16px',
+    fontWeight: 500,
+    color: '#0f1c2e',
+    marginBottom: '24px'
+  }
+
   return (
     <div className="bg-[#faf8f5]">
-      {/* Hero Section - Villa Soleil Style */}
-      <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=80"
-            alt="Contact The VIF"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/20" />
-        </div>
-        
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="relative z-10 text-center"
-        >
-          <h1 
+      {/* Header Section - Villa Soleil Style */}
+      <section className="pt-32 md:pt-40 pb-8 md:pb-12">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
             style={{ 
               fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontSize: 'clamp(4rem, 15vw, 12rem)',
+              fontSize: 'clamp(3.5rem, 12vw, 8rem)',
               fontWeight: 300,
               lineHeight: 1,
               letterSpacing: '0.02em',
-              color: '#ffffff',
-              textShadow: '0 2px 40px rgba(0,0,0,0.15)'
+              color: '#0f1c2e',
+              marginBottom: '1.5rem'
             }}
           >
-            Contact
-          </h1>
-        </motion.div>
+            Contact us
+          </motion.h1>
+          
+          {/* Decorative Wave */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="mb-6"
+          >
+            <svg width="60" height="12" viewBox="0 0 60 12" fill="none" className="mx-auto">
+              <path d="M0 6C10 6 10 2 20 2C30 2 30 10 40 10C50 10 50 6 60 6" stroke="#c9a962" strokeWidth="1.5" fill="none"/>
+            </svg>
+          </motion.div>
+          
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            style={{
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontSize: 'clamp(1.1rem, 2vw, 1.35rem)',
+              fontWeight: 400,
+              fontStyle: 'italic',
+              lineHeight: 1.6,
+              color: '#555'
+            }}
+          >
+            For reservations within one week, please<br className="hidden md:block" />
+            contact us by phone.
+          </motion.p>
+        </div>
       </section>
 
-      {/* Contact Content - Villa Soleil Style */}
-      <section className="py-32 md:py-40">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            {/* Contact Info */}
-            <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-            >
-              <p style={{
-                fontFamily: "'Lato', sans-serif",
-                fontSize: '11px',
-                letterSpacing: '0.15em',
-                textTransform: 'uppercase',
-                color: '#777',
-                marginBottom: '1.5rem'
-              }}>
-                Get in Touch
-              </p>
-              <h2 style={{
-                fontFamily: "'Cormorant Garamond', Georgia, serif",
-                fontSize: 'clamp(2rem, 4vw, 3rem)',
-                fontWeight: 300,
-                lineHeight: 1.2,
-                color: '#0f1c2e',
-                marginBottom: '2rem'
-              }}>
-                We'd love to hear from you
-              </h2>
-              <p style={{
-                fontFamily: "'Lato', sans-serif",
-                fontSize: '15px',
-                fontWeight: 300,
-                lineHeight: 1.8,
-                color: '#555',
-                marginBottom: '3rem'
-              }}>
-                Have questions about The VIF or ready to book your stay? We're here to help 
-                you plan your perfect French Riviera experience. Reach out to us and we'll 
-                respond within 24 hours.
-              </p>
-
-              <div className="space-y-8">
-                <div className="flex items-start gap-4">
-                  <div className="p-3 bg-[#f5f0e8]">
-                    <EnvelopeSimple size={24} weight="light" style={{ color: '#0f1c2e' }} />
-                  </div>
-                  <div>
-                    <h3 style={{
-                      fontFamily: "'Lato', sans-serif",
-                      fontSize: '14px',
-                      fontWeight: 500,
-                      color: '#0f1c2e',
-                      marginBottom: '4px'
-                    }}>Email</h3>
-                    <a 
-                      href="mailto:contact@thevif.com" 
-                      style={{
-                        fontFamily: "'Lato', sans-serif",
-                        fontSize: '14px',
-                        fontWeight: 300,
-                        color: '#666'
-                      }}
-                      className="hover:text-[#0f1c2e] transition-colors"
-                    >
-                      contact@thevif.com
-                    </a>
-                  </div>
+      {/* Contact Form Section */}
+      <section className="pb-24 md:pb-32">
+        <div className="max-w-3xl mx-auto px-6">
+          <motion.form 
+            onSubmit={handleSubmit}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            {/* Your Details Section */}
+            <div className="mb-12">
+              <h2 style={sectionTitleStyle}>Your details</h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label style={labelStyle}>First Name</label>
+                  <input
+                    type="text"
+                    placeholder="First Name"
+                    value={formData.firstName}
+                    onChange={(e) => handleChange('firstName', e.target.value)}
+                    required
+                    style={inputStyle}
+                    onFocus={(e) => e.target.style.borderColor = '#c9a962'}
+                    onBlur={(e) => e.target.style.borderColor = '#e5e5e5'}
+                  />
                 </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="p-3 bg-[#f5f0e8]">
-                    <Phone size={24} weight="light" style={{ color: '#0f1c2e' }} />
-                  </div>
-                  <div>
-                    <h3 style={{
-                      fontFamily: "'Lato', sans-serif",
-                      fontSize: '14px',
-                      fontWeight: 500,
-                      color: '#0f1c2e',
-                      marginBottom: '4px'
-                    }}>Phone</h3>
-                    <a 
-                      href="tel:+33600000000" 
-                      style={{
-                        fontFamily: "'Lato', sans-serif",
-                        fontSize: '14px',
-                        fontWeight: 300,
-                        color: '#666'
-                      }}
-                      className="hover:text-[#0f1c2e] transition-colors"
-                    >
-                      +33 6 00 00 00 00
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="p-3 bg-[#f5f0e8]">
-                    <MapPin size={24} weight="light" style={{ color: '#0f1c2e' }} />
-                  </div>
-                  <div>
-                    <h3 style={{
-                      fontFamily: "'Lato', sans-serif",
-                      fontSize: '14px',
-                      fontWeight: 500,
-                      color: '#0f1c2e',
-                      marginBottom: '4px'
-                    }}>Location</h3>
-                    <p style={{
-                      fontFamily: "'Lato', sans-serif",
-                      fontSize: '14px',
-                      fontWeight: 300,
-                      color: '#666'
-                    }}>
-                      French Riviera, France
-                    </p>
-                  </div>
+                <div>
+                  <label style={labelStyle}>Last Name</label>
+                  <input
+                    type="text"
+                    placeholder="Last Name"
+                    value={formData.lastName}
+                    onChange={(e) => handleChange('lastName', e.target.value)}
+                    required
+                    style={inputStyle}
+                    onFocus={(e) => e.target.style.borderColor = '#c9a962'}
+                    onBlur={(e) => e.target.style.borderColor = '#e5e5e5'}
+                  />
                 </div>
               </div>
-            </motion.div>
 
-            {/* Contact Form */}
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-xs tracking-[0.15em] uppercase text-muted-foreground mb-2">
-                      Name *
-                    </label>
-                    <Input
-                      type="text"
-                      value={formData.name}
-                      onChange={(e) => handleChange('name', e.target.value)}
-                      required
-                      className="border-border bg-white h-12"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs tracking-[0.15em] uppercase text-muted-foreground mb-2">
-                      Email *
-                    </label>
-                    <Input
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => handleChange('email', e.target.value)}
-                      required
-                      className="border-border bg-white h-12"
-                    />
-                  </div>
-                </div>
-
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-xs tracking-[0.15em] uppercase text-muted-foreground mb-2">
-                    Phone
-                  </label>
-                  <Input
+                  <label style={labelStyle}>Email Address</label>
+                  <input
+                    type="email"
+                    placeholder="Email Address"
+                    value={formData.email}
+                    onChange={(e) => handleChange('email', e.target.value)}
+                    required
+                    style={inputStyle}
+                    onFocus={(e) => e.target.style.borderColor = '#c9a962'}
+                    onBlur={(e) => e.target.style.borderColor = '#e5e5e5'}
+                  />
+                </div>
+                <div>
+                  <label style={labelStyle}>Telephone Number</label>
+                  <input
                     type="tel"
+                    placeholder="Please provide the country code (e.g +33)"
                     value={formData.phone}
                     onChange={(e) => handleChange('phone', e.target.value)}
-                    className="border-border bg-white h-12"
+                    style={inputStyle}
+                    onFocus={(e) => e.target.style.borderColor = '#c9a962'}
+                    onBlur={(e) => e.target.style.borderColor = '#e5e5e5'}
                   />
                 </div>
+              </div>
+            </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div>
-                    <label className="block text-xs tracking-[0.15em] uppercase text-muted-foreground mb-2">
-                      Check-in
-                    </label>
-                    <Input
-                      type="date"
-                      value={formData.checkIn}
-                      onChange={(e) => handleChange('checkIn', e.target.value)}
-                      className="border-border bg-white h-12"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs tracking-[0.15em] uppercase text-muted-foreground mb-2">
-                      Check-out
-                    </label>
-                    <Input
-                      type="date"
-                      value={formData.checkOut}
-                      onChange={(e) => handleChange('checkOut', e.target.value)}
-                      className="border-border bg-white h-12"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs tracking-[0.15em] uppercase text-muted-foreground mb-2">
-                      Guests
-                    </label>
-                    <Input
-                      type="number"
-                      min="1"
-                      max="10"
-                      value={formData.guests}
-                      onChange={(e) => handleChange('guests', e.target.value)}
-                      className="border-border bg-white h-12"
-                    />
-                  </div>
-                </div>
-
+            {/* When will you be arriving Section */}
+            <div className="mb-12">
+              <h2 style={sectionTitleStyle}>When will you be arriving?</h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-xs tracking-[0.15em] uppercase text-muted-foreground mb-2">
-                    Message *
-                  </label>
-                  <Textarea
-                    value={formData.message}
-                    onChange={(e) => handleChange('message', e.target.value)}
-                    required
-                    rows={5}
-                    className="border-border bg-white resize-none"
-                    placeholder="Tell us about your ideal stay..."
+                  <label style={labelStyle}>Arrival Date</label>
+                  <input
+                    type="text"
+                    placeholder="dd-mm-yyyy"
+                    value={formData.arrivalDate}
+                    onChange={(e) => handleChange('arrivalDate', e.target.value)}
+                    onFocus={(e) => {
+                      e.target.type = 'date'
+                      e.target.style.borderColor = '#c9a962'
+                    }}
+                    onBlur={(e) => {
+                      if (!e.target.value) e.target.type = 'text'
+                      e.target.style.borderColor = '#e5e5e5'
+                    }}
+                    style={inputStyle}
                   />
                 </div>
+                <div>
+                  <label style={labelStyle}>Departure Date</label>
+                  <input
+                    type="text"
+                    placeholder="dd-mm-yyyy"
+                    value={formData.departureDate}
+                    onChange={(e) => handleChange('departureDate', e.target.value)}
+                    onFocus={(e) => {
+                      e.target.type = 'date'
+                      e.target.style.borderColor = '#c9a962'
+                    }}
+                    onBlur={(e) => {
+                      if (!e.target.value) e.target.type = 'text'
+                      e.target.style.borderColor = '#e5e5e5'
+                    }}
+                    style={inputStyle}
+                  />
+                </div>
+              </div>
+            </div>
 
-                <button
-                  type="submit"
-                  className="w-full px-10 py-4 bg-[#0f1c2e] text-white text-xs tracking-[0.2em] uppercase hover:bg-[#1a2d42] transition-all duration-300"
-                >
-                  Send Message
-                </button>
-              </form>
-            </motion.div>
-          </div>
+            {/* Number of Guests Section */}
+            <div className="mb-12">
+              <h2 style={sectionTitleStyle}>Number of guests</h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                  <label style={labelStyle}>Adults</label>
+                  <input
+                    type="number"
+                    placeholder="0"
+                    min="0"
+                    value={formData.adults}
+                    onChange={(e) => handleChange('adults', e.target.value)}
+                    style={inputStyle}
+                    onFocus={(e) => e.target.style.borderColor = '#c9a962'}
+                    onBlur={(e) => e.target.style.borderColor = '#e5e5e5'}
+                  />
+                </div>
+                <div>
+                  <label style={labelStyle}>Children (0 - 5 years)</label>
+                  <input
+                    type="number"
+                    placeholder="0"
+                    min="0"
+                    value={formData.children0to5}
+                    onChange={(e) => handleChange('children0to5', e.target.value)}
+                    style={inputStyle}
+                    onFocus={(e) => e.target.style.borderColor = '#c9a962'}
+                    onBlur={(e) => e.target.style.borderColor = '#e5e5e5'}
+                  />
+                </div>
+                <div>
+                  <label style={labelStyle}>Children (6 - 16 years)</label>
+                  <input
+                    type="number"
+                    placeholder="0"
+                    min="0"
+                    value={formData.children6to16}
+                    onChange={(e) => handleChange('children6to16', e.target.value)}
+                    style={inputStyle}
+                    onFocus={(e) => e.target.style.borderColor = '#c9a962'}
+                    onBlur={(e) => e.target.style.borderColor = '#e5e5e5'}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Inquiry and Request Section */}
+            <div className="mb-12">
+              <h2 style={sectionTitleStyle}>Inquiry and request</h2>
+              
+              <textarea
+                placeholder="Your message"
+                value={formData.message}
+                onChange={(e) => handleChange('message', e.target.value)}
+                required
+                rows={6}
+                style={{
+                  ...inputStyle,
+                  resize: 'vertical',
+                  minHeight: '150px'
+                }}
+                onFocus={(e) => e.target.style.borderColor = '#c9a962'}
+                onBlur={(e) => e.target.style.borderColor = '#e5e5e5'}
+              />
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              style={{
+                width: '100%',
+                padding: '18px 40px',
+                backgroundColor: isSubmitting ? '#4a5568' : '#0f1c2e',
+                color: '#ffffff',
+                fontFamily: "'Lato', sans-serif",
+                fontSize: '12px',
+                fontWeight: 500,
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                border: 'none',
+                cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                transition: 'background-color 0.3s ease',
+                opacity: isSubmitting ? 0.7 : 1
+              }}
+              onMouseEnter={(e) => !isSubmitting && (e.target.style.backgroundColor = '#1a2d42')}
+              onMouseLeave={(e) => !isSubmitting && (e.target.style.backgroundColor = '#0f1c2e')}
+            >
+              {isSubmitting ? 'Sending...' : 'Send Request'}
+            </button>
+          </motion.form>
         </div>
       </section>
     </div>

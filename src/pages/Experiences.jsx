@@ -1,59 +1,75 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import experiencesHeroImage from '../assets/images/The VIF Experiences Hompage/Experiences.jpg'
+import villefrancheImage from '../assets/images/The VIF Experiences Hompage/Villefranche-sur-Mer.jpg'
+import saintJeanImage from '../assets/images/The VIF Experiences Hompage/Pointe_Sainte-Hospice.jpg'
+import ezeImage from '../assets/images/The VIF Experiences Hompage/Èze_Alpes_Maritimes_France_(261171069).jpeg'
+import monacoImage from '../assets/images/The VIF Experiences Hompage/Fuerstenhof_zu_Monaco.jpg'
+import cannesImage from '../assets/images/The VIF Experiences Hompage/Cannes_from_Suquet_Tower_03.jpg'
+import niceImage from '../assets/images/The VIF Experiences Hompage/Nice_from_Castle_Hill_01.jpg'
+import palomaBeachImage from '../assets/images/The VIF Experiences Hompage/paloma-beach-resort.jpg'
+import laMalaImage from '../assets/images/The VIF Experiences Hompage/la-mala.jpg'
+import plagePassableImage from '../assets/images/The VIF Experiences Hompage/Plage de Passable.jpg'
+import clubDauphinImage from '../assets/images/The VIF Experiences Hompage/club-dauphin-grand-hotel.jpg'
+import boatExcursionImage from '../assets/images/The VIF Experiences Hompage/claim-the-waters-by-boat.jpg'
+import hikingImage from '../assets/images/The VIF Experiences Hompage/fancy-a-day-hike.png'
+import bordigheraImage from '../assets/images/The VIF Experiences Hompage/bordighera-alta.jpg'
+import sanRemoImage from '../assets/images/The VIF Experiences Hompage/san-remo.jpg'
+import dolceAcquaImage from '../assets/images/The VIF Experiences Hompage/dolce-acqua.jpg'
 
 const destinations = [
   {
     name: 'Villefranche-sur-mer',
-    description: 'A charming collection of brightly colored houses and cobbled streets that lead to a deep harbor, featuring the crystal-clear waters for which the French Riviera is renowned.',
-    image: 'https://images.unsplash.com/photo-1533104816931-20fa691ff6ca?w=800&q=80'
+    description: 'A delightful ensemble of vibrant pastel houses and winding cobblestone lanes descending to a picturesque harbor, blessed with the pristine turquoise waters that have made the Côte d\'Azur legendary.',
+    image: villefrancheImage
   },
   {
     name: 'Saint-Jean-Cap-Ferrat',
-    description: 'The peninsula of St Jean Cap Ferrat, nestled along the French Riviera, is celebrated for its untamed beauty, opulent villas, and elegant yachts.',
-    image: 'https://images.unsplash.com/photo-1534430480872-3498386e7856?w=800&q=80'
+    description: 'This prestigious peninsula along the Mediterranean coast is renowned for its unspoiled natural splendor, magnificent estates, and sophisticated maritime atmosphere.',
+    image: saintJeanImage
   },
   {
     name: 'Eze',
-    description: 'This picturesque village, dating back to the Middle Ages, clings dramatically to the mountainside above the Mediterranean Sea, situated between St Jean Cap Ferrat and Monaco.',
-    image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=80'
+    description: 'A medieval gem perched dramatically on clifftops overlooking the azure Mediterranean, this enchanting hilltop village sits majestically between St Jean Cap Ferrat and the principality of Monaco.',
+    image: ezeImage
   },
   {
     name: 'Monaco',
-    description: 'Immerse yourself in the Monte Carlo ambiance, with its stunning views over the sparkling bay. This area radiates the flash and elegance you\'d expect.',
-    image: 'https://images.unsplash.com/photo-1534430480872-3498386e7856?w=800&q=80'
+    description: 'Discover the glamorous Monte Carlo lifestyle, where breathtaking vistas of the glittering coastline meet world-renowned sophistication and timeless luxury.',
+    image: monacoImage
   },
   {
     name: 'Cannes',
-    description: 'Experience the allure of Cannes, with its wide waterfront promenade, designer shops, luxurious hotels, and streets lined with charming patios and restaurants.',
-    image: 'https://images.unsplash.com/photo-1533104816931-20fa691ff6ca?w=800&q=80'
+    description: 'Discover the magic of Cannes, featuring its iconic boulevard along the sea, high-end boutiques, prestigious hotels, and picturesque terraces perfect for leisurely dining.',
+    image: cannesImage
   },
   {
     name: 'Nice',
-    description: 'Nice is a stunning city with its numerous museums, picturesque scenery, green parks, and the famous seaside promenade des Anglais.',
-    image: 'https://images.unsplash.com/photo-1491166617655-0723a0999cfc?w=800&q=80'
+    description: 'A magnificent coastal city boasting world-class museums, stunning landscapes, lush green spaces, and the legendary Promenade des Anglais stretching along the Mediterranean.',
+    image: niceImage
   }
 ]
 
 const beachClubs = [
   {
     name: 'Paloma Beach',
-    description: 'Paloma Beach is an iconic address, well-known for the quality of the service and privileged location.',
-    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80'
+    description: 'A legendary seaside destination celebrated for its exceptional service and unparalleled waterfront setting.',
+    image: palomaBeachImage
   },
   {
     name: 'La Mala',
-    description: 'Paradise setting between cliffs for the Eden Plage Malia with its teak decoration on a pebble beach.',
-    image: 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800&q=80'
+    description: 'A stunning coastal retreat nestled between dramatic cliffs, featuring elegant teak furnishings on a charming pebble shoreline.',
+    image: laMalaImage
   },
   {
     name: 'Plage de Passable',
-    description: 'Facing the bay of Villefranche, Plage de Passable has kept its wild character. A legendary place in Cap-Ferrat...',
-    image: 'https://images.unsplash.com/photo-1520942702018-0862200e6873?w=800&q=80'
+    description: 'Overlooking the stunning Villefranche bay, this beach preserves its natural, untouched beauty. An iconic destination on Cap-Ferrat...',
+    image: plagePassableImage
   },
   {
     name: 'Le Club Dauphin',
-    description: 'For a truly luxurious experience, Club Dauphin offers an elegant terrace by the pool with a view of the Mediterranean Sea.',
-    image: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=800&q=80'
+    description: 'Experience refined luxury at Club Dauphin, where a sophisticated poolside terrace offers sweeping Mediterranean panoramas.',
+    image: clubDauphinImage
   }
 ]
 
@@ -61,41 +77,19 @@ export default function Experiences() {
   return (
     <div className="bg-[#faf8f5]">
       {/* Hero Section - Villa Soleil Style */}
-      <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
+      <section className="px-4 md:px-6 pt-20 md:pt-24">
+        <div className="relative w-full overflow-hidden" style={{ borderRadius: '1rem' }}>
           <img
-            src="https://images.unsplash.com/photo-1533104816931-20fa691ff6ca?w=1600&q=80"
+            src={experiencesHeroImage}
             alt="French Riviera"
-            className="w-full h-full object-cover"
+            className="w-full h-auto object-contain md:h-[85vh] md:object-cover"
           />
-          <div className="absolute inset-0 bg-black/20" />
         </div>
-        
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="relative z-10 text-center"
-        >
-          <h1 
-            style={{ 
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontSize: 'clamp(4rem, 15vw, 12rem)',
-              fontWeight: 300,
-              lineHeight: 1,
-              letterSpacing: '0.02em',
-              color: '#ffffff',
-              textShadow: '0 2px 40px rgba(0,0,0,0.15)'
-            }}
-          >
-            Experiences
-          </h1>
-        </motion.div>
       </section>
 
       {/* Embark Section - Villa Soleil Style */}
-      <section className="py-32 md:py-40">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="py-16 md:py-32 lg:py-40">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
           <div className="text-center mb-20">
             <motion.h2
               initial={{ opacity: 0, y: 30 }}
@@ -110,7 +104,7 @@ export default function Experiences() {
                 marginBottom: '1.5rem'
               }}
             >
-              Embark on an adventure to explore
+              Set off on a journey of discovery
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 30 }}
@@ -126,10 +120,10 @@ export default function Experiences() {
               }}
               className="max-w-3xl mx-auto"
             >
-              The villa enjoys direct access to the main beach, with the old town just a 
-              5-minute walk away. Additionally, within a 10 km radius, you can find nearby 
-              towns such as the beautiful old city of Nice, the stunning village of Eze, 
-              and the charming town of Beaulieu-sur-Mer.
+              Our villa offers immediate access to the beach, with the historic town center 
+              just a short 5-minute stroll away. Within a 10 km radius, you'll discover 
+              enchanting destinations including the picturesque old city of Nice, the 
+              breathtaking hilltop village of Eze, and the delightful coastal town of Beaulieu-sur-Mer.
             </motion.p>
           </div>
 
@@ -206,8 +200,8 @@ export default function Experiences() {
               }}
               className="max-w-3xl mx-auto"
             >
-              For a beach day or a glamorous sunset aperitif with a sea view, choose from 
-              the most sophisticated beach clubs that line the French Riviera.
+              Whether you're seeking a relaxing day by the sea or an elegant evening cocktail 
+              with stunning ocean views, explore the finest beach clubs along the Côte d'Azur.
             </motion.p>
           </div>
 
@@ -264,7 +258,7 @@ export default function Experiences() {
             >
               <div className="aspect-[4/3] overflow-hidden mb-8">
                 <img
-                  src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&q=80"
+                  src={boatExcursionImage}
                   alt="Boat excursion"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -285,9 +279,9 @@ export default function Experiences() {
                 lineHeight: 1.8,
                 color: '#555'
               }}>
-                Nothing beats the bliss of a boat excursion along the azure French Riviera 
-                on a scorching summer day. Indulge yourself and your family in one of these 
-                remarkable and unforgettable sea voyages on the Côte d'Azur.
+                There's nothing quite like the joy of sailing the stunning Mediterranean coastline 
+                on a warm summer afternoon. Treat yourself and your loved ones to an extraordinary 
+                and memorable maritime adventure along the French Riviera.
               </p>
             </motion.div>
 
@@ -301,7 +295,7 @@ export default function Experiences() {
             >
               <div className="aspect-[4/3] overflow-hidden mb-8">
                 <img
-                  src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&q=80"
+                  src={hikingImage}
                   alt="Hiking trail"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -322,9 +316,9 @@ export default function Experiences() {
                 lineHeight: 1.8,
                 color: '#555'
               }}>
-                Put on your walking shoes and explore the sublime landscapes of the Côte d'Azur! 
-                Hiking routes are proposed by regional organisations to help you discover the 
-                assets of the Nice Côte d'Azur.
+                Lace up your hiking boots and venture into the breathtaking scenery of the French Riviera! 
+                Local organizations offer curated trails that showcase the natural wonders and hidden 
+                treasures of the Nice Côte d'Azur region.
               </p>
             </motion.div>
           </div>
@@ -415,17 +409,17 @@ export default function Experiences() {
               {
                 name: 'Bordighera',
                 description: 'Bordighera is not just about the beach and sea; behind the promenade lies a world to discover. Its medieval charm, villas with large parks, beautiful gardens, and stately buildings reflect the enduring mark of the English colony from the late nineteenth century.',
-                image: 'https://images.unsplash.com/photo-1523531294919-4bcd7c65e216?w=800&q=80'
+                image: bordigheraImage
               },
               {
                 name: 'San Remo',
                 description: 'Sanremo is the largest city in the Riviera of Flowers, boasting beautiful beaches and numerous hidden gems. In this city, history, culture, and architecture prevail, offering plenty to see and explore.',
-                image: 'https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800&q=80'
+                image: sanRemoImage
               },
               {
                 name: 'Dolce acqua',
                 description: 'Discover the preserved charm of this isolated valley, just minutes from the coast. The Laghetti di Rocchetta, with its pools and waterfalls, offers pure, refreshing water, perfect for relaxing in nature.',
-                image: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800&q=80'
+                image: dolceAcquaImage
               }
             ].map((place, index) => (
               <motion.div

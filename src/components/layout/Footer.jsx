@@ -147,8 +147,8 @@ export default function Footer() {
               © {new Date().getFullYear()} The VIF. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
-              <a 
-                href="#" 
+              <Link 
+                to="/privacy-policy" 
                 style={{
                   fontFamily: "'Lato', sans-serif",
                   fontSize: '11px',
@@ -157,9 +157,9 @@ export default function Footer() {
                 className="hover:text-white transition-colors"
               >
                 Privacy Policy
-              </a>
-              <a 
-                href="#" 
+              </Link>
+              <Link 
+                to="/terms-of-service" 
                 style={{
                   fontFamily: "'Lato', sans-serif",
                   fontSize: '11px',
@@ -168,7 +168,7 @@ export default function Footer() {
                 className="hover:text-white transition-colors"
               >
                 Terms of Service
-              </a>
+              </Link>
             </div>
           </div>
         </div>

@@ -2,167 +2,154 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X } from '@phosphor-icons/react'
 
-const galleryImages = [
-  {
-    src: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1200&q=80',
-    alt: 'Villa exterior with pool',
-    category: 'exterior'
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80',
-    alt: 'Villa terrace with sea view',
-    category: 'exterior'
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80',
-    alt: 'Modern living room',
-    category: 'interior'
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80',
-    alt: 'Villa facade',
-    category: 'exterior'
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=80',
-    alt: 'Luxury bedroom',
-    category: 'interior'
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200&q=80',
-    alt: 'Kitchen area',
-    category: 'interior'
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80',
-    alt: 'Pool area',
-    category: 'exterior'
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=1200&q=80',
-    alt: 'Bathroom',
-    category: 'interior'
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1533104816931-20fa691ff6ca?w=1200&q=80',
-    alt: 'French Riviera view',
-    category: 'views'
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1534430480872-3498386e7856?w=1200&q=80',
-    alt: 'Mediterranean coastline',
-    category: 'views'
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80',
-    alt: 'Beach nearby',
-    category: 'views'
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=1200&q=80',
-    alt: 'Sunset view',
-    category: 'views'
-  }
-]
+// Import gallery images
+import img1 from '../assets/images/The VIF Gallery/1.jpg'
+import img2 from '../assets/images/The VIF Gallery/2.jpg'
+import img3 from '../assets/images/The VIF Gallery/3.jpg'
+import img4 from '../assets/images/The VIF Gallery/4.jpg'
+import img5 from '../assets/images/The VIF Gallery/5.jpg'
+import img6 from '../assets/images/The VIF Gallery/6.jpg'
+import img7 from '../assets/images/The VIF Gallery/7.jpg'
+import img8 from '../assets/images/The VIF Gallery/8.jpg'
+import img9 from '../assets/images/The VIF Gallery/9.jpg'
+import img10 from '../assets/images/The VIF Gallery/10.jpg'
+import img11 from '../assets/images/The VIF Gallery/11.jpg'
+import img12 from '../assets/images/The VIF Gallery/12.jpg'
+import img13 from '../assets/images/The VIF Gallery/13.jpg'
+import img14 from '../assets/images/The VIF Gallery/14.jpg'
+import img15 from '../assets/images/The VIF Gallery/15.jpg'
+import img16 from '../assets/images/The VIF Gallery/16.jpg'
+import img17 from '../assets/images/The VIF Gallery/17.jpg'
+import img18 from '../assets/images/The VIF Gallery/18.jpg'
+import img19 from '../assets/images/The VIF Gallery/19.jpg'
+import img20 from '../assets/images/The VIF Gallery/20.jpg'
+import img21 from '../assets/images/The VIF Gallery/21.jpg'
+import img22 from '../assets/images/The VIF Gallery/22.jpg'
+import img23 from '../assets/images/The VIF Gallery/23.jpg'
+import img24 from '../assets/images/The VIF Gallery/24.jpg'
+import img25 from '../assets/images/The VIF Gallery/25.jpg'
+import img26 from '../assets/images/The VIF Gallery/26.jpg'
+import img27 from '../assets/images/The VIF Gallery/27.jpg'
+import img28 from '../assets/images/The VIF Gallery/28.jpg'
+import img29 from '../assets/images/The VIF Gallery/29.jpg'
+import img30 from '../assets/images/The VIF Gallery/30.jpg'
 
-const categories = [
-  { id: 'all', label: 'All' },
-  { id: 'exterior', label: 'Exterior' },
-  { id: 'interior', label: 'Interior' },
-  { id: 'views', label: 'Views' }
+const galleryImages = [
+  { src: img1, alt: 'Villa image 1' },
+  { src: img2, alt: 'Villa image 2' },
+  { src: img3, alt: 'Villa image 3' },
+  { src: img4, alt: 'Villa image 4' },
+  { src: img5, alt: 'Villa image 5' },
+  { src: img6, alt: 'Villa image 6' },
+  { src: img7, alt: 'Villa image 7' },
+  { src: img8, alt: 'Villa image 8' },
+  { src: img9, alt: 'Villa image 9' },
+  { src: img10, alt: 'Villa image 10' },
+  { src: img11, alt: 'Villa image 11' },
+  { src: img12, alt: 'Villa image 12' },
+  { src: img13, alt: 'Villa image 13' },
+  { src: img14, alt: 'Villa image 14' },
+  { src: img15, alt: 'Villa image 15' },
+  { src: img16, alt: 'Villa image 16' },
+  { src: img17, alt: 'Villa image 17' },
+  { src: img18, alt: 'Villa image 18' },
+  { src: img19, alt: 'Villa image 19' },
+  { src: img20, alt: 'Villa image 20' },
+  { src: img21, alt: 'Villa image 21' },
+  { src: img22, alt: 'Villa image 22' },
+  { src: img23, alt: 'Villa image 23' },
+  { src: img24, alt: 'Villa image 24' },
+  { src: img25, alt: 'Villa image 25' },
+  { src: img26, alt: 'Villa image 26' },
+  { src: img27, alt: 'Villa image 27' },
+  { src: img28, alt: 'Villa image 28' },
+  { src: img29, alt: 'Villa image 29' },
+  { src: img30, alt: 'Villa image 30' }
 ]
 
 export default function Gallery() {
-  const [selectedCategory, setSelectedCategory] = useState('all')
   const [selectedImage, setSelectedImage] = useState(null)
-
-  const filteredImages = selectedCategory === 'all' 
-    ? galleryImages 
-    : galleryImages.filter(img => img.category === selectedCategory)
 
   return (
     <div className="bg-[#faf8f5]">
-      {/* Hero Section - Villa Soleil Style */}
-      <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=80"
-            alt="Gallery - The VIF Villa"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/20" />
-        </div>
-        
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="relative z-10 text-center"
-        >
-          <h1 
+      {/* Header Section - Villa Soleil Style */}
+      <section className="pt-32 md:pt-40 pb-16 md:pb-20">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
             style={{ 
               fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontSize: 'clamp(4rem, 15vw, 12rem)',
+              fontSize: 'clamp(3.5rem, 12vw, 8rem)',
               fontWeight: 300,
               lineHeight: 1,
               letterSpacing: '0.02em',
-              color: '#ffffff',
-              textShadow: '0 2px 40px rgba(0,0,0,0.15)'
+              color: '#0f1c2e',
+              marginBottom: '1.5rem'
             }}
           >
             Gallery
-          </h1>
-        </motion.div>
+          </motion.h1>
+          
+          {/* Decorative Wave */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="mb-6"
+          >
+            <svg width="60" height="12" viewBox="0 0 60 12" fill="none" className="mx-auto">
+              <path d="M0 6C10 6 10 2 20 2C30 2 30 10 40 10C50 10 50 6 60 6" stroke="#c9a962" strokeWidth="1.5" fill="none"/>
+            </svg>
+          </motion.div>
+          
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            style={{
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontSize: 'clamp(1.1rem, 2vw, 1.35rem)',
+              fontWeight: 400,
+              fontStyle: 'italic',
+              lineHeight: 1.6,
+              color: '#555'
+            }}
+          >
+            Explore the Elegance: A visual journey through<br className="hidden md:block" />
+            our luxurious villa
+          </motion.p>
+        </div>
       </section>
 
       {/* Gallery Section */}
-      <section className="py-24 md:py-32">
+      <section className="pb-24 md:pb-32">
         <div className="max-w-7xl mx-auto px-6">
-          {/* Category Filter */}
-          <div className="flex justify-center mb-16 flex-wrap gap-4">
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
-                style={{
-                  fontFamily: "'Lato', sans-serif",
-                  fontSize: '12px',
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  padding: '12px 24px',
-                  backgroundColor: selectedCategory === category.id ? '#0f1c2e' : 'transparent',
-                  color: selectedCategory === category.id ? '#ffffff' : '#0f1c2e',
-                  border: '1px solid #0f1c2e',
-                  transition: 'all 0.3s ease'
-                }}
-                className="hover:bg-[#0f1c2e] hover:text-white"
-              >
-                {category.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Gallery Grid */}
+          {/* Gallery Grid - Masonry Style */}
           <motion.div 
             layout
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
           >
             <AnimatePresence mode="popLayout">
-              {filteredImages.map((image, index) => (
+              {galleryImages.map((image, index) => (
                 <motion.div
                   key={image.src}
                   layout
-                  initial={{ opacity: 0, scale: 0.9 }}
+                  initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.4, delay: index * 0.05 }}
-                  className="aspect-[4/3] overflow-hidden cursor-pointer group"
+                  className={`overflow-hidden cursor-pointer group ${
+                    index % 3 === 0 ? 'aspect-[4/3]' : 'aspect-[4/3]'
+                  }`}
+                  style={{ borderRadius: '4px' }}
                   onClick={() => setSelectedImage(image)}
                 >
                   <img
                     src={image.src}
                     alt={image.alt}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                 </motion.div>
               ))}

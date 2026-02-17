@@ -1,61 +1,28 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { Quotes } from '@phosphor-icons/react'
+import villaHeroImage from '../assets/images/The Villa Homepage/The VILLA.jpg'
+import discoverImage from '../assets/images/The Villa Homepage/The Villa Homepage 1st Image.jpg'
+import indoorImage from '../assets/images/The Villa Homepage/The Villa Homepage 2nd Image.jpg'
+import outdoorImage from '../assets/images/The Villa Homepage/The Villa Homepage 3rd Image.jpg'
 
 export default function TheVilla() {
-  const amenities = [
-    'Heated infinity pool',
-    'Panoramic sea views',
-    'Modern equipped kitchen',
-    'Air conditioning throughout',
-    'High-speed WiFi',
-    'Private parking',
-    'Landscaped gardens',
-    'Outdoor dining terrace',
-    'Sun loungers',
-    'Daily housekeeping',
-    'Concierge service',
-    'Private chef available'
-  ]
-
   return (
     <div className="bg-[#faf8f5]">
-      {/* Hero Section - Villa Soleil Style with HUGE text */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
+      {/* Hero Section - Villa Soleil Style */}
+      <section className="px-4 md:px-6 pt-20 md:pt-24">
+        <div className="relative w-full overflow-hidden" style={{ borderRadius: '1rem' }}>
           <img
-            src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=80"
+            src={villaHeroImage}
             alt="The VIF Villa"
-            className="w-full h-full object-cover"
+            className="w-full h-auto object-contain md:h-[85vh] md:object-cover"
           />
-          <div className="absolute inset-0 bg-black/20" />
         </div>
-        
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="relative z-10 text-center"
-        >
-          <h1 
-            className="font-serif tracking-wide"
-            style={{ 
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontSize: 'clamp(4rem, 15vw, 12rem)',
-              fontWeight: 300,
-              lineHeight: 1,
-              color: '#ffffff',
-              textShadow: '0 2px 40px rgba(0,0,0,0.2)'
-            }}
-          >
-            The villa
-          </h1>
-        </motion.div>
       </section>
 
       {/* Quote Section */}
-      <section className="py-20 md:py-28 bg-white">
-        <div className="max-w-4xl mx-auto px-6 text-center">
+      <section className="py-12 md:py-20 lg:py-28 bg-white">
+        <div className="max-w-4xl mx-auto px-4 md:px-6 text-center">
           <motion.blockquote
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -69,9 +36,9 @@ export default function TheVilla() {
               fontWeight: 400
             }}
           >
-            "Every corner of our villa has been crafted with care to ensure a memorable 
-            and enchanting experience. We invite you to relax, unwind, and create beautiful 
-            memories in this exquisite sanctuary"
+            "Each detail of our villa has been thoughtfully designed to offer an unforgettable 
+            and captivating retreat. We welcome you to rest, rejuvenate, and craft cherished 
+            moments in this exceptional haven"
           </motion.blockquote>
           
           <motion.p
@@ -93,9 +60,9 @@ export default function TheVilla() {
       </section>
 
       {/* Our Story Section - Villa Soleil Style */}
-      <section className="py-32 md:py-40 bg-[#f5f0e8]">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      <section className="py-16 md:py-32 lg:py-40 bg-[#f5f0e8]">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20 items-center">
             <motion.div
               initial={{ opacity: 0, x: -40 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -130,15 +97,15 @@ export default function TheVilla() {
                 color: '#555'
               }}>
                 <p>
-                  Step into the enchanting world of The VIF, a charming and authentic villa 
-                  on the French Riviera. The VIF has undergone a remarkable transformation 
-                  to bring it to its current glory with modern amenities such as a heated 
-                  swimming pool, landscaped gardens, and a stylish open-plan kitchen.
+                  Welcome to The VIF, an elegant and authentic retreat nestled along 
+                  the stunning French Riviera. Beautifully renovated to blend timeless 
+                  charm with contemporary luxury, the villa features a heated pool, 
+                  manicured gardens, and a sophisticated open-concept kitchen.
                 </p>
                 <p>
-                  Guest comfort is optimal, with comfortable bedrooms and beautiful, 
-                  light-filled bathrooms. The interior of the villa is inviting, with 
-                  cozy décor, breathtaking views, and spacious rooms.
+                  Every detail has been curated for your comfort—plush bedrooms, 
+                  sun-drenched bathrooms, warm interiors, stunning panoramas, and 
+                  generous living spaces await you.
                 </p>
               </div>
             </motion.div>
@@ -148,92 +115,172 @@ export default function TheVilla() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="aspect-[4/3] overflow-hidden"
             >
               <img
-                src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80"
+                src={discoverImage}
                 alt="Villa interior"
-                className="w-full h-full object-cover"
+                className="w-full h-auto object-contain"
+                style={{ borderRadius: '16px' }}
               />
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Amenities Section - Villa Soleil Style */}
-      <section className="py-32 md:py-40 bg-[#faf8f5]">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-20">
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              style={{
-                fontFamily: "'Lato', sans-serif",
-                fontSize: '11px',
-                letterSpacing: '0.15em',
-                textTransform: 'uppercase',
-                color: '#777',
-                marginBottom: '1.5rem'
-              }}
-            >
-              The Villa
-            </motion.p>
-            <motion.h2
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              style={{
+      {/* Indoor Amenities Section - Villa Soleil Style */}
+      <section className="bg-[#faf8f5] py-4 md:py-6 px-4 md:px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 lg:h-[600px] gap-4">
+          {/* Left - Image */}
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative h-[300px] lg:h-full overflow-hidden"
+            style={{ borderRadius: '1rem' }}
+          >
+            <img
+              src={indoorImage}
+              alt="Indoor amenities"
+              className="w-full h-full object-cover"
+            />
+          </motion.div>
+          
+          {/* Right - Text Panel */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="bg-[#0f1c2e] flex items-center justify-center p-8 md:p-12 lg:p-20 h-auto lg:h-full"
+            style={{ borderRadius: '1rem' }}
+          >
+            <div className="max-w-md">
+              <h2 style={{
                 fontFamily: "'Cormorant Garamond', Georgia, serif",
-                fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+                fontSize: 'clamp(2rem, 4vw, 3rem)',
                 fontWeight: 300,
+                fontStyle: 'italic',
                 lineHeight: 1.2,
-                color: '#0f1c2e',
+                color: '#c9a96e',
                 marginBottom: '1.5rem'
-              }}
-            >
-              Amenities
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              style={{
+              }}>
+                Indoor amenities
+              </h2>
+              <p style={{
                 fontFamily: "'Lato', sans-serif",
                 fontSize: '15px',
                 fontWeight: 300,
                 lineHeight: 1.8,
-                color: '#555'
-              }}
-              className="max-w-2xl mx-auto"
-            >
-              The villa can comfortably accommodate up to 8-10 guests, with each of the 
-              four bedrooms featuring walk-in dressing rooms and ensuite bathrooms.
-            </motion.p>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-          >
-            {amenities.map((amenity, index) => (
-              <div 
-                key={index}
-                className="text-center p-6 bg-[#f5f0e8]"
-              >
-                <p style={{
+                color: '#a0a0a0',
+                marginBottom: '2rem'
+              }}>
+                Step inside to discover a warm and welcoming atmosphere, featuring elegant furnishings, stunning vistas and generously proportioned living spaces.
+              </p>
+              <Link
+                to="/gallery"
+                style={{
+                  display: 'inline-block',
                   fontFamily: "'Lato', sans-serif",
-                  fontSize: '13px',
-                  fontWeight: 300,
-                  color: '#0f1c2e'
-                }}>{amenity}</p>
-              </div>
-            ))}
+                  fontSize: '11px',
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  color: '#ffffff',
+                  padding: '14px 28px',
+                  border: '1px solid #ffffff',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = '#ffffff'
+                  e.target.style.color = '#0f1c2e'
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = 'transparent'
+                  e.target.style.color = '#ffffff'
+                }}
+              >
+                More Info
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Outdoor Amenities Section - Villa Soleil Style */}
+      <section className="bg-[#faf8f5] py-4 md:py-6 px-4 md:px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 lg:h-[600px] gap-4">
+          {/* Left - Text Panel */}
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="bg-[#0f1c2e] flex items-center justify-center p-8 md:p-12 lg:p-20 order-2 lg:order-1 h-auto lg:h-full"
+            style={{ borderRadius: '1rem' }}
+          >
+            <div className="max-w-md">
+              <h2 style={{
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontSize: 'clamp(2rem, 4vw, 3rem)',
+                fontWeight: 300,
+                fontStyle: 'italic',
+                lineHeight: 1.2,
+                color: '#c9a96e',
+                marginBottom: '1.5rem'
+              }}>
+                Outdoor amenities
+              </h2>
+              <p style={{
+                fontFamily: "'Lato', sans-serif",
+                fontSize: '15px',
+                fontWeight: 300,
+                lineHeight: 1.8,
+                color: '#a0a0a0',
+                marginBottom: '2rem'
+              }}>
+                From the classic architectural details to the beautifully landscaped grounds, every aspect radiates sophistication and warmth, offering the perfect backdrop for cherished moments.
+              </p>
+              <Link
+                to="/gallery"
+                style={{
+                  display: 'inline-block',
+                  fontFamily: "'Lato', sans-serif",
+                  fontSize: '11px',
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  color: '#ffffff',
+                  padding: '14px 28px',
+                  border: '1px solid #ffffff',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = '#ffffff'
+                  e.target.style.color = '#0f1c2e'
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = 'transparent'
+                  e.target.style.color = '#ffffff'
+                }}
+              >
+                More Info
+              </Link>
+            </div>
+          </motion.div>
+          
+          {/* Right - Image */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="relative h-[300px] lg:h-full order-1 lg:order-2 overflow-hidden"
+            style={{ borderRadius: '1rem' }}
+          >
+            <img
+              src={outdoorImage}
+              alt="Outdoor amenities"
+              className="w-full h-full object-cover"
+            />
           </motion.div>
         </div>
       </section>

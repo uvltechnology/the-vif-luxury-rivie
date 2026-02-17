@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Toaster } from '@/components/ui/sonner'
 import { LanguageProvider } from '@/contexts/LanguageContext'
 import SEOHead from '@/components/shared/SEOHead'
+import ScrollToTop from '@/components/shared/ScrollToTop'
 import Layout from '@/components/layout/Layout'
 import Home from '@/pages/Home'
 import TheVilla from '@/pages/TheVilla'
@@ -15,6 +16,8 @@ import HowToBook from '@/pages/HowToBook'
 import OurStory from '@/pages/OurStory'
 import Contact from '@/pages/Contact'
 import Testimonials from '@/pages/Testimonials'
+import PrivacyPolicy from '@/pages/PrivacyPolicy'
+import TermsOfService from '@/pages/TermsOfService'
 import NotFound from '@/pages/NotFound'
 import Admin from '@/pages/Admin'
 
@@ -23,6 +26,7 @@ function App() {
         <LanguageProvider>
             <SEOHead />
             <BrowserRouter>
+                <ScrollToTop />
                 <Routes>
                     <Route path="/" element={<Layout />}>
                         <Route index element={<Home />} />
@@ -37,6 +41,8 @@ function App() {
                         <Route path="our-story" element={<OurStory />} />
                         <Route path="reviews" element={<Testimonials />} />
                         <Route path="contact" element={<Contact />} />
+                        <Route path="privacy-policy" element={<PrivacyPolicy />} />
+                        <Route path="terms-of-service" element={<TermsOfService />} />
                         <Route path="*" element={<NotFound />} />
                     </Route>
                     <Route path="/admin" element={<Admin />} />

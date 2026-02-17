@@ -16,6 +16,7 @@ import {
   Barbell,
   CarProfile
 } from '@phosphor-icons/react'
+import servicesHeroImage from '../assets/images/The VIF Services Hompage/Services.jpg'
 
 const includedServices = [
   {
@@ -101,42 +102,20 @@ const extraServices = [
 export default function Services() {
   return (
     <div className="bg-[#faf8f5]">
-      {/* Hero Section - Villa Soleil Style with HUGE text */}
-      <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
+      {/* Hero Section - Villa Soleil Style */}
+      <section className="px-4 md:px-6 pt-20 md:pt-24">
+        <div className="relative w-full overflow-hidden" style={{ borderRadius: '1rem' }}>
           <img
-            src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80"
+            src={servicesHeroImage}
             alt="Services - French Riviera Villa"
-            className="w-full h-full object-cover"
+            className="w-full h-auto object-contain md:h-[85vh] md:object-cover"
           />
-          <div className="absolute inset-0 bg-black/20" />
         </div>
-        
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="relative z-10 text-center"
-        >
-          <h1 
-            style={{ 
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontSize: 'clamp(4rem, 15vw, 12rem)',
-              fontWeight: 300,
-              lineHeight: 1,
-              letterSpacing: '0.02em',
-              color: '#ffffff',
-              textShadow: '0 2px 40px rgba(0,0,0,0.15)'
-            }}
-          >
-            Services
-          </h1>
-        </motion.div>
       </section>
 
       {/* Included Services Section */}
-      <section className="py-24 md:py-32 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="py-16 md:py-24 lg:py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
           <div className="text-center mb-16">
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -236,8 +215,8 @@ export default function Services() {
       </section>
 
       {/* Extra Services Section */}
-      <section className="py-24 md:py-32 bg-[#f5f0e8]">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="py-16 md:py-24 lg:py-32 bg-[#f5f0e8]">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
           <div className="text-center mb-16">
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -336,22 +315,25 @@ export default function Services() {
       </section>
 
       {/* Services Gallery Strip - Villa Soleil Style */}
-      <section className="flex w-full h-64 md:h-80 overflow-hidden">
-        {[
-          'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80', // Chef cooking
-          'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=400&q=80', // Spa massage
-          'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=400&q=80', // Chauffeur/car
-          'https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?w=400&q=80', // Housekeeping
-          'https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?w=400&q=80', // Yoga/wellness
-        ].map((image, index) => (
-          <div key={index} className="flex-1 min-w-0">
-            <img
-              src={image}
-              alt={`Service ${index + 1}`}
-              className="w-full h-full object-cover"
-            />
-          </div>
-        ))}
+      <section className="w-full py-4 md:py-6 px-4 md:px-6 overflow-x-auto">
+        <div className="flex gap-3 md:gap-4 h-48 md:h-64 lg:h-80 min-w-max md:min-w-0">
+          {[
+            'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80', // Chef cooking
+            'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=400&q=80', // Spa massage
+            'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=400&q=80', // Chauffeur/car
+            'https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?w=400&q=80', // Housekeeping
+            'https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?w=400&q=80', // Yoga/wellness
+          ].map((image, index) => (
+            <div key={index} className="flex-shrink-0 w-40 md:w-auto md:flex-1 min-w-0">
+              <img
+                src={image}
+                alt={`Service ${index + 1}`}
+                className="w-full h-full object-cover"
+                style={{ borderRadius: '16px' }}
+              />
+            </div>
+          ))}
+        </div>
       </section>
     </div>
   )
