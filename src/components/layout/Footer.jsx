@@ -20,9 +20,14 @@ export default function Footer() {
     <footer>
       {/* Gallery Strip - Only show on home page */}
       {isHomePage && (
-        <div className="flex w-full h-64 gap-4 px-4 py-4 bg-[#faf8f5]">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 px-4 py-4 bg-[#faf8f5]">
           {galleryImages.map((image, index) => (
-            <div key={index} className="flex-1 min-w-0 overflow-hidden rounded-xl">
+            <div 
+              key={index} 
+              className={`overflow-hidden rounded-xl aspect-[4/3] ${
+                index === 4 ? 'col-span-2 md:col-span-1' : ''
+              }`}
+            >
               <img
                 src={image}
                 alt={`Gallery ${index + 1}`}
