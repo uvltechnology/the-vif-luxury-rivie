@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
 
-const API_URL = 'http://100.120.0.85:5101'
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
 
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false)
