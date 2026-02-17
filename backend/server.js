@@ -207,11 +207,35 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: formatDatePH(new Date()) })
 })
 
+// ==================== STUB API ENDPOINTS ====================
+// These return empty data since this backend doesn't have a database
+// The frontend will fall back to static data
+
+// Reviews endpoint
+app.get('/reviews', (req, res) => {
+  res.json({ data: [], message: 'No reviews available' })
+})
+
+// Properties endpoint
+app.get('/properties', (req, res) => {
+  res.json({ data: [], message: 'No properties available' })
+})
+
+app.get('/properties/:id', (req, res) => {
+  res.status(404).json({ error: 'Property not found' })
+})
+
+// Catch-all for undefined routes (return proper CORS headers)
+app.use('*', (req, res) => {
+  res.status(404).json({ error: 'Endpoint not found' })
+})
+
 // Start server
-const PORT = process.env.PORT || 5101
-const HOST = process.env.HOST || '100.120.0.85'
+const PORT = process.env.PORT || 3000
+const HOST = process.env.HOST || '0.0.0.0'
 
 app.listen(PORT, HOST, () => {
   console.log(`Server running on http://${HOST}:${PORT}`)
-  console.log(`Timezone: Asia/Manila (Philippines)`)
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`)
+  console.log(`CORS Origin: ${corsOrigin}`)
 })
