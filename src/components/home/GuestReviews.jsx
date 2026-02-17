@@ -34,7 +34,7 @@ export default function GuestReviews() {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await reviewApi.getAll({ limit: 5 })
+        const response = await reviewApi.getAll()
         const reviews = response.data || []
         
         if (reviews.length > 0) {

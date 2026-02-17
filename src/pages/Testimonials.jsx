@@ -60,7 +60,7 @@ export default function Testimonials() {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await reviewApi.getAll({ limit: 20 })
+        const response = await reviewApi.getAll()
         const apiReviews = response.data || []
         
         if (apiReviews.length > 0) {
