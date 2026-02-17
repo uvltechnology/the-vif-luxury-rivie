@@ -264,6 +264,8 @@ function PropertyManager() {
                     src={getPropertyImage(property)} 
                     alt={property.name}
                     className="w-full h-full object-cover"
+                    loading="lazy"
+                    decoding="async"
                     onError={(e) => {
                       e.target.src = '/placeholder-property.jpg'
                     }}

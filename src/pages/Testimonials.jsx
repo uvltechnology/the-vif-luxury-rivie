@@ -94,6 +94,8 @@ export default function Testimonials() {
             src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1600&q=80"
             alt="Guest Reviews"
             className="w-full h-full object-cover"
+            decoding="async"
+            fetchPriority="high"
           />
           <div className="absolute inset-0 bg-black/30" />
         </div>

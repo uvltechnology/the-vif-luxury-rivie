@@ -109,6 +109,8 @@ export default function Services() {
             src={servicesHeroImage}
             alt="Services - French Riviera Villa"
             className="w-full h-auto object-contain md:h-[85vh] md:object-cover"
+            decoding="async"
+            fetchPriority="high"
           />
         </div>
       </section>

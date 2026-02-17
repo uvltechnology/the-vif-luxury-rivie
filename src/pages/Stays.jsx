@@ -59,6 +59,8 @@ export default function Stays() {
             src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=80"
             alt="Our Stays"
             className="w-full h-full object-cover"
+            decoding="async"
+            fetchPriority="high"
           />
           <div className="absolute inset-0 bg-black/30" />
         </div>
@@ -140,6 +142,8 @@ export default function Stays() {
                         src={property.images[0] || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80'}
                         alt={property.name}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
                     

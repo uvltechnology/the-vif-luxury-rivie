@@ -141,6 +141,8 @@ export default function GuestReviews() {
                 src={currentTestimonial.avatar} 
                 alt={currentTestimonial.name}
                 className="w-16 h-16 rounded-full object-cover mx-auto border-2 border-white shadow-md"
+                loading="lazy"
+                decoding="async"
               />
             </div>
             

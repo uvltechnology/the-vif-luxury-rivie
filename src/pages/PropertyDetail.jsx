@@ -217,6 +217,8 @@ export default function PropertyDetail() {
                         src={property.host.image} 
                         alt={property.host.name}
                         className="w-24 h-24 rounded-full object-cover border-4 border-background shadow-lg"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
                     <div className="flex-1">
