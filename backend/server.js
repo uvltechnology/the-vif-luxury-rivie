@@ -18,12 +18,23 @@ dotenv.config({ path: path.resolve(__dirname, '.env') })
 
 const app = express()
 
+// CORS configuration
+const corsOrigin = process.env.CORS_ORIGIN || 'https://thevif.com'
+console.log('CORS Origin:', corsOrigin)
+console.log('NODE_ENV:', process.env.NODE_ENV)
+
+app.use(cors({
+  origin: corsOrigin,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}))
+
+// Handle preflight requests
+app.options('*', cors())
+
 // Middleware
 app.use(express.json())
-app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'https://thevif.com',
-  credentials: true
-}))
 
 // Rate limiting
 const limiter = rateLimit({
