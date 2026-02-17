@@ -211,17 +211,26 @@ app.get('/api/health', (req, res) => {
 // These return empty data since this backend doesn't have a database
 // The frontend will fall back to static data
 
-// Reviews endpoint
+// Reviews endpoint (both paths for compatibility)
 app.get('/reviews', (req, res) => {
   res.json({ data: [], message: 'No reviews available' })
 })
+app.get('/api/reviews', (req, res) => {
+  res.json({ data: [], message: 'No reviews available' })
+})
 
-// Properties endpoint
+// Properties endpoint (both paths for compatibility)
 app.get('/properties', (req, res) => {
+  res.json({ data: [], message: 'No properties available' })
+})
+app.get('/api/properties', (req, res) => {
   res.json({ data: [], message: 'No properties available' })
 })
 
 app.get('/properties/:id', (req, res) => {
+  res.status(404).json({ error: 'Property not found' })
+})
+app.get('/api/properties/:id', (req, res) => {
   res.status(404).json({ error: 'Property not found' })
 })
 
