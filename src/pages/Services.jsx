@@ -16,90 +16,33 @@ import {
   Barbell,
   CarProfile
 } from '@phosphor-icons/react'
+import { useTranslation } from '@/hooks/useTranslation'
 import servicesHeroImage from '../assets/images/The VIF Services Hompage/Services.jpg'
 
 const includedServices = [
-  {
-    icon: Broom,
-    title: 'Weekly housekeeping',
-    description: 'Weekly cleaning (10 hours/week). Change of linen and pool towels for your comfort.'
-  },
-  {
-    icon: Champagne,
-    title: 'Personalized welcome',
-    description: 'To kickstart your Mediterranean experience, a bottle of Champagne and a tailored welcome amenity will be waiting for you.'
-  },
-  {
-    icon: UserCircle,
-    title: 'Villa Manager',
-    description: 'Available 5 days a week: Restaurants, activities and tours reservation assistance.'
-  },
-  {
-    icon: Car,
-    title: 'Secure parking',
-    description: 'Capacity to park 3 vehicles safely within the property grounds.'
-  },
-  {
-    icon: Tree,
-    title: 'Weekly outdoors maintenance',
-    description: 'Weekly cleaning of pool, garden and barbecue to ensure pristine conditions.'
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Secure domain',
-    description: 'Domain under video surveillance 24/7 for your peace of mind.'
-  }
+  { icon: Broom, titleKey: 'services.included.housekeeping', descKey: 'services.included.housekeepingDesc' },
+  { icon: Champagne, titleKey: 'services.included.welcome', descKey: 'services.included.welcomeDesc' },
+  { icon: UserCircle, titleKey: 'services.included.manager', descKey: 'services.included.managerDesc' },
+  { icon: Car, titleKey: 'services.included.parking', descKey: 'services.included.parkingDesc' },
+  { icon: Tree, titleKey: 'services.included.outdoors', descKey: 'services.included.outdoorsDesc' },
+  { icon: ShieldCheck, titleKey: 'services.included.security', descKey: 'services.included.securityDesc' }
 ]
 
 const extraServices = [
-  {
-    icon: CookingPot,
-    title: 'Private chef',
-    description: 'From an intimate, special meal to catered meals throughout your stay, relax while your private chef prepares incredible dishes.'
-  },
-  {
-    icon: Shield,
-    title: 'Security guard',
-    description: 'Although our properties are all secure and alarmed with armed response, we can provide you with access to additional security.'
-  },
-  {
-    icon: Headset,
-    title: 'Concierge Assistance',
-    description: 'We can help plan your entire trip and offer you tips and advice to make the most of your stay at any villa.'
-  },
-  {
-    icon: Broom,
-    title: 'Additional housekeeper',
-    description: 'Additional housekeeping services are available for your comfort and convenience.'
-  },
-  {
-    icon: TShirt,
-    title: 'Laundry and Dry Cleaning',
-    description: 'Enjoy your stay freely while we handle your laundry needs. We conveniently pick up and promptly deliver your clothes right to your villa.'
-  },
-  {
-    icon: Steering,
-    title: 'Driver',
-    description: 'Luxury transportation services designed to offer a more personalized and convenient experience during your stay.'
-  },
-  {
-    icon: Heart,
-    title: 'Wellness',
-    description: 'Our team can arrange a variety of activities and amenities designed to promote physical and mental well-being during your stay.'
-  },
-  {
-    icon: Barbell,
-    title: 'Personal trainer',
-    description: 'What better way to stay active during your holidays than by exercising with a personal trainer at home?'
-  },
-  {
-    icon: CarProfile,
-    title: 'Car rental',
-    description: 'We will book it for you with one of our selected partners whether you need a luxury car or a family/group van.'
-  }
+  { icon: CookingPot, titleKey: 'services.extra.chef', descKey: 'services.extra.chefDesc' },
+  { icon: Shield, titleKey: 'services.extra.guard', descKey: 'services.extra.guardDesc' },
+  { icon: Headset, titleKey: 'services.extra.concierge', descKey: 'services.extra.conciergeDesc' },
+  { icon: Broom, titleKey: 'services.extra.extraHousekeeping', descKey: 'services.extra.extraHousekeepingDesc' },
+  { icon: TShirt, titleKey: 'services.extra.laundry', descKey: 'services.extra.laundryDesc' },
+  { icon: Steering, titleKey: 'services.extra.driver', descKey: 'services.extra.driverDesc' },
+  { icon: Heart, titleKey: 'services.extra.wellness', descKey: 'services.extra.wellnessDesc' },
+  { icon: Barbell, titleKey: 'services.extra.trainer', descKey: 'services.extra.trainerDesc' },
+  { icon: CarProfile, titleKey: 'services.extra.car', descKey: 'services.extra.carDesc' }
 ]
 
 export default function Services() {
+  const { t } = useTranslation()
+  
   return (
     <div className="bg-[#faf8f5]">
       {/* Hero Section - Villa Soleil Style */}
@@ -132,7 +75,7 @@ export default function Services() {
                 marginBottom: '1.5rem'
               }}
             >
-              Services
+              {t('services.title')}
             </motion.p>
             <motion.h2
               initial={{ opacity: 0, y: 30 }}
@@ -148,7 +91,7 @@ export default function Services() {
                 marginBottom: '1.5rem'
               }}
             >
-              Included services for your stay
+              {t('services.includedTitle')}
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 30 }}
@@ -164,9 +107,7 @@ export default function Services() {
               }}
               className="max-w-3xl mx-auto"
             >
-              The discreet team of the Villa is permanently caring for your well-being by 
-              assuring daily hotel services and more. All these services are for you the freedom 
-              and the assurance of an unforgettable stay. Just drop your luggage and you are on holidays!
+              {t('services.includedSubtitle')}
             </motion.p>
           </div>
 
@@ -174,7 +115,7 @@ export default function Services() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {includedServices.map((service, index) => (
               <motion.div
-                key={service.title}
+                key={service.titleKey}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -197,7 +138,7 @@ export default function Services() {
                     marginBottom: '1rem'
                   }}
                 >
-                  {service.title}
+                  {t(service.titleKey)}
                 </h3>
                 <p 
                   style={{
@@ -208,7 +149,7 @@ export default function Services() {
                     color: '#666'
                   }}
                 >
-                  {service.description}
+                  {t(service.descKey)}
                 </p>
               </motion.div>
             ))}
@@ -233,7 +174,7 @@ export default function Services() {
                 marginBottom: '1.5rem'
               }}
             >
-              Extra Services
+              {t('services.extraTitle')}
             </motion.p>
             <motion.h2
               initial={{ opacity: 0, y: 30 }}
@@ -249,7 +190,7 @@ export default function Services() {
                 marginBottom: '1.5rem'
               }}
             >
-              Extra services
+              {t('services.extraTitle')}
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 30 }}
@@ -265,8 +206,7 @@ export default function Services() {
               }}
               className="max-w-3xl mx-auto"
             >
-              To make your stay unforgettable, The VIF offers you a range of tailor-made services. 
-              Please do not hesitate to let us know your needs.
+              {t('services.extraSubtitle')}
             </motion.p>
           </div>
 
@@ -274,7 +214,7 @@ export default function Services() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {extraServices.map((service, index) => (
               <motion.div
-                key={service.title}
+                key={service.titleKey}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -297,7 +237,7 @@ export default function Services() {
                     marginBottom: '1rem'
                   }}
                 >
-                  {service.title}
+                  {t(service.titleKey)}
                 </h3>
                 <p 
                   style={{
@@ -308,7 +248,7 @@ export default function Services() {
                     color: '#666'
                   }}
                 >
-                  {service.description}
+                  {t(service.descKey)}
                 </p>
               </motion.div>
             ))}

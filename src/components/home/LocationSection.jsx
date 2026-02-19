@@ -1,9 +1,12 @@
 import { motion } from 'framer-motion'
+import { useTranslation } from '@/hooks/useTranslation'
 
 // Import local location image
 import locationImage from '@/assets/images/The VIF Experiences Hompage/Villefranche-sur-Mer.jpg'
 
 export default function LocationSection() {
+  const { t } = useTranslation()
+  
   return (
     <section className="py-24 md:py-32 bg-[#f5f0e8]">
       <div className="max-w-7xl mx-auto px-6">
@@ -43,7 +46,7 @@ export default function LocationSection() {
                 marginBottom: '1.5rem'
               }}
             >
-              Location
+              {t('home.location.label')}
             </p>
             
             {/* Heading */}
@@ -57,7 +60,7 @@ export default function LocationSection() {
                 marginBottom: '1.5rem'
               }}
             >
-              Nestled amidst<br />breathtaking natural<br />beauty
+              {t('home.location.title')}
             </h2>
             
             {/* Wave Decoration */}
@@ -77,11 +80,7 @@ export default function LocationSection() {
                 color: '#555'
               }}
             >
-              Perched on the hillside, the villa offers a breathtaking 
-              panoramic view of the bay of Villefranche-sur-mer. 
-              Surrounded by lush greenery and vibrant flowers, our villa 
-              provides a tranquil retreat, perfect for immersing yourself in 
-              the charm of the French Riviera.
+              {t('home.location.description')}
             </p>
           </motion.div>
         </div>

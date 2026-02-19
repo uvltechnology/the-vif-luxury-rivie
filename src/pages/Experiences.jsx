@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { useTranslation } from '@/hooks/useTranslation'
 import experiencesHeroImage from '../assets/images/The VIF Experiences Hompage/Experiences.jpg'
 import villefrancheImage from '../assets/images/The VIF Experiences Hompage/Villefranche-sur-Mer.jpg'
 import saintJeanImage from '../assets/images/The VIF Experiences Hompage/Pointe_Sainte-Hospice.jpg'
@@ -17,63 +18,31 @@ import bordigheraImage from '../assets/images/The VIF Experiences Hompage/bordig
 import sanRemoImage from '../assets/images/The VIF Experiences Hompage/san-remo.jpg'
 import dolceAcquaImage from '../assets/images/The VIF Experiences Hompage/dolce-acqua.jpg'
 
-const destinations = [
-  {
-    name: 'Villefranche-sur-mer',
-    description: 'A delightful ensemble of vibrant pastel houses and winding cobblestone lanes descending to a picturesque harbor, blessed with the pristine turquoise waters that have made the Côte d\'Azur legendary.',
-    image: villefrancheImage
-  },
-  {
-    name: 'Saint-Jean-Cap-Ferrat',
-    description: 'This prestigious peninsula along the Mediterranean coast is renowned for its unspoiled natural splendor, magnificent estates, and sophisticated maritime atmosphere.',
-    image: saintJeanImage
-  },
-  {
-    name: 'Eze',
-    description: 'A medieval gem perched dramatically on clifftops overlooking the azure Mediterranean, this enchanting hilltop village sits majestically between St Jean Cap Ferrat and the principality of Monaco.',
-    image: ezeImage
-  },
-  {
-    name: 'Monaco',
-    description: 'Discover the glamorous Monte Carlo lifestyle, where breathtaking vistas of the glittering coastline meet world-renowned sophistication and timeless luxury.',
-    image: monacoImage
-  },
-  {
-    name: 'Cannes',
-    description: 'Discover the magic of Cannes, featuring its iconic boulevard along the sea, high-end boutiques, prestigious hotels, and picturesque terraces perfect for leisurely dining.',
-    image: cannesImage
-  },
-  {
-    name: 'Nice',
-    description: 'A magnificent coastal city boasting world-class museums, stunning landscapes, lush green spaces, and the legendary Promenade des Anglais stretching along the Mediterranean.',
-    image: niceImage
-  }
-]
-
-const beachClubs = [
-  {
-    name: 'Paloma Beach',
-    description: 'A legendary seaside destination celebrated for its exceptional service and unparalleled waterfront setting.',
-    image: palomaBeachImage
-  },
-  {
-    name: 'La Mala',
-    description: 'A stunning coastal retreat nestled between dramatic cliffs, featuring elegant teak furnishings on a charming pebble shoreline.',
-    image: laMalaImage
-  },
-  {
-    name: 'Plage de Passable',
-    description: 'Overlooking the stunning Villefranche bay, this beach preserves its natural, untouched beauty. An iconic destination on Cap-Ferrat...',
-    image: plagePassableImage
-  },
-  {
-    name: 'Le Club Dauphin',
-    description: 'Experience refined luxury at Club Dauphin, where a sophisticated poolside terrace offers sweeping Mediterranean panoramas.',
-    image: clubDauphinImage
-  }
-]
-
 export default function Experiences() {
+  const { t } = useTranslation()
+  
+  const destinations = [
+    { key: 'villefranche', image: villefrancheImage },
+    { key: 'saintJean', image: saintJeanImage },
+    { key: 'eze', image: ezeImage },
+    { key: 'monaco', image: monacoImage },
+    { key: 'cannes', image: cannesImage },
+    { key: 'nice', image: niceImage }
+  ]
+
+  const beachClubs = [
+    { key: 'paloma', image: palomaBeachImage },
+    { key: 'laMala', image: laMalaImage },
+    { key: 'passable', image: plagePassableImage },
+    { key: 'dauphin', image: clubDauphinImage }
+  ]
+
+  const italianDestinations = [
+    { key: 'bordighera', image: bordigheraImage },
+    { key: 'sanRemo', image: sanRemoImage },
+    { key: 'dolceAcqua', image: dolceAcquaImage }
+  ]
+
   return (
     <div className="bg-[#faf8f5]">
       {/* Hero Section - Villa Soleil Style */}
@@ -106,7 +75,7 @@ export default function Experiences() {
                 marginBottom: '1.5rem'
               }}
             >
-              Set off on a journey of discovery
+              {t('experiences.page.journeyTitle')}
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 30 }}
@@ -122,10 +91,7 @@ export default function Experiences() {
               }}
               className="max-w-3xl mx-auto"
             >
-              Our villa offers immediate access to the beach, with the historic town center 
-              just a short 5-minute stroll away. Within a 10 km radius, you'll discover 
-              enchanting destinations including the picturesque old city of Nice, the 
-              breathtaking hilltop village of Eze, and the delightful coastal town of Beaulieu-sur-Mer.
+              {t('experiences.page.journeyDesc')}
             </motion.p>
           </div>
 
@@ -133,7 +99,7 @@ export default function Experiences() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {destinations.map((destination, index) => (
               <motion.div
-                key={destination.name}
+                key={destination.key}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -143,7 +109,7 @@ export default function Experiences() {
                 <div className="aspect-[4/3] overflow-hidden mb-6">
                   <img
                     src={destination.image}
-                    alt={destination.name}
+                    alt={t(`experiences.page.destinations.${destination.key}.name`)}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
                     decoding="async"
@@ -155,7 +121,7 @@ export default function Experiences() {
                   fontWeight: 400,
                   color: '#0f1c2e',
                   marginBottom: '0.75rem'
-                }}>{destination.name}</h3>
+                }}>{t(`experiences.page.destinations.${destination.key}.name`)}</h3>
                 <p style={{
                   fontFamily: "'Lato', sans-serif",
                   fontSize: '14px',
@@ -163,7 +129,7 @@ export default function Experiences() {
                   lineHeight: 1.7,
                   color: '#666'
                 }}>
-                  {destination.description}
+                  {t(`experiences.page.destinations.${destination.key}.desc`)}
                 </p>
               </motion.div>
             ))}
@@ -188,7 +154,7 @@ export default function Experiences() {
                 marginBottom: '1.5rem'
               }}
             >
-              Beach clubs
+              {t('experiences.page.beachClubsTitle')}
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 30 }}
@@ -204,8 +170,7 @@ export default function Experiences() {
               }}
               className="max-w-3xl mx-auto"
             >
-              Whether you're seeking a relaxing day by the sea or an elegant evening cocktail 
-              with stunning ocean views, explore the finest beach clubs along the Côte d'Azur.
+              {t('experiences.page.beachClubsDesc')}
             </motion.p>
           </div>
 
@@ -213,7 +178,7 @@ export default function Experiences() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {beachClubs.map((club, index) => (
               <motion.div
-                key={club.name}
+                key={club.key}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -223,7 +188,7 @@ export default function Experiences() {
                 <div className="aspect-square overflow-hidden mb-4">
                   <img
                     src={club.image}
-                    alt={club.name}
+                    alt={t(`experiences.page.beachClubs.${club.key}.name`)}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
                     decoding="async"
@@ -235,7 +200,7 @@ export default function Experiences() {
                   fontWeight: 400,
                   color: '#0f1c2e',
                   marginBottom: '0.5rem'
-                }}>{club.name}</h3>
+                }}>{t(`experiences.page.beachClubs.${club.key}.name`)}</h3>
                 <p style={{
                   fontFamily: "'Lato', sans-serif",
                   fontSize: '13px',
@@ -243,7 +208,7 @@ export default function Experiences() {
                   lineHeight: 1.7,
                   color: '#666'
                 }}>
-                  {club.description}
+                  {t(`experiences.page.beachClubs.${club.key}.desc`)}
                 </p>
               </motion.div>
             ))}
@@ -278,7 +243,7 @@ export default function Experiences() {
                 color: '#0f1c2e',
                 marginBottom: '1rem'
               }}>
-                Claim the waters by boat
+                {t('experiences.page.boatTitle')}
               </h2>
               <p style={{
                 fontFamily: "'Lato', sans-serif",
@@ -287,9 +252,7 @@ export default function Experiences() {
                 lineHeight: 1.8,
                 color: '#555'
               }}>
-                There's nothing quite like the joy of sailing the stunning Mediterranean coastline 
-                on a warm summer afternoon. Treat yourself and your loved ones to an extraordinary 
-                and memorable maritime adventure along the French Riviera.
+                {t('experiences.page.boatDesc')}
               </p>
             </motion.div>
 
@@ -317,7 +280,7 @@ export default function Experiences() {
                 color: '#0f1c2e',
                 marginBottom: '1rem'
               }}>
-                Fancy a day hike?
+                {t('experiences.page.hikingTitle')}
               </h2>
               <p style={{
                 fontFamily: "'Lato', sans-serif",
@@ -326,9 +289,7 @@ export default function Experiences() {
                 lineHeight: 1.8,
                 color: '#555'
               }}>
-                Lace up your hiking boots and venture into the breathtaking scenery of the French Riviera! 
-                Local organizations offer curated trails that showcase the natural wonders and hidden 
-                treasures of the Nice Côte d'Azur region.
+                {t('experiences.page.hikingDesc')}
               </p>
             </motion.div>
           </div>
@@ -367,7 +328,7 @@ export default function Experiences() {
                 marginBottom: '1.5rem'
               }}
             >
-              Italy
+              {t('experiences.page.italyLabel')}
             </motion.p>
             <motion.h2
               initial={{ opacity: 0, y: 30 }}
@@ -382,7 +343,7 @@ export default function Experiences() {
                 marginBottom: '1rem'
               }}
             >
-              La Dolce Vita
+              {t('experiences.page.italyTitle')}
             </motion.h2>
             {/* Wave decoration */}
             <motion.div
@@ -409,31 +370,14 @@ export default function Experiences() {
               }}
               className="max-w-3xl mx-auto"
             >
-              Savor an unforgettable day on the Italian Riviera, exploring its markets, 
-              cuisine, and everything that contributes to Italy's distinctive charm.
+              {t('experiences.page.italyDesc')}
             </motion.p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                name: 'Bordighera',
-                description: 'Bordighera is not just about the beach and sea; behind the promenade lies a world to discover. Its medieval charm, villas with large parks, beautiful gardens, and stately buildings reflect the enduring mark of the English colony from the late nineteenth century.',
-                image: bordigheraImage
-              },
-              {
-                name: 'San Remo',
-                description: 'Sanremo is the largest city in the Riviera of Flowers, boasting beautiful beaches and numerous hidden gems. In this city, history, culture, and architecture prevail, offering plenty to see and explore.',
-                image: sanRemoImage
-              },
-              {
-                name: 'Dolce acqua',
-                description: 'Discover the preserved charm of this isolated valley, just minutes from the coast. The Laghetti di Rocchetta, with its pools and waterfalls, offers pure, refreshing water, perfect for relaxing in nature.',
-                image: dolceAcquaImage
-              }
-            ].map((place, index) => (
+            {italianDestinations.map((place, index) => (
               <motion.div
-                key={place.name}
+                key={place.key}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -443,7 +387,7 @@ export default function Experiences() {
                 <div className="aspect-[4/3] overflow-hidden mb-6 rounded-lg">
                   <img
                     src={place.image}
-                    alt={place.name}
+                    alt={t(`experiences.page.italianDestinations.${place.key}.name`)}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
                     decoding="async"
@@ -455,7 +399,7 @@ export default function Experiences() {
                   fontWeight: 400,
                   color: '#0f1c2e',
                   marginBottom: '1rem'
-                }}>{place.name}</h3>
+                }}>{t(`experiences.page.italianDestinations.${place.key}.name`)}</h3>
                 <p style={{
                   fontFamily: "'Lato', sans-serif",
                   fontSize: '14px',
@@ -463,7 +407,7 @@ export default function Experiences() {
                   lineHeight: 1.7,
                   color: '#666'
                 }}>
-                  {place.description}
+                  {t(`experiences.page.italianDestinations.${place.key}.desc`)}
                 </p>
               </motion.div>
             ))}

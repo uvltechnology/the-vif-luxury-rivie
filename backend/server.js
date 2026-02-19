@@ -186,13 +186,92 @@ app.post('/api/contact', async (req, res) => {
       </html>
     `
 
-    // Send email
+    // Send email to property team
     await transporter.sendMail({
       from: process.env.FROM_EMAIL,
       to: process.env.TO_EMAIL,
       replyTo: email,
       subject: `New Inquiry from ${firstName} ${lastName} - The VIF`,
       html: emailHtml
+    })
+
+    // Send confirmation email to guest
+    const guestHtml = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <style>
+          body { font-family: 'Segoe UI', Tahoma, Geneva, sans-serif; line-height: 1.6; color: #333; }
+          .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+          .header { background: #0f1c2e; color: #c9a962; padding: 24px; text-align: center; }
+          .header h1 { margin: 0; font-size: 22px; font-weight: 300; letter-spacing: 2px; }
+          .content { background: #faf8f5; padding: 24px; }
+          .section { margin-bottom: 20px; }
+          .section-title { font-size: 14px; font-weight: 600; color: #0f1c2e; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+          .field { margin-bottom: 8px; }
+          .field-label { font-size: 12px; color: #777; text-transform: uppercase; letter-spacing: 0.5px; }
+          .field-value { font-size: 15px; color: #0f1c2e; margin-top: 2px; }
+          .message-box { background: #fff; padding: 16px; border-left: 3px solid #c9a962; margin-top: 8px; }
+          .footer { background: #0f1c2e; color: #a0a0a0; padding: 16px; text-align: center; font-size: 12px; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1>THE VIF</h1>
+          </div>
+          <div class="content">
+            <p>Dear ${firstName} ${lastName},</p>
+            <p>Thank you for your inquiry about The VIF. We have received your message and will get back to you as soon as possible.</p>
+
+            <div class="section">
+              <div class="section-title">Your Details</div>
+              <div class="field">
+                <div class="field-label">Email</div>
+                <div class="field-value">${email}</div>
+              </div>
+              ${phone ? `
+              <div class="field">
+                <div class="field-label">Phone</div>
+                <div class="field-value">${phone}</div>
+              </div>
+              ` : ''}
+            </div>
+
+            <div class="section">
+              <div class="section-title">Travel Dates</div>
+              <div class="field">
+                <div class="field-label">Arrival Date</div>
+                <div class="field-value">${arrivalDate || 'Not specified'}</div>
+              </div>
+              <div class="field">
+                <div class="field-label">Departure Date</div>
+                <div class="field-value">${departureDate || 'Not specified'}</div>
+              </div>
+            </div>
+
+            <div class="section">
+              <div class="section-title">Your Message</div>
+              <div class="message-box">
+                ${message.replace(/\n/g, '<br>')}
+              </div>
+            </div>
+
+            <p>We look forward to welcoming you to the French Riviera.</p>
+          </div>
+          <div class="footer">
+            <p>The VIF - Luxury Villa Rental</p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `
+
+    await transporter.sendMail({
+      from: process.env.FROM_EMAIL,
+      to: email,
+      subject: 'Your inquiry with The VIF',
+      html: guestHtml
     })
 
     res.json({ success: true, message: 'Your inquiry has been sent successfully!' })

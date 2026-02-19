@@ -20,7 +20,7 @@ const defaultTestimonials = [
   },
   {
     id: 3,
-    quote: "We've stayed at many luxury villas around the world, but The VIF is truly special. The combination of elegance, comfort, and that incredible Mediterranean view is unmatched.",
+    quote: "We've stayed at many luxury villas around the world, but The VIF (The Vacation in France) is truly special. The combination of elegance, comfort, and that incredible Mediterranean view is unmatched.",
     name: "Michael Chen",
     location: "from Singapore",
     avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80"

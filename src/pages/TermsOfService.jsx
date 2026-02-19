@@ -93,7 +93,7 @@ export default function TermsOfService() {
             <div style={sectionStyle}>
               <h2 style={headingStyle}>1. Agreement to Terms</h2>
               <p style={paragraphStyle}>
-                These Terms of Service ("Terms") constitute a legally binding agreement between you ("Guest," "you," or "your") and The VIF ("Company," "we," "our," or "us") governing your access to and use of our website, services, and luxury villa rental accommodations located on the French Riviera, France.
+                These Terms of Service ("Terms") constitute a legally binding agreement between you ("Guest," "you," or "your") and The VIF (The Vacation in France) ("Company," "we," "our," or "us") governing your access to and use of our website, services, and luxury villa rental accommodations located on the French Riviera, France.
               </p>
               <p style={paragraphStyle}>
                 By accessing our website, submitting a booking inquiry, or making a reservation, you acknowledge that you have read, understood, and agree to be bound by these Terms. If you do not agree to these Terms, you must not use our services.

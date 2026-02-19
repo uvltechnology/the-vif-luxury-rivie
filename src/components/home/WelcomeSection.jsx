@@ -1,7 +1,10 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { useTranslation } from '@/hooks/useTranslation'
 
 export default function WelcomeSection() {
+  const { t } = useTranslation()
+  
   return (
     <section id="welcome" className="py-32 md:py-40 bg-[#faf8f5]">
       <div className="max-w-5xl mx-auto px-6 text-center">
@@ -20,7 +23,7 @@ export default function WelcomeSection() {
           }}
           className="mb-8"
         >
-          Welcome
+          {t('home.welcome.label')}
         </motion.p>
         
         {/* Main Heading - Villa Soleil Style Large Serif */}
@@ -38,7 +41,7 @@ export default function WelcomeSection() {
           }}
           className="mb-10"
         >
-          Indulge in exquisite<br />accommodations and services
+          {t('home.welcome.title')}
         </motion.h2>
         
         {/* Description - Villa Soleil Style */}
@@ -56,10 +59,7 @@ export default function WelcomeSection() {
           }}
           className="max-w-3xl mx-auto"
         >
-          Discover the ultimate escape at The VIF, a luxurious villa on the French Riviera, 
-          between Nice and Monaco. Whether you're seeking a relaxing escape from the bustling 
-          city life or an adventure-filled vacation, The VIF has everything you desire and more. 
-          Prepare to immerse yourself in a realm of privacy, tranquility, and unparalleled beauty.
+          {t('home.welcome.description')}
         </motion.p>
       </div>
     </section>

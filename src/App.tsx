@@ -10,6 +10,7 @@ import Experiences from '@/pages/Experiences'
 import Services from '@/pages/Services'
 import Gallery from '@/pages/Gallery'
 import TheVilla from '@/pages/TheVilla'
+import TheApartments from '@/pages/TheApartments'
 import AreaGuide from '@/pages/AreaGuide'
 import HowToBook from '@/pages/HowToBook'
 import OurStory from '@/pages/OurStory'
@@ -26,7 +27,8 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Layout />}>
                         <Route index element={<Home />} />
-                        <Route path="the-villa" element={<TheVilla />} />
+                        <Route path="the-villas" element={<TheVilla />} />
+                        <Route path="the-apartments" element={<TheApartments />} />
                         <Route path="stays" element={<Stays />} />
                         <Route path="stays/:propertySlug" element={<PropertyDetail />} />
                         <Route path="services" element={<Services />} />

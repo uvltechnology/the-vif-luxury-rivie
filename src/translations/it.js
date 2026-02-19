@@ -7,14 +7,18 @@ export const it = {
   nav: {
     home: 'Home',
     stays: 'Alloggi',
-    experiences: 'Esperienze',
+    theVillas: 'LE VILLE',
+    theApartments: 'GLI APPARTAMENTI',
+    services: 'SERVIZI',
+    experiences: 'ESPERIENZE',
+    gallery: 'GALLERIA',
     theRiviera: 'La Riviera',
     howToBook: 'Come Prenotare',
     ourStory: 'La Nostra Storia',
     reviews: 'Recensioni',
-    contact: 'Contatto',
+    contact: 'CONTATTO',
     admin: 'Admin',
-    book: 'Prenota Ora'
+    book: 'PRENOTA ORA'
   },
   hero: {
     title: 'Il Tuo Rifugio sulla Riviera Francese Ti Aspetta',
@@ -31,7 +35,33 @@ export const it = {
     testimonialsSubtitle: 'Ascolta i nostri ospiti soddisfatti',
     viewAllReviews: 'Vedi Tutte le Recensioni',
     exploreRiviera: 'Esplora la Riviera',
-    discoverArea: 'Scopri cosa rende questa costa straordinaria'
+    discoverArea: 'Scopri cosa rende questa costa straordinaria',
+    carousel: {
+      slideOf: 'Slide {current} di {total}.',
+      discoverVillas: 'Scopri le Ville',
+      discoverVillasDesc: 'Con le sue viste mozzafiato sul mare e il design elegante, questa villa offre un\'esperienza di vita costiera indimenticabile.',
+      experiencesTitle: 'Le esperienze sono proprio dietro l\'angolo',
+      experiencesDesc: 'Vivi tutto ciò che le ville e i loro dintorni hanno da offrire'
+    },
+    welcome: {
+      label: 'Benvenuto',
+      title: 'Concediti alloggi e servizi squisiti',
+      description: 'Scopri l\'evasione definitiva con The VIF (La Vacanza in Francia) — una collezione raffinata di ville e appartamenti di lusso sulla Costa Azzurra, incastonata tra Nizza e Monaco. Che tu stia cercando un rifugio rilassante dalla frenetica vita cittadina o una vacanza piena di avventure, The VIF offre tutto ciò che desideri e molto di più. Preparati a immergerti in un regno di privacy, tranquillità e bellezza incomparabile.'
+    },
+    stay: {
+      label: 'Soggiorno',
+      title: 'Scopri un\'eleganza raffinata',
+      indoorTitle: 'Spazi interni',
+      indoorDesc: 'The VIF (La Vacanza in Francia) può ospitare da otto a dieci persone nel massimo lusso, con una camera doppia aggiuntiva per il personale. Le ampie stanze sono impeccabilmente progettate e offrono viste spettacolari sul mare.',
+      outdoorTitle: 'Spazi esterni',
+      outdoorDesc: 'Ogni elemento, dall\'architettura senza tempo ai giardini curati con cura, evoca un senso di eleganza e fascino, rendendolo un ambiente idilliaco per creare ricordi indimenticabili.',
+      moreInfo: 'Maggiori info'
+    },
+    location: {
+      label: 'Posizione',
+      title: 'Immerso in una bellezza naturale mozzafiato',
+      description: 'Arroccate sulla collina, le ville offrono una vista panoramica mozzafiato sulla baia di Villefranche-sur-Mer. Circondate da una vegetazione rigogliosa e fiori vivaci, le nostre ville offrono un rifugio tranquillo, perfetto per immergersi nel fascino della Costa Azzurra.'
+    }
   },
   property: {
     perNight: 'a notte',
@@ -107,7 +137,39 @@ export const it = {
     subtitle: 'Eleva la tua vacanza sulla Costa Azzurra con i nostri servizi esclusivi',
     requestThis: 'Richiedi Questo',
     learnMore: 'Scopri di Più',
-    fromPrice: 'A partire da'
+    fromPrice: 'A partire da',
+    page: {
+      journeyTitle: 'Parti per un viaggio di scoperta',
+      journeyDesc: 'La nostra villa offre accesso immediato alla spiaggia, con il centro storico a soli 5 minuti a piedi. Entro un raggio di 10 km, scoprirai destinazioni incantevoli tra cui la pittoresca città vecchia di Nizza, il mozzafiato villaggio collinare di Eze e l\'affascinante città costiera di Beaulieu-sur-Mer.',
+      beachClubsTitle: 'Stabilimenti balneari',
+      beachClubsDesc: 'Che tu stia cercando una giornata rilassante in riva al mare o un elegante cocktail serale con vista mozzafiato sull\'oceano, esplora i migliori stabilimenti balneari della Costa Azzurra.',
+      boatTitle: 'Conquista le acque in barca',
+      boatDesc: 'Non c\'è niente come la gioia di navigare lungo la splendida costa mediterranea in un caldo pomeriggio estivo. Concediti, insieme ai tuoi cari, un\'avventura marittima straordinaria e memorabile lungo la Costa Azzurra.',
+      hikingTitle: 'Ti va un\'escursione?',
+      hikingDesc: 'Allaccia gli scarponi da trekking e avventurati negli scenari mozzafiato della Costa Azzurra! Organizzazioni locali offrono sentieri curati che mostrano le meraviglie naturali e i tesori nascosti della regione Nizza Costa Azzurra.',
+      italyLabel: 'Italia',
+      italyTitle: 'La Dolce Vita',
+      italyDesc: 'Assapora una giornata indimenticabile sulla Riviera italiana, esplorando i suoi mercati, la cucina e tutto ciò che contribuisce al fascino distintivo dell\'Italia.',
+      destinations: {
+        villefranche: { name: 'Villefranche-sur-mer', desc: 'Un delizioso insieme di vivaci case color pastello e tortuose stradine acciottolate che scendono verso un pittoresco porto, benedetto dalle acque turchesi cristalline che hanno reso leggendaria la Costa Azzurra.' },
+        saintJean: { name: 'Saint-Jean-Cap-Ferrat', desc: 'Questa prestigiosa penisola lungo la costa mediterranea è rinomata per il suo splendore naturale incontaminato, le magnifiche proprietà e l\'atmosfera marittima sofisticata.' },
+        eze: { name: 'Èze', desc: 'Un gioiello medievale arroccato drammaticamente su scogliere che dominano il Mediterraneo azzurro, questo incantevole villaggio collinare si erge maestosamente tra Saint-Jean-Cap-Ferrat e il principato di Monaco.' },
+        monaco: { name: 'Monaco', desc: 'Scopri lo stile di vita glamour di Monte Carlo, dove panorami mozzafiato sulla costa scintillante incontrano una sofisticazione di fama mondiale e un lusso senza tempo.' },
+        cannes: { name: 'Cannes', desc: 'Scopri la magia di Cannes, con il suo iconico boulevard lungo il mare, boutique di alta gamma, hotel prestigiosi e terrazze pittoresche perfette per pranzi rilassati.' },
+        nice: { name: 'Nizza', desc: 'Una magnifica città costiera con musei di livello mondiale, paesaggi mozzafiato, rigogliosi spazi verdi e la leggendaria Promenade des Anglais che si estende lungo il Mediterraneo.' }
+      },
+      beachClubs: {
+        paloma: { name: 'Paloma Beach', desc: 'Una destinazione balneare leggendaria celebre per il suo servizio eccezionale e l\'incomparabile posizione sul mare.' },
+        laMala: { name: 'La Mala', desc: 'Uno splendido rifugio costiero incastonato tra scogliere spettacolari, con eleganti arredi in teak su un incantevole litorale di ciottoli.' },
+        passable: { name: 'Plage de Passable', desc: 'Affacciata sulla splendida baia di Villefranche, questa spiaggia preserva la sua bellezza naturale incontaminata. Una destinazione iconica di Cap-Ferrat...' },
+        dauphin: { name: 'Le Club Dauphin', desc: 'Vivi il lusso raffinato al Club Dauphin, dove una sofisticata terrazza a bordo piscina offre ampi panorami mediterranei.' }
+      },
+      italianDestinations: {
+        bordighera: { name: 'Bordighera', desc: 'Bordighera non è solo spiaggia e mare; dietro il lungomare si nasconde un mondo da scoprire. Il suo fascino medievale, le ville con grandi parchi, i bei giardini e gli edifici signorili riflettono l\'impronta duratura della colonia inglese di fine Ottocento.' },
+        sanRemo: { name: 'San Remo', desc: 'Sanremo è la città più grande della Riviera dei Fiori, con belle spiagge e numerose gemme nascoste. In questa città prevalgono storia, cultura e architettura, offrendo molto da vedere ed esplorare.' },
+        dolceAcqua: { name: 'Dolce acqua', desc: 'Scopri il fascino preservato di questa valle isolata, a pochi minuti dalla costa. I Laghetti di Rocchetta, con le sue piscine e cascate, offre acqua pura e rinfrescante, perfetta per rilassarsi nella natura.' }
+      }
+    }
   },
   contact: {
     title: 'Mettiti in Contatto',
@@ -127,7 +189,48 @@ export const it = {
     errorTitle: 'Errore',
     errorMessage: 'Qualcosa è andato storto. Riprova.',
     required: 'Questo campo è obbligatorio',
-    invalidEmail: 'Inserisci un indirizzo email valido'
+    invalidEmail: 'Inserisci un indirizzo email valido',
+    page: {
+      title: 'Contattaci',
+      subtitle: 'Per prenotazioni entro una settimana, vi preghiamo di contattarci telefonicamente.',
+      yourDetails: 'I tuoi dati',
+      firstName: 'Nome',
+      lastName: 'Cognome',
+      emailAddress: 'Indirizzo e-mail',
+      telephoneNumber: 'Numero di telefono',
+      phonePlaceholder: 'Inserire il prefisso internazionale (es. +39)',
+      whenArriving: 'Quando arriverete?',
+      arrivalDate: 'Data di arrivo',
+      departureDate: 'Data di partenza',
+      datePlaceholder: 'gg-mm-aaaa',
+      numberOfGuests: 'Numero di ospiti',
+      adults: 'Adulti',
+      children0to5: 'Bambini (0 - 5 anni)',
+      children6to16: 'Bambini (6 - 16 anni)',
+      inquiryRequest: 'Richiesta e domanda',
+      yourMessage: 'Il tuo messaggio',
+      sendRequest: 'Invia richiesta',
+      sendingRequest: 'Invio in corso...',
+      successMessage: 'Grazie! Vi risponderemo entro 24 ore.',
+      errorMessage: 'Invio messaggio non riuscito. Riprova.',
+      required: 'Campi obbligatori',
+      validation: {
+        firstNameRequired: 'Il nome è obbligatorio',
+        lastNameRequired: 'Il cognome è obbligatorio',
+        emailRequired: 'L\'indirizzo e-mail è obbligatorio',
+        emailInvalid: 'Inserisci un indirizzo e-mail valido',
+        phoneInvalid: 'Inserisci un numero di telefono valido con prefisso internazionale',
+        arrivalRequired: 'La data di arrivo è obbligatoria',
+        departureRequired: 'La data di partenza è obbligatoria',
+        arrivalPast: 'La data di arrivo non può essere nel passato',
+        departurePast: 'La data di partenza non può essere nel passato',
+        departureBeforeArrival: 'La data di partenza deve essere successiva alla data di arrivo',
+        adultsRequired: 'È richiesto almeno 1 adulto',
+        messageRequired: 'Inserisci il tuo messaggio',
+        messageMinLength: 'Il messaggio deve contenere almeno 10 caratteri',
+        formErrors: 'Correggi gli errori nel modulo'
+      }
+    }
   },
   footer: {
     tagline: 'Il tuo accesso alla vita di lusso sulla Costa Azzurra',
@@ -308,5 +411,133 @@ export const it = {
         description: 'Dalle nostre proprietà, il confine italiano è facilmente raggiungibile. Una gita a Ventimiglia, Sanremo o ai borghi liguri offre l\'occasione di godere della cucina italiana, dei mercati e della tipica atmosfera mediterranea.'
       }
     }
+  },
+  villas: {
+    quote: '"Ogni dettaglio della nostra villa è stato pensato con cura per offrire un ritiro indimenticabile e affascinante. Vi invitiamo a riposare, rigenerarvi e creare momenti preziosi in questo rifugio d\'eccezione"',
+    team: '— Il Team VIF',
+    title: 'Le Nostre Ville di Lusso',
+    viewFullGallery: 'Vedi la galleria completa',
+    exploreGallery: 'Esplora la Galleria',
+    ourStory: {
+      label: 'La Nostra Storia',
+      title: 'Scopri The VIF (La Vacanza in Francia)',
+      desc1: 'Benvenuti a The VIF (La Vacanza in Francia), un rifugio elegante e autentico situato lungo la splendida Costa Azzurra. Magnificamente ristrutturata per unire il fascino senza tempo al lusso contemporaneo, la villa dispone di una piscina riscaldata, giardini curati e una sofisticata cucina a vista.',
+      desc2: 'Ogni dettaglio è stato curato per il vostro comfort — camere accoglienti, bagni luminosi, interni caldi, panorami mozzafiato e generosi spazi abitativi vi aspettano.'
+    },
+    indoor: {
+      title: 'Spazi interni',
+      desc: 'Entrate e scoprite un\'atmosfera calda e accogliente, con arredi eleganti, viste mozzafiato e spazi abitativi generosamente proporzionati.',
+      moreInfo: 'Maggiori info'
+    },
+    outdoor: {
+      title: 'Spazi esterni',
+      desc: 'Dai classici dettagli architettonici ai giardini splendidamente curati, ogni aspetto trasmette raffinatezza e calore, offrendo lo sfondo perfetto per momenti preziosi.',
+      moreInfo: 'Maggiori info'
+    },
+    ourStoryTitle: 'La Nostra Storia',
+    ourStorySubtitle: 'Un\'Eredità di Ospitalità',
+    ourStoryText1: 'Creato con Passione',
+    ourStoryText2: 'Ogni dettaglio delle nostre ville è stato meticolosamente progettato per offrire un\'esperienza senza pari di comfort ed eleganza.',
+    ourStoryText3: 'Il nostro impegno per l\'eccellenza va oltre l\'architettura — è intrecciato in ogni interazione, in ogni momento del vostro soggiorno.',
+    discoverMore: 'Scopri di più',
+    discoverTitle: 'Scopri la Villa',
+    discoverText: 'Un rifugio sofisticato dove il lusso moderno incontra il fascino mediterraneo.',
+    indoorTitle: 'Spazi Interni',
+    indoorText: 'Spazi abitativi progettati con cura che uniscono comfort contemporaneo e raffinatezza senza tempo.',
+    outdoorTitle: 'Vita all\'Aperto',
+    outdoorText: 'Ampie terrazze e giardini curati offrono l\'ambiente perfetto per cene all\'aperto o semplicemente godersi il sole mediterraneo.',
+    perfectRetreatTitle: 'Il Vostro Ritiro Perfetto',
+    perfectRetreatText: 'Ognuna delle nostre ville offre una prospettiva unica sulla vita della Costa Azzurra.',
+    bookStay: 'Prenota il Tuo Soggiorno'
+  },
+  apartments: {
+    subtitle: 'Résidence Athéna',
+    title: 'Gli Appartamenti',
+    location: 'Eze-sur-Mer \u2022 Costa Azzurra',
+    description: 'Situato nella prestigiosa Résidence Athéna, il nostro appartamento offre viste panoramiche mozzafiato su Saint-Jean-Cap-Ferrat e la scintillante Baia Mediterranea.',
+    descriptionMore: 'A soli 5 minuti a piedi dalle incantevoli spiagge di Eze-sur-Mer, e a 10 minuti dal glamour di Monaco e dalle vivaci strade di Nizza.',    infoBoxes: {
+      minsToMonaco: 'Min. da Monaco',
+      minsToNice: 'Min. da Nizza',
+      mediterraneanViews: 'Viste mozzafiato sulla Baia Mediterranea',
+      sharedPool: 'Piscina condivisa della residenza'
+    },    highlights: {
+      pool: 'Piscina',
+      poolDesc: 'Goditi un tuffo rinfrescante nella piscina della residenza con vista sul mare.',
+      tennis: 'Campi da Tennis',
+      tennisDesc: 'Accesso ai campi da tennis privati all\'interno della tranquilla residenza protetta.',
+      views: 'Viste Panoramiche',
+      viewsDesc: 'Viste mozzafiato su Saint-Jean-Cap-Ferrat e la Baia Mediterranea.',
+      parking: 'Parcheggio Privato',
+      parkingDesc: 'Parcheggio sicuro in loco per la vostra comodità durante tutto il soggiorno.'
+    },
+    facilities: 'Servizi dell\'Appartamento',
+    amenities: {
+      kitchen: 'Cucina Attrezzata e Lavastoviglie',
+      wifi: 'Internet Fibra ad Alta Velocità',
+      ac: 'Aria Condizionata',
+      terrace: 'Terrazza Privata Vista Mare',
+      parking: 'Parcheggio Garage Riservato',
+      beach: 'A Breve Distanza dalla Spiaggia'
+    },
+    bookStay: 'Prenota il Tuo Soggiorno'
+  },
+  services: {
+    title: 'Servizi',
+    includedTitle: 'Servizi inclusi nel soggiorno',
+    includedSubtitle: 'Il discreto team della Villa si prende cura costantemente del vostro benessere assicurando servizi alberghieri quotidiani e molto altro.',
+    extraTitle: 'Servizi extra',
+    extraSubtitle: 'Rendi il tuo soggiorno ancora più speciale con i nostri servizi premium',
+    included: {
+      housekeeping: 'Pulizie settimanali',
+      housekeepingDesc: 'Pulizia settimanale (10 ore/settimana). Cambio di biancheria e asciugamani per il vostro comfort.',
+      welcome: 'Accoglienza personalizzata',
+      welcomeDesc: 'Per iniziare la vostra esperienza mediterranea, una bottiglia di Champagne e un regalo di benvenuto su misura vi attenderanno.',
+      manager: 'Responsabile Villa',
+      managerDesc: 'Disponibile 5 giorni a settimana: Assistenza per prenotazioni di ristoranti, attività e tour.',
+      parking: 'Parcheggio sicuro',
+      parkingDesc: 'Capacità di parcheggiare 3 veicoli in sicurezza all\'interno della proprietà.',
+      outdoors: 'Manutenzione esterna settimanale',
+      outdoorsDesc: 'Pulizia settimanale di piscina, giardino e barbecue per condizioni impeccabili.',
+      security: 'Dominio sicuro',
+      securityDesc: 'Dominio sotto videosorveglianza 24/7 per la vostra tranquillità.'
+    },
+    extra: {
+      chef: 'Chef privato',
+      chefDesc: 'Da un pasto intimo e speciale a pasti per tutto il soggiorno, rilassatevi mentre il vostro chef privato prepara piatti incredibili.',
+      guard: 'Guardia di sicurezza',
+      guardDesc: 'Sebbene tutte le nostre proprietà siano sicure e allarmate, possiamo fornirvi sicurezza aggiuntiva.',
+      concierge: 'Servizio Concierge',
+      conciergeDesc: 'Possiamo aiutarvi a pianificare l\'intero viaggio e offrirvi consigli per sfruttare al meglio il vostro soggiorno.',
+      extraHousekeeping: 'Governante aggiuntiva',
+      extraHousekeepingDesc: 'Servizi di pulizia aggiuntivi sono disponibili per il vostro comfort e comodità.',
+      laundry: 'Lavanderia e Lavaggio a Secco',
+      laundryDesc: 'Godetevi liberamente il vostro soggiorno mentre ci occupiamo della vostra biancheria.',
+      driver: 'Autista',
+      driverDesc: 'Servizi di trasporto di lusso progettati per offrire un\'esperienza più personalizzata e comoda.',
+      wellness: 'Benessere',
+      wellnessDesc: 'Il nostro team può organizzare varie attività e servizi progettati per promuovere il benessere fisico e mentale.',
+      trainer: 'Personal trainer',
+      trainerDesc: 'Quale modo migliore per rimanere attivi durante le vacanze che allenarsi con un personal trainer a casa?',
+      car: 'Noleggio auto',
+      carDesc: 'Prenoteremo per voi presso uno dei nostri partner selezionati, che abbiate bisogno di un\'auto di lusso o di un van familiare.'
+    },
+    inquire: 'Informazioni sui Servizi'
+  },
+  gallery: {
+    title: 'Galleria',
+    subtitle: 'Esplora la nostra collezione di foto mozzafiato della Costa Azzurra',
+    all: 'Tutto',
+    villaRocsea: 'Villa Rocsea',
+    villaBellevue: 'Villa Bellevue'
+  },
+  footer: {
+    contactByMail: 'Contattaci via Mail',
+    contactByPhone: 'Contattaci per Telefono',
+    theVif: 'THE VIF',
+    theVacationInFrance: 'La Vacanza in Francia',
+    address: 'La Turbie, Costa Azzurra',
+    copyright: '© 2024 The VIF. Tutti i diritti riservati.',
+    privacyPolicy: 'Informativa sulla Privacy',
+    termsOfService: 'Termini di Servizio'
   }
 }

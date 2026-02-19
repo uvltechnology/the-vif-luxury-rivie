@@ -59,7 +59,7 @@ export default function Footer() {
                   color: '#ffffff'
                 }}
               >
-                Contact Us By Mail
+                {t('footer.contactByMail')}
               </span>
             </div>
 
@@ -88,11 +88,23 @@ export default function Footer() {
                   fontWeight: 400,
                   letterSpacing: '0.2em',
                   color: '#c9a962',
+                  marginBottom: '4px'
+                }}
+              >
+                {t('footer.theVif')}
+              </h2>
+              <p 
+                style={{
+                  fontFamily: "'Lato', sans-serif",
+                  fontSize: '10px',
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  color: 'rgba(255,255,255,0.6)',
                   marginBottom: '16px'
                 }}
               >
-                THE VIF
-              </h2>
+                {t('footer.theVacationInFrance')}
+              </p>
               
               {/* Wave Decoration */}
               <div className="mb-4">
@@ -123,7 +135,7 @@ export default function Footer() {
                 <Phone size={24} weight="light" className="text-white" />
               </div>
               <a 
-                href="tel:+33615322966"
+                href="tel:+33620493969"
                 style={{
                   fontFamily: "'Lato', sans-serif",
                   fontSize: '11px',
@@ -133,7 +145,7 @@ export default function Footer() {
                 }}
                 className="hover:text-[#c9a962] transition-colors"
               >
-                +336 15 32 29 66
+                +33 6 20 49 39 69
               </a>
             </div>
           </div>
@@ -151,7 +163,7 @@ export default function Footer() {
                 color: 'rgba(255,255,255,0.5)'
               }}
             >
-              © {new Date().getFullYear()} The VIF. All rights reserved.
+              © {new Date().getFullYear()} {t('footer.copyright')}
             </p>
             <div className="flex items-center gap-6">
               <Link 
@@ -163,7 +175,7 @@ export default function Footer() {
                 }}
                 className="hover:text-white transition-colors"
               >
-                Privacy Policy
+                {t('footer.privacyPolicy')}
               </Link>
               <Link 
                 to="/terms-of-service" 
@@ -174,7 +186,7 @@ export default function Footer() {
                 }}
                 className="hover:text-white transition-colors"
               >
-                Terms of Service
+                {t('footer.termsOfService')}
               </Link>
             </div>
           </div>

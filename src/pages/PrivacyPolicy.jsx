@@ -93,7 +93,7 @@ export default function PrivacyPolicy() {
             <div style={sectionStyle}>
               <h2 style={headingStyle}>1. Introduction</h2>
               <p style={paragraphStyle}>
-                The VIF ("we," "our," or "us") is committed to protecting and respecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your personal information when you visit our website, make a booking inquiry, or use our villa rental services on the French Riviera.
+                The VIF (The Vacation in France) ("we," "our," or "us") is committed to protecting and respecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your personal information when you visit our website, make a booking inquiry, or use our villa rental services on the French Riviera.
               </p>
               <p style={paragraphStyle}>
                 By accessing or using our services, you acknowledge that you have read, understood, and agree to be bound by this Privacy Policy. If you do not agree with our policies and practices, please do not use our services.

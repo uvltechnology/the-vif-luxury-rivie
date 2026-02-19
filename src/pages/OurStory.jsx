@@ -45,7 +45,7 @@ export default function OurStory() {
           <div className="prose prose-lg max-w-none text-muted-foreground space-y-6">
             <AnimatedSection delay={0.1}>
               <p>
-                The VIF began with a simple belief: the French Riviera deserves to be experienced with intention, comfort, and authenticity. We're not a faceless booking platform or a sprawling rental company—we're a small team of Riviera enthusiasts who genuinely care about your stay.
+                The VIF (The Vacation in France) began with a simple belief: the French Riviera deserves to be experienced with intention, comfort, and authenticity. We're not a faceless booking platform or a sprawling rental company—we're a small team of Riviera enthusiasts who genuinely care about your stay.
               </p>
             </AnimatedSection>
             <AnimatedSection delay={0.2}>

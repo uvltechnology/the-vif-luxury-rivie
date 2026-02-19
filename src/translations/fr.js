@@ -7,20 +7,24 @@ export const fr = {
   nav: {
     home: 'Accueil',
     stays: 'Hébergements',
-    experiences: 'Expériences',
+    theVillas: 'LES VILLAS',
+    theApartments: 'LES APPARTEMENTS',
+    services: 'SERVICES',
+    experiences: 'EXPÉRIENCES',
+    gallery: 'GALERIE',
     theRiviera: 'La Côte d\'Azur',
     howToBook: 'Comment Réserver',
     ourStory: 'Notre Histoire',
     reviews: 'Avis',
-    contact: 'Contact',
+    contact: 'CONTACT',
     admin: 'Admin',
-    book: 'Réserver'
+    book: 'RÉSERVER'
   },
   hero: {
-    title: 'Votre Refuge sur la Côte d\'Azur Vous Attend',
-    subtitle: 'Découvrez des villas et appartements de luxe au cœur de la Méditerranée',
+    title: 'Vivez le luxe ultime',
+    subtitle: 'Vivez l\'escapade parfaite avec The VIF (Les Vacances en France)',
     cta: 'Voir Nos Hébergements',
-    scrollDown: 'Faire défiler pour explorer'
+    scrollDown: 'Défiler pour explorer'
   },
   home: {
     featuredTitle: 'Propriétés en Vedette',
@@ -31,7 +35,33 @@ export const fr = {
     testimonialsSubtitle: 'Écoutez nos clients ravis',
     viewAllReviews: 'Voir Tous les Avis',
     exploreRiviera: 'Explorer la Côte d\'Azur',
-    discoverArea: 'Découvrez ce qui rend ce littoral extraordinaire'
+    discoverArea: 'Découvrez ce qui rend ce littoral extraordinaire',
+    carousel: {
+      slideOf: 'Diapo {current} sur {total}.',
+      discoverVillas: 'Découvrez les Villas',
+      discoverVillasDesc: 'Avec ses vues imprenables sur la mer et son design élégant, cette villa offre une expérience de vie côtière inoubliable.',
+      experiencesTitle: 'Les expériences sont juste au coin de la rue',
+      experiencesDesc: 'Découvrez tout ce que les villas et leurs environs ont à offrir'
+    },
+    welcome: {
+      label: 'Bienvenue',
+      title: 'Laissez-vous séduire par des hébergements et services exquis',
+      description: 'Découvrez l\'évasion ultime avec The VIF (Les Vacances en France) — une collection raffinée de villas et appartements de luxe sur la Côte d\'Azur, nichée entre Nice et Monaco. Que vous recherchiez une retraite relaxante loin de l\'agitation urbaine ou une escapade pleine d\'aventures, The VIF offre tout ce que vous désirez et bien plus encore. Préparez-vous à vous immerger dans un univers de intimité, de tranquillité et de beauté incomparable.'
+    },
+    stay: {
+      label: 'Séjour',
+      title: 'Découvrez une élégance raffinée',
+      indoorTitle: 'Espaces intérieurs',
+      indoorDesc: 'The VIF (Les Vacances en France) peut accueillir huit à dix personnes dans un luxe absolu, avec une chambre double supplémentaire pour le personnel. Les chambres spacieuses sont impeccablement conçues et offrent des vues spectaculaires sur la mer.',
+      outdoorTitle: 'Espaces extérieurs',
+      outdoorDesc: 'Chaque élément, de l\'architecture intemporelle aux jardins soigneusement entretenus, évoque un sens d\'élégance et de charme, en faisant un cadre idyllique pour créer des souvenirs inoubliables.',
+      moreInfo: 'Plus d\'infos'
+    },
+    location: {
+      label: 'Emplacement',
+      title: 'Niché au cœur d\'une beauté naturelle époustouflante',
+      description: 'Perchées sur la colline, les villas offrent une vue panoramique à couper le souffle sur la baie de Villefranche-sur-Mer. Entourées d\'une végétation luxuriante et de fleurs vibrantes, nos villas offrent une retraite tranquille, parfaite pour s\'immerger dans le charme de la Côte d\'Azur.'
+    }
   },
   property: {
     perNight: 'par nuit',
@@ -107,7 +137,39 @@ export const fr = {
     subtitle: 'Élevez votre escapade sur la Côte d\'Azur avec nos services exclusifs',
     requestThis: 'Demander Ceci',
     learnMore: 'En Savoir Plus',
-    fromPrice: 'À partir de'
+    fromPrice: 'À partir de',
+    page: {
+      journeyTitle: 'Partez à la découverte',
+      journeyDesc: 'Notre villa offre un accès immédiat à la plage, avec le centre-ville historique à seulement 5 minutes à pied. Dans un rayon de 10 km, vous découvrirez des destinations enchantereuses dont la pittoresque vieille ville de Nice, le village perché d\'Eze à couper le souffle, et la charmante ville côtière de Beaulieu-sur-Mer.',
+      beachClubsTitle: 'Clubs de plage',
+      beachClubsDesc: 'Que vous recherchiez une journée relaxante au bord de la mer ou un cocktail élégant en soirée avec une vue imprenable sur l\'océan, explorez les meilleurs clubs de plage de la Côte d\'Azur.',
+      boatTitle: 'Conquérez les eaux en bateau',
+      boatDesc: 'Rien n\'égale le plaisir de naviguer le long de la magnifique côte méditerranéenne par un bel après-midi d\'été. Offrez-vous ainsi qu\'à vos proches une aventure maritime extraordinaire et mémorable le long de la Côte d\'Azur.',
+      hikingTitle: 'Envie d\'une randonnée ?',
+      hikingDesc: 'Enfilez vos chaussures de randonnée et aventurez-vous dans les paysages à couper le souffle de la Côte d\'Azur ! Des organisations locales proposent des sentiers soigneusement sélectionnés qui mettent en valeur les merveilles naturelles et les trésors cachés de la région Nice Côte d\'Azur.',
+      italyLabel: 'Italie',
+      italyTitle: 'La Dolce Vita',
+      italyDesc: 'Savourez une journée inoubliable sur la Riviera italienne, en explorant ses marchés, sa cuisine et tout ce qui contribue au charme distinctif de l\'Italie.',
+      destinations: {
+        villefranche: { name: 'Villefranche-sur-mer', desc: 'Un charmant ensemble de maisons aux couleurs pastel et de ruelles pavées sinueuses descendant vers un port pittoresque, béni par les eaux turquoise cristallines qui ont rendu la Côte d\'Azur légendaire.' },
+        saintJean: { name: 'Saint-Jean-Cap-Ferrat', desc: 'Cette presqu\'île prestigieuse le long de la côte méditerranéenne est réputée pour sa splendeur naturelle préservée, ses magnifiques propriétés et son atmosphère maritime sophistiquée.' },
+        eze: { name: 'Èze', desc: 'Un joyau médiéval perché de façon spectaculaire sur des falaises surplombant la Méditerranée azurée, ce village perché enchanteur se dresse majestueusement entre Saint-Jean-Cap-Ferrat et la principauté de Monaco.' },
+        monaco: { name: 'Monaco', desc: 'Découvrez le style de vie glamour de Monte-Carlo, où des panoramas époustouflants sur la côte scintillante rencontrent une sophistication de renommée mondiale et un luxe intemporel.' },
+        cannes: { name: 'Cannes', desc: 'Découvrez la magie de Cannes, avec son boulevard emblématique le long de la mer, ses boutiques haut de gamme, ses hôtels prestigieux et ses terrasses pittoresques parfaites pour des repas décontractés.' },
+        nice: { name: 'Nice', desc: 'Une magnifique ville côtière abritant des musées de classe mondiale, des paysages époustouflants, des espaces verts luxuriants et la légendaire Promenade des Anglais s\'étendant le long de la Méditerranée.' }
+      },
+      beachClubs: {
+        paloma: { name: 'Paloma Beach', desc: 'Une destination balnéaire légendaire célèbre pour son service exceptionnel et son cadre en bord de mer incomparable.' },
+        laMala: { name: 'La Mala', desc: 'Une retraite côtière magnifique nichée entre des falaises spectaculaires, avec un mobilier en teck élégant sur un charmant rivage de galets.' },
+        passable: { name: 'Plage de Passable', desc: 'Avec vue sur la magnifique baie de Villefranche, cette plage préserve sa beauté naturelle intacte. Une destination emblématique du Cap-Ferrat...' },
+        dauphin: { name: 'Le Club Dauphin', desc: 'Découvrez le luxe raffiné au Club Dauphin, où une terrasse sophistiquée au bord de la piscine offre des panoramas méditerranéens à perte de vue.' }
+      },
+      italianDestinations: {
+        bordighera: { name: 'Bordighera', desc: 'Bordighera ne se résume pas à la plage et à la mer ; derrière la promenade se cache un monde à découvrir. Son charme médiéval, ses villas aux grands parcs, ses beaux jardins et ses bâtiments majestueux reflètent l\'empreinte durable de la colonie anglaise de la fin du XIXe siècle.' },
+        sanRemo: { name: 'San Remo', desc: 'Sanremo est la plus grande ville de la Riviera des Fleurs, avec de belles plages et de nombreux trésors cachés. Dans cette ville, l\'histoire, la culture et l\'architecture prévalent, offrant beaucoup à voir et à explorer.' },
+        dolceAcqua: { name: 'Dolce acqua', desc: 'Découvrez le charme préservé de cette vallée isolée, à quelques minutes de la côte. Les Laghetti di Rocchetta, avec ses bassins et cascades, offre une eau pure et rafraîchissante, parfaite pour se détendre en pleine nature.' }
+      }
+    }
   },
   contact: {
     title: 'Nous Contacter',
@@ -127,7 +189,48 @@ export const fr = {
     errorTitle: 'Erreur',
     errorMessage: 'Une erreur s\'est produite. Veuillez réessayer.',
     required: 'Ce champ est obligatoire',
-    invalidEmail: 'Veuillez entrer une adresse email valide'
+    invalidEmail: 'Veuillez entrer une adresse email valide',
+    page: {
+      title: 'Contactez-nous',
+      subtitle: 'Pour les réservations dans la semaine, veuillez nous contacter par téléphone.',
+      yourDetails: 'Vos coordonnées',
+      firstName: 'Prénom',
+      lastName: 'Nom',
+      emailAddress: 'Adresse e-mail',
+      telephoneNumber: 'Numéro de téléphone',
+      phonePlaceholder: 'Veuillez indiquer l\'indicatif pays (ex: +33)',
+      whenArriving: 'Quand arriverez-vous ?',
+      arrivalDate: 'Date d\'arrivée',
+      departureDate: 'Date de départ',
+      datePlaceholder: 'jj-mm-aaaa',
+      numberOfGuests: 'Nombre de personnes',
+      adults: 'Adultes',
+      children0to5: 'Enfants (0 - 5 ans)',
+      children6to16: 'Enfants (6 - 16 ans)',
+      inquiryRequest: 'Demande et requête',
+      yourMessage: 'Votre message',
+      sendRequest: 'Envoyer la demande',
+      sendingRequest: 'Envoi en cours...',
+      successMessage: 'Merci ! Nous vous répondrons dans les 24 heures.',
+      errorMessage: 'Échec de l\'envoi du message. Veuillez réessayer.',
+      required: 'Champs obligatoires',
+      validation: {
+        firstNameRequired: 'Le prénom est requis',
+        lastNameRequired: 'Le nom est requis',
+        emailRequired: 'L\'adresse e-mail est requise',
+        emailInvalid: 'Veuillez entrer une adresse e-mail valide',
+        phoneInvalid: 'Veuillez entrer un numéro de téléphone valide avec l\'indicatif pays',
+        arrivalRequired: 'La date d\'arrivée est requise',
+        departureRequired: 'La date de départ est requise',
+        arrivalPast: 'La date d\'arrivée ne peut pas être dans le passé',
+        departurePast: 'La date de départ ne peut pas être dans le passé',
+        departureBeforeArrival: 'La date de départ doit être après la date d\'arrivée',
+        adultsRequired: 'Au moins 1 adulte est requis',
+        messageRequired: 'Veuillez entrer votre message',
+        messageMinLength: 'Le message doit contenir au moins 10 caractères',
+        formErrors: 'Veuillez corriger les erreurs du formulaire'
+      }
+    }
   },
   footer: {
     tagline: 'Votre porte d\'entrée vers la vie de luxe sur la Côte d\'Azur',
@@ -308,5 +411,135 @@ export const fr = {
         description: 'Depuis nos hébergements, la frontière italienne se rejoint rapidement. Profitez d\'une escapade à Vintimille, Sanremo ou dans les villages ligures pour savourer la gastronomie, les marchés et l\'atmosphère ensoleillée de l\'Italie.'
       }
     }
+  },
+  villas: {
+    quote: '"Chaque détail de notre villa a été soigneusement conçu pour offrir une retraite inoubliable et captivante. Nous vous invitons à vous reposer, vous ressourcer et créer des moments précieux dans ce havre d\'exception"',
+    team: '— L\'Équipe VIF',
+    title: 'Nos Villas de Luxe',
+    viewFullGallery: 'Voir la galerie complète',
+    exploreGallery: 'Explorer la Galerie',
+    ourStory: {
+      label: 'Notre Histoire',
+      title: 'Découvrez The VIF (Les Vacances en France)',
+      desc1: 'Bienvenue à The VIF (Les Vacances en France), une retraite élégante et authentique nichée le long de la magnifique Côte d\'Azur. Magnifiquement rénovée pour allier charme intemporel et luxe contemporain, la villa dispose d\'une piscine chauffée, de jardins soignés et d\'une cuisine ouverte sophistiquée.',
+      desc2: 'Chaque détail a été pensé pour votre confort — des chambres douillettes, des salles de bains baignées de soleil, des intérieurs chaleureux, des panoramas époustouflants et de généreux espaces de vie vous attendent.'
+    },
+    indoor: {
+      title: 'Espaces intérieurs',
+      desc: 'Entrez et découvrez une atmosphère chaleureuse et accueillante, avec un mobilier élégant, des vues imprenables et des espaces de vie généreusement proportionnés.',
+      moreInfo: 'Plus d\'infos'
+    },
+    outdoor: {
+      title: 'Espaces extérieurs',
+      desc: 'Des détails architecturaux classiques aux jardins magnifiquement paysagés, chaque aspect respire la sophistication et la chaleur, offrant le cadre parfait pour des moments précieux.',
+      moreInfo: 'Plus d\'infos'
+    },
+    ourStoryTitle: 'Notre Histoire',
+    ourStorySubtitle: 'Un Héritage d\'Hospitalité',
+    ourStoryText1: 'Conçu avec Passion',
+    ourStoryText2: 'Chaque détail de nos villas a été méticuleusement conçu pour offrir une expérience inégalée de confort et d\'élégance. Du mobilier soigneusement sélectionné aux jardins paysagés, nous avons créé des espaces qui vous invitent à véritablement vous détendre et vous reconnecter.',
+    ourStoryText3: 'Notre engagement envers l\'excellence va au-delà de l\'architecture — il est tissé dans chaque interaction, chaque moment de votre séjour. Que vous regardiez le coucher de soleil sur Monaco depuis notre terrasse ou que vous savouriez un café matinal dans nos jardins ensoleillés, ce sont ces moments que nous vivons pour créer.',
+    discoverMore: 'En savoir plus',
+    discoverTitle: 'Découvrir la Villa',
+    discoverText: 'Un havre sophistiqué où le luxe moderne rencontre le charme méditerranéen. Baies vitrées, intérieurs design et jardins privés créent une atmosphère d\'élégance raffinée.',
+    indoorTitle: 'Espaces Intérieurs',
+    indoorText: 'Des espaces de vie soigneusement conçus qui allient confort contemporain et sophistication intemporelle. Chaque pièce raconte une histoire de curation attentive et de souci du détail.',
+    outdoorTitle: 'Vie en Extérieur',
+    outdoorText: 'De vastes terrasses et jardins paysagés offrent le cadre parfait pour un dîner en plein air, du yoga matinal ou simplement profiter du soleil méditerranéen.',
+    perfectRetreatTitle: 'Votre Retraite Parfaite',
+    perfectRetreatText: 'Chacune de nos villas offre une perspective unique sur la vie sur la Côte d\'Azur. Que vous recherchiez une escapade romantique ou une réunion de famille, nos propriétés offrent le décor parfait pour créer des souvenirs durables.',
+    bookStay: 'Réservez Votre Séjour'
+  },
+  apartments: {
+    subtitle: 'Résidence Athéna',
+    title: 'Les Appartements',
+    location: 'Eze-sur-Mer • Côte d\'Azur',
+    description: 'Niché dans la prestigieuse Résidence Athéna, notre appartement exquis offre des vues panoramiques à couper le souffle sur Saint-Jean-Cap-Ferrat et la baie scintillante de la Méditerranée. Situé dans une résidence calme et sécurisée aux jardins magnifiquement paysagés, vous profiterez d\'une piscine partagée, de courts de tennis privés et d\'un parking sur place.',
+    descriptionMore: 'À seulement 5 minutes à pied des plages charmantes d\'Eze-sur-Mer, et à 10 minutes du glamour de Monaco et des rues animées de Nice, notre appartement est la base idéale pour explorer tout ce que la Côte d\'Azur a à offrir.',
+    infoBoxes: {
+      minsToMonaco: 'Min. de Monaco',
+      minsToNice: 'Min. de Nice',
+      mediterraneanViews: 'Vues imprenables sur la baie méditerranéenne',
+      sharedPool: 'Piscine partagée de la résidence'
+    },
+    highlights: {
+      pool: 'Piscine',
+      poolDesc: 'Profitez d\'un bain rafraîchissant dans la piscine de la résidence avec vue sur la mer.',
+      tennis: 'Courts de Tennis',
+      tennisDesc: 'Accès aux courts de tennis privés au sein de la résidence calme et sécurisée.',
+      views: 'Vues Panoramiques',
+      viewsDesc: 'Vues à couper le souffle sur Saint-Jean-Cap-Ferrat et la Baie Méditerranéenne.',
+      parking: 'Parking Privé',
+      parkingDesc: 'Parking sécurisé sur place pour votre confort tout au long de votre séjour.'
+    },
+    facilities: 'Équipements de l\'Appartement',
+    amenities: {
+      kitchen: 'Cuisine Équipée & Lave-vaisselle',
+      wifi: 'Internet Fibre Haut Débit',
+      ac: 'Climatisation',
+      terrace: 'Terrasse Privée Vue Mer',
+      parking: 'Parking Garage Réservé',
+      beach: 'Proche de la Plage'
+    },
+    bookStay: 'Réservez Votre Séjour'
+  },
+  services: {
+    title: 'Services',
+    includedTitle: 'Services inclus dans votre séjour',
+    includedSubtitle: 'L\'équipe discrète de la Villa veille en permanence à votre bien-être en assurant des services hôteliers quotidiens et bien plus encore. Tous ces services vous offrent la liberté et l\'assurance d\'un séjour inoubliable. Déposez vos bagages et vous êtes en vacances !',
+    extraTitle: 'Services supplémentaires',
+    extraSubtitle: 'Rendez votre séjour encore plus spécial avec nos services premium',
+    included: {
+      housekeeping: 'Ménage hebdomadaire',
+      housekeepingDesc: 'Nettoyage hebdomadaire (10h/semaine). Changement du linge de maison et des serviettes de piscine pour votre confort.',
+      welcome: 'Accueil personnalisé',
+      welcomeDesc: 'Pour bien commencer votre expérience méditerranéenne, une bouteille de Champagne et un cadeau de bienvenue sur mesure vous attendront.',
+      manager: 'Responsable de Villa',
+      managerDesc: 'Disponible 5 jours par semaine : Assistance pour les réservations de restaurants, activités et visites.',
+      parking: 'Parking sécurisé',
+      parkingDesc: 'Capacité de stationner 3 véhicules en toute sécurité dans la propriété.',
+      outdoors: 'Entretien extérieur hebdomadaire',
+      outdoorsDesc: 'Nettoyage hebdomadaire de la piscine, du jardin et du barbecue pour des conditions impeccables.',
+      security: 'Domaine sécurisé',
+      securityDesc: 'Domaine sous vidéosurveillance 24h/24 pour votre tranquillité d\'esprit.'
+    },
+    extra: {
+      chef: 'Chef privé',
+      chefDesc: 'D\'un repas intime et spécial à des repas tout au long de votre séjour, détendez-vous pendant que votre chef privé prépare des plats incroyables.',
+      guard: 'Agent de sécurité',
+      guardDesc: 'Bien que toutes nos propriétés soient sécurisées et équipées d\'alarmes avec intervention armée, nous pouvons vous fournir une sécurité supplémentaire.',
+      concierge: 'Service Conciergerie',
+      conciergeDesc: 'Nous pouvons vous aider à planifier tout votre voyage et vous offrir des conseils pour profiter au maximum de votre séjour.',
+      extraHousekeeping: 'Femme de ménage supplémentaire',
+      extraHousekeepingDesc: 'Des services de ménage supplémentaires sont disponibles pour votre confort et votre commodité.',
+      laundry: 'Blanchisserie et Pressing',
+      laundryDesc: 'Profitez librement de votre séjour pendant que nous nous occupons de votre linge. Nous récupérons et livrons vos vêtements directement à votre villa.',
+      driver: 'Chauffeur',
+      driverDesc: 'Services de transport de luxe conçus pour offrir une expérience plus personnalisée et pratique pendant votre séjour.',
+      wellness: 'Bien-être',
+      wellnessDesc: 'Notre équipe peut organiser diverses activités et équipements conçus pour promouvoir le bien-être physique et mental pendant votre séjour.',
+      trainer: 'Coach sportif',
+      trainerDesc: 'Quelle meilleure façon de rester actif pendant vos vacances qu\'en faisant de l\'exercice avec un coach personnel à domicile ?',
+      car: 'Location de voiture',
+      carDesc: 'Nous réservons pour vous auprès de l\'un de nos partenaires sélectionnés, que vous ayez besoin d\'une voiture de luxe ou d\'un van familial.'
+    },
+    inquire: 'Se Renseigner sur les Services'
+  },
+  gallery: {
+    title: 'Galerie',
+    subtitle: 'Explorez notre collection de photos époustouflantes de la Côte d\'Azur',
+    all: 'Tout',
+    villaRocsea: 'Villa Rocsea',
+    villaBellevue: 'Villa Bellevue'
+  },
+  footer: {
+    contactByMail: 'Contactez-nous par Mail',
+    contactByPhone: 'Contactez-nous par Téléphone',
+    theVif: 'THE VIF',
+    theVacationInFrance: 'Les Vacances en France',
+    address: 'La Turbie, Côte d\'Azur',
+    copyright: '© 2024 The VIF. Tous droits réservés.',
+    privacyPolicy: 'Politique de Confidentialité',
+    termsOfService: 'Conditions d\'Utilisation'
   }
 }

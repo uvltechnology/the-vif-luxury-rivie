@@ -7,18 +7,22 @@ export const en = {
   nav: {
     home: 'Home',
     stays: 'Stays',
-    experiences: 'Experiences',
+    theVillas: 'THE VILLAS',
+    theApartments: 'THE APARTMENTS',
+    services: 'SERVICES',
+    experiences: 'EXPERIENCES',
+    gallery: 'GALLERY',
     theRiviera: 'The Riviera',
     howToBook: 'How to Book',
     ourStory: 'Our Story',
     reviews: 'Reviews',
-    contact: 'Contact',
+    contact: 'CONTACT',
     admin: 'Admin',
-    book: 'Book Now'
+    book: 'BOOK NOW'
   },
   hero: {
-    title: 'Your French Riviera Retreat Awaits',
-    subtitle: 'Discover luxury villas and apartments in the heart of the Mediterranean',
+    title: 'Embrace the ultimate luxury',
+    subtitle: 'Experience the perfect getaway at The VIF (The Vacation in France)',
     cta: 'View Our Stays',
     scrollDown: 'Scroll to explore'
   },
@@ -31,7 +35,33 @@ export const en = {
     testimonialsSubtitle: 'Hear from our delighted guests',
     viewAllReviews: 'View All Reviews',
     exploreRiviera: 'Explore the Riviera',
-    discoverArea: 'Discover what makes this coastline extraordinary'
+    discoverArea: 'Discover what makes this coastline extraordinary',
+    carousel: {
+      slideOf: 'Slide {current} of {total}.',
+      discoverVillas: 'Discover the Villas',
+      discoverVillasDesc: 'With its breathtaking sea views and elegant design, this villa offers an unforgettable coastal living experience.',
+      experiencesTitle: 'Experiences are just around the corner',
+      experiencesDesc: 'Experience all that the villas and their surroundings have to offer'
+    },
+    welcome: {
+      label: 'Welcome',
+      title: 'Indulge in exquisite accommodations and services',
+      description: 'Discover the ultimate escape at The VIF (The Vacation in France)—a curated collection of luxurious villas and apartments on the French Riviera, nestled between Nice and Monaco. Whether you\'re seeking a relaxing retreat from the bustling city life or an adventure-filled getaway, The VIF offers everything you desire and more. Prepare to immerse yourself in a realm of privacy, tranquility, and unparalleled beauty.'
+    },
+    stay: {
+      label: 'Stay',
+      title: 'Discover an understated elegance',
+      indoorTitle: 'Indoor amenities',
+      indoorDesc: 'The VIF (The Vacation in France) can accommodate eight to ten guests in utmost luxury, with an additional double room for staff. The spacious rooms are impeccably designed and offer spectacular sea views.',
+      outdoorTitle: 'Outdoor amenities',
+      outdoorDesc: 'Every element, from the timeless architecture to the carefully curated gardens, evokes a sense of elegance and charm, making it an idyllic setting for creating unforgettable memories.',
+      moreInfo: 'More Info'
+    },
+    location: {
+      label: 'Location',
+      title: 'Nestled amidst breathtaking natural beauty',
+      description: 'Perched on the hillside, the villas offer a breathtaking panoramic view of the bay of Villefranche-sur-mer. Surrounded by lush greenery and vibrant flowers, our villas provide a tranquil retreat, perfect for immersing yourself in the charm of the French Riviera.'
+    }
   },
   property: {
     perNight: 'per night',
@@ -107,7 +137,39 @@ export const en = {
     subtitle: 'Elevate your French Riviera getaway with our exclusive services',
     requestThis: 'Request This',
     learnMore: 'Learn More',
-    fromPrice: 'From'
+    fromPrice: 'From',
+    page: {
+      journeyTitle: 'Set off on a journey of discovery',
+      journeyDesc: 'Our villa offers immediate access to the beach, with the historic town center just a short 5-minute stroll away. Within a 10 km radius, you\'ll discover enchanting destinations including the picturesque old city of Nice, the breathtaking hilltop village of Eze, and the delightful coastal town of Beaulieu-sur-Mer.',
+      beachClubsTitle: 'Beach clubs',
+      beachClubsDesc: 'Whether you\'re seeking a relaxing day by the sea or an elegant evening cocktail with stunning ocean views, explore the finest beach clubs along the Côte d\'Azur.',
+      boatTitle: 'Claim the waters by boat',
+      boatDesc: 'There\'s nothing quite like the joy of sailing the stunning Mediterranean coastline on a warm summer afternoon. Treat yourself and your loved ones to an extraordinary and memorable maritime adventure along the French Riviera.',
+      hikingTitle: 'Fancy a day hike?',
+      hikingDesc: 'Lace up your hiking boots and venture into the breathtaking scenery of the French Riviera! Local organizations offer curated trails that showcase the natural wonders and hidden treasures of the Nice Côte d\'Azur region.',
+      italyLabel: 'Italy',
+      italyTitle: 'La Dolce Vita',
+      italyDesc: 'Savor an unforgettable day on the Italian Riviera, exploring its markets, cuisine, and everything that contributes to Italy\'s distinctive charm.',
+      destinations: {
+        villefranche: { name: 'Villefranche-sur-mer', desc: 'A delightful ensemble of vibrant pastel houses and winding cobblestone lanes descending to a picturesque harbor, blessed with the pristine turquoise waters that have made the Côte d\'Azur legendary.' },
+        saintJean: { name: 'Saint-Jean-Cap-Ferrat', desc: 'This prestigious peninsula along the Mediterranean coast is renowned for its unspoiled natural splendor, magnificent estates, and sophisticated maritime atmosphere.' },
+        eze: { name: 'Eze', desc: 'A medieval gem perched dramatically on clifftops overlooking the azure Mediterranean, this enchanting hilltop village sits majestically between St Jean Cap Ferrat and the principality of Monaco.' },
+        monaco: { name: 'Monaco', desc: 'Discover the glamorous Monte Carlo lifestyle, where breathtaking vistas of the glittering coastline meet world-renowned sophistication and timeless luxury.' },
+        cannes: { name: 'Cannes', desc: 'Discover the magic of Cannes, featuring its iconic boulevard along the sea, high-end boutiques, prestigious hotels, and picturesque terraces perfect for leisurely dining.' },
+        nice: { name: 'Nice', desc: 'A magnificent coastal city boasting world-class museums, stunning landscapes, lush green spaces, and the legendary Promenade des Anglais stretching along the Mediterranean.' }
+      },
+      beachClubs: {
+        paloma: { name: 'Paloma Beach', desc: 'A legendary seaside destination celebrated for its exceptional service and unparalleled waterfront setting.' },
+        laMala: { name: 'La Mala', desc: 'A stunning coastal retreat nestled between dramatic cliffs, featuring elegant teak furnishings on a charming pebble shoreline.' },
+        passable: { name: 'Plage de Passable', desc: 'Overlooking the stunning Villefranche bay, this beach preserves its natural, untouched beauty. An iconic destination on Cap-Ferrat...' },
+        dauphin: { name: 'Le Club Dauphin', desc: 'Experience refined luxury at Club Dauphin, where a sophisticated poolside terrace offers sweeping Mediterranean panoramas.' }
+      },
+      italianDestinations: {
+        bordighera: { name: 'Bordighera', desc: 'Bordighera is not just about the beach and sea; behind the promenade lies a world to discover. Its medieval charm, villas with large parks, beautiful gardens, and stately buildings reflect the enduring mark of the English colony from the late nineteenth century.' },
+        sanRemo: { name: 'San Remo', desc: 'Sanremo is the largest city in the Riviera of Flowers, boasting beautiful beaches and numerous hidden gems. In this city, history, culture, and architecture prevail, offering plenty to see and explore.' },
+        dolceAcqua: { name: 'Dolce acqua', desc: 'Discover the preserved charm of this isolated valley, just minutes from the coast. The Laghetti di Rocchetta, with its pools and waterfalls, offers pure, refreshing water, perfect for relaxing in nature.' }
+      }
+    }
   },
   contact: {
     title: 'Get in Touch',
@@ -127,7 +189,48 @@ export const en = {
     errorTitle: 'Error',
     errorMessage: 'Something went wrong. Please try again.',
     required: 'This field is required',
-    invalidEmail: 'Please enter a valid email address'
+    invalidEmail: 'Please enter a valid email address',
+    page: {
+      title: 'Contact us',
+      subtitle: 'For reservations within one week, please contact us by phone.',
+      yourDetails: 'Your details',
+      firstName: 'First Name',
+      lastName: 'Last Name',
+      emailAddress: 'Email Address',
+      telephoneNumber: 'Telephone Number',
+      phonePlaceholder: 'Please provide the country code (e.g +33)',
+      whenArriving: 'When will you be arriving?',
+      arrivalDate: 'Arrival Date',
+      departureDate: 'Departure Date',
+      datePlaceholder: 'dd-mm-yyyy',
+      numberOfGuests: 'Number of guests',
+      adults: 'Adults',
+      children0to5: 'Children (0 - 5 years)',
+      children6to16: 'Children (6 - 16 years)',
+      inquiryRequest: 'Inquiry and request',
+      yourMessage: 'Your message',
+      sendRequest: 'Send Request',
+      sendingRequest: 'Sending...',
+      successMessage: 'Thank you! We\'ll get back to you within 24 hours.',
+      errorMessage: 'Failed to send message. Please try again.',
+      required: 'Required fields',
+      validation: {
+        firstNameRequired: 'First name is required',
+        lastNameRequired: 'Last name is required',
+        emailRequired: 'Email address is required',
+        emailInvalid: 'Please enter a valid email address',
+        phoneInvalid: 'Please enter a valid phone number with country code',
+        arrivalRequired: 'Arrival date is required',
+        departureRequired: 'Departure date is required',
+        arrivalPast: 'Arrival date cannot be in the past',
+        departurePast: 'Departure date cannot be in the past',
+        departureBeforeArrival: 'Departure date must be after arrival date',
+        adultsRequired: 'At least 1 adult is required',
+        messageRequired: 'Please enter your message',
+        messageMinLength: 'Message must be at least 10 characters',
+        formErrors: 'Please fix the errors in the form'
+      }
+    }
   },
   footer: {
     tagline: 'Your gateway to luxury living on the French Riviera',
@@ -308,5 +411,135 @@ export const en = {
         description: 'From our properties, the Italian border is only a short trip away. Visit Ventimiglia, Sanremo, or the picturesque Ligurian villages to enjoy Italian cuisine, open-air markets and a warm, relaxed atmosphere.'
       }
     }
+  },
+  villas: {
+    quote: '"Each detail of our villa has been thoughtfully designed to offer an unforgettable and captivating retreat. We welcome you to rest, rejuvenate, and craft cherished moments in this exceptional haven"',
+    team: '— The VIF Team',
+    title: 'Our Luxury Villas',
+    viewFullGallery: 'View full gallery',
+    exploreGallery: 'Explore Gallery',
+    ourStory: {
+      label: 'Our Story',
+      title: 'Discover The VIF (The Vacation in France)',
+      desc1: 'Welcome to The VIF (The Vacation in France), an elegant and authentic retreat nestled along the stunning French Riviera. Beautifully renovated to blend timeless charm with contemporary luxury, the villa features a heated pool, manicured gardens, and a sophisticated open-concept kitchen.',
+      desc2: 'Every detail has been curated for your comfort—plush bedrooms, sun-drenched bathrooms, warm interiors, stunning panoramas, and generous living spaces await you.'
+    },
+    indoor: {
+      title: 'Indoor amenities',
+      desc: 'Step inside to discover a warm and welcoming atmosphere, featuring elegant furnishings, stunning vistas and generously proportioned living spaces.',
+      moreInfo: 'More Info'
+    },
+    outdoor: {
+      title: 'Outdoor amenities',
+      desc: 'From the classic architectural details to the beautifully landscaped grounds, every aspect radiates sophistication and warmth, offering the perfect backdrop for cherished moments.',
+      moreInfo: 'More Info'
+    },
+    ourStoryTitle: 'Our Story',
+    ourStorySubtitle: 'A Legacy of Hospitality',
+    ourStoryText1: 'Crafted with Passion',
+    ourStoryText2: 'Every detail of our villas has been meticulously designed to provide an unparalleled experience of comfort and elegance. From the handpicked furnishings to the thoughtfully landscaped gardens, we have created spaces that invite you to truly relax and reconnect.',
+    ourStoryText3: 'Our commitment to excellence extends beyond architecture — it is woven into every interaction, every moment of your stay. Whether you\'re watching the sunset over Monaco from our terrace or enjoying a morning coffee in our sun-dappled gardens, these are the moments we live to create.',
+    discoverMore: 'Discover more',
+    discoverTitle: 'Discover the Villa',
+    discoverText: 'A sophisticated haven where modern luxury meets Mediterranean charm. Floor-to-ceiling windows, designer interiors, and private gardens create an atmosphere of refined elegance.',
+    indoorTitle: 'Indoor Spaces',
+    indoorText: 'Thoughtfully designed living areas that blend contemporary comfort with timeless sophistication. Every room tells a story of careful curation and attention to detail.',
+    outdoorTitle: 'Outdoor Living',
+    outdoorText: 'Expansive terraces and manicured gardens offer the perfect setting for al fresco dining, morning yoga, or simply soaking in the Mediterranean sun.',
+    perfectRetreatTitle: 'Your Perfect Retreat',
+    perfectRetreatText: 'Each of our villas offers a unique perspective on French Riviera living. Whether you\'re seeking a romantic getaway or a family gathering, our properties provide the perfect backdrop for creating lasting memories.',
+    bookStay: 'Book Your Stay'
+  },
+  apartments: {
+    subtitle: 'Résidence Athéna',
+    title: 'The Apartments',
+    location: 'Eze-sur-Mer • French Riviera',
+    description: 'Nestled in the prestigious Résidence Athéna, our exquisite apartment offers breathtaking panoramic views of Saint-Jean-Cap-Ferrat and the glittering Mediterranean Bay. Set within a quiet, secured residence with beautifully landscaped grounds, you\'ll enjoy access to a shared swimming pool, private tennis courts, and on-site parking.',
+    descriptionMore: 'Located just a 5-minute walk from the charming beaches of Eze-sur-Mer, and only 10 minutes from the glamour of Monaco and the vibrant streets of Nice, our apartment is the perfect base for exploring all the French Riviera has to offer.',
+    infoBoxes: {
+      minsToMonaco: 'Mins to Monaco',
+      minsToNice: 'Mins to Nice',
+      mediterraneanViews: 'Stunning views of the Mediterranean Bay',
+      sharedPool: 'Shared residence swimming pool'
+    },
+    highlights: {
+      pool: 'Swimming Pool',
+      poolDesc: 'Enjoy a refreshing dip in the shared residence pool overlooking the sea.',
+      tennis: 'Tennis Courts',
+      tennisDesc: 'Access to private tennis courts within the quiet, secured residence.',
+      views: 'Panoramic Views',
+      viewsDesc: 'Breathtaking vistas of Saint-Jean-Cap-Ferrat and the Mediterranean Bay.',
+      parking: 'Private Parking',
+      parkingDesc: 'Secure on-site parking for your convenience throughout your stay.'
+    },
+    facilities: 'Apartment Facilities',
+    amenities: {
+      kitchen: 'Gourmet Kitchen & Dishwasher',
+      wifi: 'High-Speed Fiber Internet',
+      ac: 'Air Conditioning',
+      terrace: 'Private Sea-View Terrace',
+      parking: 'Reserved Garage Parking',
+      beach: 'Short Walk to the Beach'
+    },
+    bookStay: 'Book Your Stay'
+  },
+  services: {
+    title: 'Services',
+    includedTitle: 'Included services for your stay',
+    includedSubtitle: 'The discreet team of the Villa is permanently caring for your well-being by assuring daily hotel services and more. All these services are for you the freedom and the assurance of an unforgettable stay. Just drop your luggage and you are on holidays!',
+    extraTitle: 'Extra services',
+    extraSubtitle: 'Make your stay even more special with our premium add-on services',
+    included: {
+      housekeeping: 'Weekly housekeeping',
+      housekeepingDesc: 'Weekly cleaning (10 hours/week). Change of linen and pool towels for your comfort.',
+      welcome: 'Personalized welcome',
+      welcomeDesc: 'To kickstart your Mediterranean experience, a bottle of Champagne and a tailored welcome amenity will be waiting for you.',
+      manager: 'Villa Manager',
+      managerDesc: 'Available 5 days a week: Restaurants, activities and tours reservation assistance.',
+      parking: 'Secure parking',
+      parkingDesc: 'Capacity to park 3 vehicles safely within the property grounds.',
+      outdoors: 'Weekly outdoors maintenance',
+      outdoorsDesc: 'Weekly cleaning of pool, garden and barbecue to ensure pristine conditions.',
+      security: 'Secure domain',
+      securityDesc: 'Domain under video surveillance 24/7 for your peace of mind.'
+    },
+    extra: {
+      chef: 'Private chef',
+      chefDesc: 'From an intimate, special meal to catered meals throughout your stay, relax while your private chef prepares incredible dishes.',
+      guard: 'Security guard',
+      guardDesc: 'Although our properties are all secure and alarmed with armed response, we can provide you with access to additional security.',
+      concierge: 'Concierge Assistance',
+      conciergeDesc: 'We can help plan your entire trip and offer you tips and advice to make the most of your stay at any villa.',
+      extraHousekeeping: 'Additional housekeeper',
+      extraHousekeepingDesc: 'Additional housekeeping services are available for your comfort and convenience.',
+      laundry: 'Laundry and Dry Cleaning',
+      laundryDesc: 'Enjoy your stay freely while we handle your laundry needs. We conveniently pick up and promptly deliver your clothes right to your villa.',
+      driver: 'Driver',
+      driverDesc: 'Luxury transportation services designed to offer a more personalized and convenient experience during your stay.',
+      wellness: 'Wellness',
+      wellnessDesc: 'Our team can arrange a variety of activities and amenities designed to promote physical and mental well-being during your stay.',
+      trainer: 'Personal trainer',
+      trainerDesc: 'What better way to stay active during your holidays than by exercising with a personal trainer at home?',
+      car: 'Car rental',
+      carDesc: 'We will book it for you with one of our selected partners whether you need a luxury car or a family/group van.'
+    },
+    inquire: 'Inquire About Services'
+  },
+  gallery: {
+    title: 'Gallery',
+    subtitle: 'Explore our collection of stunning photos from the French Riviera',
+    all: 'All',
+    villaRocsea: 'Villa Rocsea',
+    villaBellevue: 'Villa Bellevue'
+  },
+  footer: {
+    contactByMail: 'Contact Us By Mail',
+    contactByPhone: 'Contact Us By Phone',
+    theVif: 'THE VIF',
+    theVacationInFrance: 'The Vacation in France',
+    address: 'La Turbie, French Riviera',
+    copyright: '© 2024 The VIF. All rights reserved.',
+    privacyPolicy: 'Privacy Policy',
+    termsOfService: 'Terms of Service'
   }
 }

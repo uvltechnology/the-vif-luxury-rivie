@@ -2,11 +2,14 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { List, Phone, Bell } from '@phosphor-icons/react'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import LanguageSelector from '@/components/shared/LanguageSelector'
+import { useTranslation } from '@/hooks/useTranslation'
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const location = useLocation()
+  const { t } = useTranslation()
   
   const isHomePage = location.pathname === '/'
   const useTransparentNav = isHomePage && !isScrolled
@@ -20,11 +23,12 @@ export default function Header() {
   }, [])
 
   const navLinks = [
-    { path: '/the-villa', label: 'THE VILLA' },
-    { path: '/services', label: 'SERVICES' },
-    { path: '/experiences', label: 'EXPERIENCES' },
-    { path: '/gallery', label: 'GALLERY' },
-    { path: '/contact', label: 'CONTACT' },
+    { path: '/the-villas', labelKey: 'nav.theVillas' },
+    { path: '/the-apartments', labelKey: 'nav.theApartments' },
+    { path: '/services', labelKey: 'nav.services' },
+    { path: '/experiences', labelKey: 'nav.experiences' },
+    { path: '/gallery', labelKey: 'nav.gallery' },
+    { path: '/contact', labelKey: 'nav.contact' },
   ]
 
   const isActivePath = (path) => {
@@ -59,7 +63,7 @@ export default function Header() {
                 }}
                 className="transition-all duration-300 hover:opacity-60"
               >
-                {link.label}
+                {t(link.labelKey)}
               </Link>
             ))}
           </nav>
@@ -84,10 +88,12 @@ export default function Header() {
             </span>
           </Link>
 
-          {/* Right Side - Phone & Book Now - Villa Soleil Style */}
+          {/* Right Side - Language, Phone & Book Now - Villa Soleil Style */}
           <div className="hidden lg:flex items-center space-x-6">
+            <LanguageSelector variant={useTransparentNav ? 'header-light' : 'header-dark'} />
+            
             <a 
-              href="tel:+33615322966" 
+              href="tel:+33620493969" 
               style={{
                 fontFamily: "'Lato', sans-serif",
                 fontSize: '12px',
@@ -99,7 +105,7 @@ export default function Header() {
               className="flex items-center space-x-2 transition-colors duration-300 hover:opacity-70"
             >
               <Phone size={14} weight="regular" />
-              <span>+33621049443</span>
+              <span>+33 6 20 49 39 69</span>
             </a>
             
             <Link
@@ -116,12 +122,12 @@ export default function Header() {
               className="flex items-center space-x-2 transition-all duration-300 hover:bg-[#333]"
             >
               <Bell size={14} weight="regular" />
-              <span>BOOK NOW</span>
+              <span>{t('nav.book')}</span>
             </Link>
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex lg:hidden">
+          <div className="flex lg:hidden items-center space-x-2">
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
                 <button
@@ -161,7 +167,7 @@ export default function Header() {
                               : 'text-gray-500 hover:text-[#1a1a1a]'
                           }`}
                         >
-                          {link.label}
+                          {t(link.labelKey)}
                         </Link>
                       ))}
                     </div>
@@ -170,11 +176,11 @@ export default function Header() {
                   {/* Mobile Footer */}
                   <div className="p-6 border-t border-gray-100 space-y-4">
                     <a 
-                      href="tel:+33615322966" 
+                      href="tel:+33620493969" 
                       className="flex items-center justify-center space-x-2 text-[11px] tracking-[0.05em] text-gray-600"
                     >
                       <Phone size={14} />
-                      <span>+33 6 15 32 29 66</span>
+                      <span>+33 6 20 49 39 69</span>
                     </a>
                     <Link 
                       to="/contact" 
@@ -182,12 +188,17 @@ export default function Header() {
                       className="flex items-center justify-center space-x-2 w-full py-3 bg-[#1a1a1a] text-white text-[11px] tracking-[0.1em]"
                     >
                       <Bell size={14} />
-                      <span>BOOK NOW</span>
+                      <span>{t('nav.book')}</span>
                     </Link>
                   </div>
                 </div>
               </SheetContent>
             </Sheet>
+          </div>
+
+          {/* Mobile Language Selector - Right Side */}
+          <div className="flex lg:hidden items-center">
+            <LanguageSelector variant={useTransparentNav ? 'header-light' : 'header-dark'} />
           </div>
         </div>
       </div>

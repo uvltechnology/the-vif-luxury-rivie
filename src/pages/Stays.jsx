@@ -3,12 +3,23 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { propertyApi, getImageUrl } from '@/services/api'
 import { Bed, Users, SwimmingPool, Eye } from '@phosphor-icons/react'
+import rocseaVillaImage from '@/assets/images/The VIF Gallery/Rocsea/Portrait/Rocsea30L.jpg'
+import bellevueVillaImage from '@/assets/images/The VIF Gallery/Bellevue/Landscape/Bellevue9L.jpg'
 
 // Transform API response to frontend format
 const transformProperty = (apiProperty) => {
   const amenityNames = apiProperty.amenities?.map(a => a.name?.toLowerCase() || '') || []
   const hasPool = amenityNames.some(name => name.includes('pool'))
   const hasSeaView = amenityNames.some(name => name.includes('sea view') || name.includes('sea-view'))
+  
+  let mainImage = apiProperty.images && apiProperty.images[0] ? getImageUrl(apiProperty.images[0].url) : null
+
+  // Override images for specific villas as requested
+  if (apiProperty.name === 'Villa Rocsea' || apiProperty.slug === 'villa-rocsea') {
+    mainImage = rocseaVillaImage
+  } else if (apiProperty.name === 'Villa Bellevue' || apiProperty.slug === 'villa-bellevue') {
+    mainImage = bellevueVillaImage
+  }
   
   return {
     id: apiProperty.id,
@@ -24,7 +35,7 @@ const transformProperty = (apiProperty) => {
     hasPool,
     hasSeaView,
     shortDescription: apiProperty.shortDescription || apiProperty.description?.substring(0, 200),
-    images: apiProperty.images?.map(img => getImageUrl(img.url)) || [],
+    images: [mainImage, ...(apiProperty.images?.slice(1).map(img => getImageUrl(img.url)) || [])],
     amenities: apiProperty.amenities?.map(a => a.name) || []
   }
 }
@@ -38,10 +49,77 @@ export default function Stays() {
       setIsLoading(true)
       try {
         const response = await propertyApi.getAll({ limit: 50 })
-        const transformedProperties = (response.data || []).map(transformProperty)
+        const apiData = response.data || response || []
+        let transformedProperties = apiData.map(transformProperty)
+        
+        // Fallback for missing properties in API
+        if (!transformedProperties.some(p => p.name === 'Villa Rocsea' || p.slug === 'villa-rocsea')) {
+          transformedProperties.push({
+            id: 'fallback-rocsea',
+            slug: 'villa-rocsea',
+            name: 'Villa Rocsea',
+            location: 'French Riviera',
+            price: 500,
+            bedrooms: 5,
+            capacity: 10,
+            hasPool: true,
+            hasSeaView: true,
+            shortDescription: 'Modern luxury overlooking the Mediterranean',
+            images: [rocseaVillaImage],
+            amenities: []
+          })
+        }
+        if (!transformedProperties.some(p => p.name === 'Villa Bellevue' || p.slug === 'villa-bellevue')) {
+          transformedProperties.push({
+            id: 'fallback-bellevue',
+            slug: 'villa-bellevue',
+            name: 'Villa Bellevue',
+            location: 'French Riviera',
+            price: 450,
+            bedrooms: 4,
+            capacity: 8,
+            hasPool: true,
+            hasSeaView: true,
+            shortDescription: 'Elegant hillside retreat with panoramic views',
+            images: [bellevueVillaImage],
+            amenities: []
+          })
+        }
+        
         setProperties(transformedProperties)
       } catch (err) {
         console.error('Failed to fetch properties:', err)
+        // Set defaults on error
+        setProperties([
+          {
+            id: 'error-rocsea',
+            slug: 'villa-rocsea',
+            name: 'Villa Rocsea',
+            location: 'French Riviera',
+            price: 500,
+            bedrooms: 5,
+            capacity: 10,
+            hasPool: true,
+            hasSeaView: true,
+            shortDescription: 'Modern luxury overlooking the Mediterranean',
+            images: [rocseaVillaImage],
+            amenities: []
+          },
+          {
+            id: 'error-bellevue',
+            slug: 'villa-bellevue',
+            name: 'Villa Bellevue',
+            location: 'French Riviera',
+            price: 450,
+            bedrooms: 4,
+            capacity: 8,
+            hasPool: true,
+            hasSeaView: true,
+            shortDescription: 'Elegant hillside retreat with panoramic views',
+            images: [bellevueVillaImage],
+            amenities: []
+          }
+        ])
       } finally {
         setIsLoading(false)
       }
@@ -136,12 +214,12 @@ export default function Stays() {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <Link to={`/stays/${property.slug}`} className="group block">
-                    <div className="aspect-[4/3] overflow-hidden mb-6">
+                  <Link to="/gallery" className="group block">
+                    <div className="aspect-[4/3] overflow-hidden mb-6 rounded-lg shadow-sm group-hover:shadow-xl transition-all duration-500">
                       <img
                         src={property.images[0] || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80'}
                         alt={property.name}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                         loading="lazy"
                         decoding="async"
                       />
@@ -164,27 +242,15 @@ export default function Stays() {
                         <Users size={16} weight="light" />
                         Up to {property.capacity}
                       </span>
-                      {property.hasPool && (
-                        <span className="flex items-center gap-2">
-                          <SwimmingPool size={16} weight="light" />
-                          Pool
-                        </span>
-                      )}
-                      {property.hasSeaView && (
-                        <span className="flex items-center gap-2">
-                          <Eye size={16} weight="light" />
-                          Sea View
-                        </span>
-                      )}
                     </div>
                     
-                    <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+                    <p className="text-muted-foreground text-sm leading-relaxed mb-6">
                       {property.shortDescription}
                     </p>
                     
-                    <p className="text-sm">
-                      From <span className="font-medium">€{property.price}</span> / night
-                    </p>
+                    <span className="text-xs uppercase tracking-[0.2em] text-[#0f1c2e] border-b border-[#0f1c2e]/30 pb-1 group-hover:border-[#c9a962] group-hover:text-[#c9a962] transition-all">
+                      View Gallery
+                    </span>
                   </Link>
                 </motion.div>
               ))}

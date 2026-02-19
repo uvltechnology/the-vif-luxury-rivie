@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useParallax } from '@/hooks/use-parallax'
 import { useState, useEffect } from 'react'
+import { useTranslation } from '@/hooks/useTranslation'
 import heroVideo from '@/assets/videos/lv_0_20251213141115.mp4'
 import { CaretDown } from '@phosphor-icons/react'
 
@@ -10,6 +11,7 @@ export default function HomeHero() {
   const backgroundY = useParallax(0.3)
   const contentY = useTransform(scrollY, [0, 500], [0, 100])
   const opacity = useTransform(scrollY, [0, 400], [1, 0])
+  const { t } = useTranslation()
   
   const [isLoaded, setIsLoaded] = useState(false)
   const [videoReady, setVideoReady] = useState(false)
@@ -78,7 +80,7 @@ export default function HomeHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.3, ease: 'easeOut' }}
         >
-          Embrace the<br />ultimate luxury
+          {t('hero.title')}
         </motion.h1>
 
         {/* Decorative wave element like Villa Soleil */}
@@ -107,7 +109,7 @@ export default function HomeHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.5, ease: 'easeOut' }}
         >
-          Experience the perfect getaway<br />at The VIF
+          {t('hero.subtitle')}
         </motion.p>
       </motion.div>
 

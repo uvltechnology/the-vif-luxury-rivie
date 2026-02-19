@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { ArrowLeft, ArrowRight, ArrowUpRight } from '@phosphor-icons/react'
+import { useTranslation } from '@/hooks/useTranslation'
 
 // Import local villa images
 import slide1 from '@/assets/images/The VIF Gallery/1.jpg'
@@ -36,6 +37,7 @@ const slides = [
 ]
 
 export default function FeaturedCarousel() {
+  const { t } = useTranslation()
   const [currentSlide, setCurrentSlide] = useState(0)
 
   useEffect(() => {
@@ -111,7 +113,7 @@ export default function FeaturedCarousel() {
               fontSize: '12px',
               letterSpacing: '0.05em'
             }}>
-              Slide {currentSlide + 1} of {slides.length}.
+              {t('home.carousel.slideOf').replace('{current}', currentSlide + 1).replace('{total}', slides.length)}
             </span>
             <button 
               onClick={nextSlide}
@@ -126,8 +128,8 @@ export default function FeaturedCarousel() {
 
       {/* Feature Cards - Villa Soleil Style with Image Overlay */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
-        {/* Discover the Villa Card */}
-        <Link to="/the-villa" className="group relative">
+        {/* Discover the Villas Card */}
+        <Link to="/the-villas" className="group relative">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -160,7 +162,7 @@ export default function FeaturedCarousel() {
                   marginBottom: '0.75rem'
                 }}
               >
-                Discover the Villa
+                {t('home.carousel.discoverVillas')}
               </h3>
               <p style={{
                 fontFamily: "'Lato', sans-serif",
@@ -169,8 +171,7 @@ export default function FeaturedCarousel() {
                 lineHeight: 1.7,
                 color: 'rgba(255,255,255,0.9)'
               }}>
-                With its breathtaking sea views and elegant design, this villa offers 
-                an unforgettable coastal living experience.
+                {t('home.carousel.discoverVillasDesc')}
               </p>
             </div>
             {/* Arrow Button */}
@@ -215,7 +216,7 @@ export default function FeaturedCarousel() {
                   marginBottom: '0.5rem'
                 }}
               >
-                Experiences are just<br />around the corner
+                {t('home.carousel.experiencesTitle')}
               </h3>
               <p style={{
                 fontFamily: "'Lato', sans-serif",
@@ -224,7 +225,7 @@ export default function FeaturedCarousel() {
                 lineHeight: 1.7,
                 color: 'rgba(255,255,255,0.9)'
               }}>
-                Experience all that the villa and its surroundings have to offer
+                {t('home.carousel.experiencesDesc')}
               </p>
             </div>
           </motion.div>

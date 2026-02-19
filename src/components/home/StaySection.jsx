@@ -1,11 +1,14 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { useTranslation } from '@/hooks/useTranslation'
 
 // Import local villa images
 import indoorImage from '@/assets/images/The Villa Homepage/The Villa Homepage 2nd Image.jpg'
 import outdoorImage from '@/assets/images/The Villa Homepage/The Villa Homepage 3rd Image.jpg'
 
 export default function StaySection() {
+  const { t } = useTranslation()
+  
   return (
     <section className="py-32 md:py-40 bg-[#f5f0e8]">
       <div className="max-w-7xl mx-auto px-6">
@@ -25,7 +28,7 @@ export default function StaySection() {
             }}
             className="mb-8"
           >
-            Stay
+            {t('home.stay.label')}
           </motion.p>
           
           <motion.h2
@@ -41,7 +44,7 @@ export default function StaySection() {
               color: '#0f1c2e'
             }}
           >
-            Discover an understated elegance
+            {t('home.stay.title')}
           </motion.h2>
         </div>
 
@@ -58,7 +61,7 @@ export default function StaySection() {
             <div className="aspect-[4/3] overflow-hidden">
               <img
                 src={indoorImage}
-                alt="Indoor amenities"
+                alt={t('home.stay.indoorTitle')}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 loading="lazy"
                 decoding="async"
@@ -74,7 +77,7 @@ export default function StaySection() {
                   marginBottom: '1rem'
                 }}
               >
-                Indoor amenities
+                {t('home.stay.indoorTitle')}
               </h3>
               <p style={{
                 fontFamily: "'Lato', sans-serif",
@@ -84,12 +87,10 @@ export default function StaySection() {
                 color: '#666',
                 marginBottom: '1.5rem'
               }}>
-                The VIF can accommodate eight to ten guests in utmost luxury, with an 
-                additional double room for staff. The spacious rooms are impeccably designed 
-                and offer spectacular sea views.
+                {t('home.stay.indoorDesc')}
               </p>
               <Link 
-                to="/the-villa" 
+                to="/the-villas" 
                 style={{
                   fontFamily: "'Lato', sans-serif",
                   fontSize: '11px',
@@ -101,7 +102,7 @@ export default function StaySection() {
                 }}
                 className="hover:opacity-70 transition-opacity"
               >
-                More Info
+                {t('home.stay.moreInfo')}
               </Link>
             </div>
           </motion.div>
@@ -117,7 +118,7 @@ export default function StaySection() {
             <div className="aspect-[4/3] overflow-hidden">
               <img
                 src={outdoorImage}
-                alt="Outdoor amenities"
+                alt={t('home.stay.outdoorTitle')}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 loading="lazy"
                 decoding="async"
@@ -133,7 +134,7 @@ export default function StaySection() {
                   marginBottom: '1rem'
                 }}
               >
-                Outdoor amenities
+                {t('home.stay.outdoorTitle')}
               </h3>
               <p style={{
                 fontFamily: "'Lato', sans-serif",
@@ -143,12 +144,10 @@ export default function StaySection() {
                 color: '#666',
                 marginBottom: '1.5rem'
               }}>
-                Every element, from the timeless architecture to the carefully curated gardens, 
-                evokes a sense of elegance and charm, making it an idyllic setting for creating 
-                unforgettable memories.
+                {t('home.stay.outdoorDesc')}
               </p>
               <Link 
-                to="/the-villa" 
+                to="/the-villas" 
                 style={{
                   fontFamily: "'Lato', sans-serif",
                   fontSize: '11px',
@@ -160,7 +159,7 @@ export default function StaySection() {
                 }}
                 className="hover:opacity-70 transition-opacity"
               >
-                More Info
+                {t('home.stay.moreInfo')}
               </Link>
             </div>
           </motion.div>

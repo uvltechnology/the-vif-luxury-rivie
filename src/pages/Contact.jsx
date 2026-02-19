@@ -1,10 +1,12 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
+import { useTranslation } from '@/hooks/useTranslation'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
 
 export default function Contact() {
+  const { t } = useTranslation()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
     firstName: '',
@@ -18,9 +20,107 @@ export default function Contact() {
     children6to16: '',
     message: ''
   })
+  
+  const [errors, setErrors] = useState({})
+  const [touched, setTouched] = useState({})
+
+  // Validation functions
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
+  }
+
+  const validatePhone = (phone) => {
+    if (!phone) return true // Phone is optional
+    const phoneRegex = /^\+?[1-9]\d{1,14}$/
+    return phoneRegex.test(phone.replace(/[\s\-()]/g, ''))
+  }
+
+  const isDateInPast = (dateString) => {
+    if (!dateString) return false
+    const date = new Date(dateString)
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    return date < today
+  }
+
+  const validateField = useCallback((field, value, currentFormData = formData) => {
+    switch (field) {
+      case 'firstName':
+        if (!value.trim()) return t('contact.page.validation.firstNameRequired')
+        return ''
+      case 'lastName':
+        if (!value.trim()) return t('contact.page.validation.lastNameRequired')
+        return ''
+      case 'email':
+        if (!value.trim()) return t('contact.page.validation.emailRequired')
+        if (!validateEmail(value)) return t('contact.page.validation.emailInvalid')
+        return ''
+      case 'phone':
+        if (value && !validatePhone(value)) return t('contact.page.validation.phoneInvalid')
+        return ''
+      case 'arrivalDate':
+        if (!value) return t('contact.page.validation.arrivalRequired')
+        if (isDateInPast(value)) return t('contact.page.validation.arrivalPast')
+        return ''
+      case 'departureDate':
+        if (!value) return t('contact.page.validation.departureRequired')
+        if (isDateInPast(value)) return t('contact.page.validation.departurePast')
+        if (currentFormData.arrivalDate && new Date(value) <= new Date(currentFormData.arrivalDate)) {
+          return t('contact.page.validation.departureBeforeArrival')
+        }
+        return ''
+      case 'adults':
+        if (!value || parseInt(value) < 1) return t('contact.page.validation.adultsRequired')
+        return ''
+      case 'message':
+        if (!value.trim()) return t('contact.page.validation.messageRequired')
+        if (value.trim().length < 10) return t('contact.page.validation.messageMinLength')
+        return ''
+      default:
+        return ''
+    }
+  }, [t, formData])
+
+  const validateForm = () => {
+    const newErrors = {}
+    const fieldsToValidate = ['firstName', 'lastName', 'email', 'arrivalDate', 'departureDate', 'adults', 'message']
+    
+    fieldsToValidate.forEach(field => {
+      const error = validateField(field, formData[field], formData)
+      if (error) newErrors[field] = error
+    })
+    
+    // Validate optional phone if provided
+    if (formData.phone) {
+      const phoneError = validateField('phone', formData.phone, formData)
+      if (phoneError) newErrors.phone = phoneError
+    }
+    
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    
+    // Mark all required fields as touched
+    setTouched({
+      firstName: true,
+      lastName: true,
+      email: true,
+      phone: true,
+      arrivalDate: true,
+      departureDate: true,
+      adults: true,
+      message: true
+    })
+    
+    if (!validateForm()) {
+      toast.error(t('contact.page.validation.formErrors') || 'Please fix the errors in the form')
+      return
+    }
+    
     setIsSubmitting(true)
 
     try {
@@ -35,10 +135,10 @@ export default function Contact() {
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to send message')
+        throw new Error(data.error || t('contact.page.errorMessage'))
       }
 
-      toast.success('Thank you! We\'ll get back to you within 24 hours.')
+      toast.success(t('contact.page.successMessage'))
       setFormData({
         firstName: '',
         lastName: '',
@@ -51,8 +151,10 @@ export default function Contact() {
         children6to16: '',
         message: ''
       })
+      setErrors({})
+      setTouched({})
     } catch (error) {
-      toast.error(error.message || 'Failed to send message. Please try again.')
+      toast.error(error.message || t('contact.page.errorMessage'))
     } finally {
       setIsSubmitting(false)
     }
@@ -60,7 +162,38 @@ export default function Contact() {
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
+    
+    // Clear error when user starts typing
+    if (errors[field]) {
+      setErrors(prev => ({ ...prev, [field]: '' }))
+    }
   }
+
+  const handleBlur = (field) => {
+    setTouched(prev => ({ ...prev, [field]: true }))
+    const error = validateField(field, formData[field], formData)
+    setErrors(prev => ({ ...prev, [field]: error }))
+    
+    // Re-validate departure date if arrival date changes
+    if (field === 'arrivalDate' && touched.departureDate && formData.departureDate) {
+      const departureError = validateField('departureDate', formData.departureDate, formData)
+      setErrors(prev => ({ ...prev, departureDate: departureError }))
+    }
+  }
+
+  const getInputStyle = (field) => ({
+    fontFamily: "'Lato', sans-serif",
+    fontSize: '14px',
+    fontWeight: 300,
+    color: '#333',
+    backgroundColor: '#ffffff',
+    border: `1px solid ${touched[field] && errors[field] ? '#dc2626' : '#e5e5e5'}`,
+    borderRadius: '0',
+    padding: '16px',
+    width: '100%',
+    outline: 'none',
+    transition: 'border-color 0.3s ease'
+  })
 
   const inputStyle = {
     fontFamily: "'Lato', sans-serif",
@@ -93,6 +226,21 @@ export default function Contact() {
     marginBottom: '24px'
   }
 
+  const errorStyle = {
+    fontFamily: "'Lato', sans-serif",
+    fontSize: '12px',
+    color: '#dc2626',
+    marginTop: '6px',
+    display: 'block'
+  }
+
+  const renderError = (field) => {
+    if (touched[field] && errors[field]) {
+      return <span style={errorStyle}>{errors[field]}</span>
+    }
+    return null
+  }
+
   return (
     <div className="bg-[#faf8f5]">
       {/* Header Section - Villa Soleil Style */}
@@ -112,7 +260,7 @@ export default function Contact() {
               marginBottom: '1.5rem'
             }}
           >
-            Contact us
+            {t('contact.page.title')}
           </motion.h1>
           
           {/* Decorative Wave */}
@@ -140,8 +288,7 @@ export default function Contact() {
               color: '#555'
             }}
           >
-            For reservations within one week, please<br className="hidden md:block" />
-            contact us by phone.
+            {t('contact.page.subtitle')}
           </motion.p>
         </div>
       </section>
@@ -154,133 +301,128 @@ export default function Contact() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
+            noValidate
           >
             {/* Your Details Section */}
             <div className="mb-12">
-              <h2 style={sectionTitleStyle}>Your details</h2>
+              <h2 style={sectionTitleStyle}>{t('contact.page.yourDetails')}</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
-                  <label style={labelStyle}>First Name</label>
+                  <label style={labelStyle}>{t('contact.page.firstName')} <span style={{ color: '#dc2626' }}>*</span></label>
                   <input
                     type="text"
-                    placeholder="First Name"
+                    placeholder={t('contact.page.firstName')}
                     value={formData.firstName}
                     onChange={(e) => handleChange('firstName', e.target.value)}
-                    required
-                    style={inputStyle}
-                    onFocus={(e) => e.target.style.borderColor = '#c9a962'}
-                    onBlur={(e) => e.target.style.borderColor = '#e5e5e5'}
+                    onBlur={() => handleBlur('firstName')}
+                    style={getInputStyle('firstName')}
+                    onFocus={(e) => e.target.style.borderColor = errors.firstName && touched.firstName ? '#dc2626' : '#c9a962'}
                   />
+                  {renderError('firstName')}
                 </div>
                 <div>
-                  <label style={labelStyle}>Last Name</label>
+                  <label style={labelStyle}>{t('contact.page.lastName')} <span style={{ color: '#dc2626' }}>*</span></label>
                   <input
                     type="text"
-                    placeholder="Last Name"
+                    placeholder={t('contact.page.lastName')}
                     value={formData.lastName}
                     onChange={(e) => handleChange('lastName', e.target.value)}
-                    required
-                    style={inputStyle}
-                    onFocus={(e) => e.target.style.borderColor = '#c9a962'}
-                    onBlur={(e) => e.target.style.borderColor = '#e5e5e5'}
+                    onBlur={() => handleBlur('lastName')}
+                    style={getInputStyle('lastName')}
+                    onFocus={(e) => e.target.style.borderColor = errors.lastName && touched.lastName ? '#dc2626' : '#c9a962'}
                   />
+                  {renderError('lastName')}
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label style={labelStyle}>Email Address</label>
+                  <label style={labelStyle}>{t('contact.page.emailAddress')} <span style={{ color: '#dc2626' }}>*</span></label>
                   <input
                     type="email"
-                    placeholder="Email Address"
+                    placeholder={t('contact.page.emailAddress')}
                     value={formData.email}
                     onChange={(e) => handleChange('email', e.target.value)}
-                    required
-                    style={inputStyle}
-                    onFocus={(e) => e.target.style.borderColor = '#c9a962'}
-                    onBlur={(e) => e.target.style.borderColor = '#e5e5e5'}
+                    onBlur={() => handleBlur('email')}
+                    style={getInputStyle('email')}
+                    onFocus={(e) => e.target.style.borderColor = errors.email && touched.email ? '#dc2626' : '#c9a962'}
                   />
+                  {renderError('email')}
                 </div>
                 <div>
-                  <label style={labelStyle}>Telephone Number</label>
+                  <label style={labelStyle}>{t('contact.page.telephoneNumber')}</label>
                   <input
                     type="tel"
-                    placeholder="Please provide the country code (e.g +33)"
+                    placeholder={t('contact.page.phonePlaceholder')}
                     value={formData.phone}
                     onChange={(e) => handleChange('phone', e.target.value)}
-                    style={inputStyle}
-                    onFocus={(e) => e.target.style.borderColor = '#c9a962'}
-                    onBlur={(e) => e.target.style.borderColor = '#e5e5e5'}
+                    onBlur={() => handleBlur('phone')}
+                    style={getInputStyle('phone')}
+                    onFocus={(e) => e.target.style.borderColor = errors.phone && touched.phone ? '#dc2626' : '#c9a962'}
                   />
+                  {renderError('phone')}
                 </div>
               </div>
             </div>
 
             {/* When will you be arriving Section */}
             <div className="mb-12">
-              <h2 style={sectionTitleStyle}>When will you be arriving?</h2>
+              <h2 style={sectionTitleStyle}>{t('contact.page.whenArriving')}</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label style={labelStyle}>Arrival Date</label>
+                  <label style={labelStyle}>{t('contact.page.arrivalDate')} <span style={{ color: '#dc2626' }}>*</span></label>
                   <input
-                    type="text"
-                    placeholder="dd-mm-yyyy"
+                    type="date"
+                    placeholder={t('contact.page.datePlaceholder')}
                     value={formData.arrivalDate}
                     onChange={(e) => handleChange('arrivalDate', e.target.value)}
-                    onFocus={(e) => {
-                      e.target.type = 'date'
-                      e.target.style.borderColor = '#c9a962'
-                    }}
-                    onBlur={(e) => {
-                      if (!e.target.value) e.target.type = 'text'
-                      e.target.style.borderColor = '#e5e5e5'
-                    }}
-                    style={inputStyle}
+                    onBlur={() => handleBlur('arrivalDate')}
+                    min={new Date().toISOString().split('T')[0]}
+                    style={getInputStyle('arrivalDate')}
+                    onFocus={(e) => e.target.style.borderColor = errors.arrivalDate && touched.arrivalDate ? '#dc2626' : '#c9a962'}
                   />
+                  {renderError('arrivalDate')}
                 </div>
                 <div>
-                  <label style={labelStyle}>Departure Date</label>
+                  <label style={labelStyle}>{t('contact.page.departureDate')} <span style={{ color: '#dc2626' }}>*</span></label>
                   <input
-                    type="text"
-                    placeholder="dd-mm-yyyy"
+                    type="date"
+                    placeholder={t('contact.page.datePlaceholder')}
                     value={formData.departureDate}
                     onChange={(e) => handleChange('departureDate', e.target.value)}
-                    onFocus={(e) => {
-                      e.target.type = 'date'
-                      e.target.style.borderColor = '#c9a962'
-                    }}
-                    onBlur={(e) => {
-                      if (!e.target.value) e.target.type = 'text'
-                      e.target.style.borderColor = '#e5e5e5'
-                    }}
-                    style={inputStyle}
+                    onBlur={() => handleBlur('departureDate')}
+                    min={formData.arrivalDate || new Date().toISOString().split('T')[0]}
+                    style={getInputStyle('departureDate')}
+                    onFocus={(e) => e.target.style.borderColor = errors.departureDate && touched.departureDate ? '#dc2626' : '#c9a962'}
                   />
+                  {renderError('departureDate')}
                 </div>
               </div>
             </div>
 
             {/* Number of Guests Section */}
             <div className="mb-12">
-              <h2 style={sectionTitleStyle}>Number of guests</h2>
+              <h2 style={sectionTitleStyle}>{t('contact.page.numberOfGuests')}</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
-                  <label style={labelStyle}>Adults</label>
+                  <label style={labelStyle}>{t('contact.page.adults')} <span style={{ color: '#dc2626' }}>*</span></label>
                   <input
                     type="number"
-                    placeholder="0"
-                    min="0"
+                    placeholder="1"
+                    min="1"
                     value={formData.adults}
                     onChange={(e) => handleChange('adults', e.target.value)}
-                    style={inputStyle}
-                    onFocus={(e) => e.target.style.borderColor = '#c9a962'}
-                    onBlur={(e) => e.target.style.borderColor = '#e5e5e5'}
+                    onBlur={() => handleBlur('adults')}
+                    style={getInputStyle('adults')}
+                    onFocus={(e) => e.target.style.borderColor = errors.adults && touched.adults ? '#dc2626' : '#c9a962'}
                   />
+                  {renderError('adults')}
                 </div>
                 <div>
-                  <label style={labelStyle}>Children (0 - 5 years)</label>
+                  <label style={labelStyle}>{t('contact.page.children0to5')}</label>
                   <input
                     type="number"
                     placeholder="0"
@@ -293,7 +435,7 @@ export default function Contact() {
                   />
                 </div>
                 <div>
-                  <label style={labelStyle}>Children (6 - 16 years)</label>
+                  <label style={labelStyle}>{t('contact.page.children6to16')}</label>
                   <input
                     type="number"
                     placeholder="0"
@@ -310,22 +452,30 @@ export default function Contact() {
 
             {/* Inquiry and Request Section */}
             <div className="mb-12">
-              <h2 style={sectionTitleStyle}>Inquiry and request</h2>
+              <h2 style={sectionTitleStyle}>{t('contact.page.inquiryRequest')}</h2>
               
               <textarea
-                placeholder="Your message"
+                placeholder={t('contact.page.yourMessage')}
                 value={formData.message}
                 onChange={(e) => handleChange('message', e.target.value)}
-                required
+                onBlur={() => handleBlur('message')}
                 rows={6}
                 style={{
-                  ...inputStyle,
+                  ...getInputStyle('message'),
                   resize: 'vertical',
                   minHeight: '150px'
                 }}
-                onFocus={(e) => e.target.style.borderColor = '#c9a962'}
-                onBlur={(e) => e.target.style.borderColor = '#e5e5e5'}
+                onFocus={(e) => e.target.style.borderColor = errors.message && touched.message ? '#dc2626' : '#c9a962'}
               />
+              {renderError('message')}
+              <p style={{
+                fontFamily: "'Lato', sans-serif",
+                fontSize: '11px',
+                color: '#888',
+                marginTop: '8px'
+              }}>
+                <span style={{ color: '#dc2626' }}>*</span> {t('contact.page.required') || 'Required fields'}
+              </p>
             </div>
 
             {/* Submit Button */}
@@ -350,7 +500,7 @@ export default function Contact() {
               onMouseEnter={(e) => !isSubmitting && (e.target.style.backgroundColor = '#1a2d42')}
               onMouseLeave={(e) => !isSubmitting && (e.target.style.backgroundColor = '#0f1c2e')}
             >
-              {isSubmitting ? 'Sending...' : 'Send Request'}
+              {isSubmitting ? t('contact.page.sendingRequest') : t('contact.page.sendRequest')}
             </button>
           </motion.form>
         </div>
