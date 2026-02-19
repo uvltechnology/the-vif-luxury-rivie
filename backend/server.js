@@ -36,6 +36,9 @@ app.options('*', cors())
 // Middleware
 app.use(express.json())
 
+// Serve static files from public directory
+app.use(express.static(path.join(__dirname, 'public')))
+
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -313,9 +316,9 @@ app.get('/api/properties/:id', (req, res) => {
   res.status(404).json({ error: 'Property not found' })
 })
 
-// Catch-all for undefined routes (return proper CORS headers)
+// Catch-all for undefined routes - serve index.html for SPA routing
 app.use('*', (req, res) => {
-  res.status(404).json({ error: 'Endpoint not found' })
+  res.sendFile(path.join(__dirname, 'public', 'index.html'))
 })
 
 // Start server
